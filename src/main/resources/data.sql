@@ -1,0 +1,8 @@
+INSERT INTO Categories(title, color) VALUES ('Food & Drinks', '#FF7D62')
+INSERT INTO Categories(title, color) VALUES ('Gas & Transportation', '#EADE20')
+INSERT INTO Categories(title, color) VALUES ('Groceries', '#941CDD')
+INSERT INTO Categories(title, color) VALUES ('Home Expenses', '#F87DE4')
+INSERT INTO Categories(title, color) VALUES ('Miscelanius', '#264BE3')
+INSERT INTO Categories(title, color) VALUES ('Rent', '#E36926')
+INSERT INTO Categories(title, color) VALUES ('Savings', '#3CE326')
+INSERT INTO Categories(title, color) VALUES ('Services', '#4BDCDB')
