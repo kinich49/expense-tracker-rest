@@ -1,47 +1,50 @@
 package mx.kinich49.expensetracker.controllers;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import mx.kinich49.expensetracker.base.RestResponse;
+import mx.kinich49.expensetracker.base.RestError;
 import mx.kinich49.expensetracker.models.Category;
 import mx.kinich49.expensetracker.repositories.CategoryRepository;
-
+import mx.kinich49.expensetracker.services.CategoryService;
 
 @RestController
 @RequestMapping("api/categories")
 public class CategoryController {
 
     private CategoryRepository categoryRepository;
+    private CategoryService categoryService;
 
     @Autowired
-    public CategoryController(CategoryRepository categoryRepository) {
+    public CategoryController(CategoryRepository categoryRepository, 
+                              CategoryService categoryService) {
         this.categoryRepository = categoryRepository;
+        this.categoryService = categoryService;
     }
 
     @GetMapping
-    public RestResponse<List<Category>> getCategories() {
-         List<Category> categories = Optional
-        .ofNullable(categoryRepository.findAll())
-        .orElseGet(() -> Collections.emptyList());
-
-        return new RestResponse<>(categories, true, null);
+    public ResponseEntity<List<Category>> getCategories() {
+        List<Category> categories = Optional.ofNullable(categoryRepository.findAll())
+                .orElseGet(() -> Collections.emptyList());
+        return new ResponseEntity<>(categories, HttpStatus.OK);
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    public RestResponse<Category> insertCategory(@RequestBody Category category) {
-        return new RestResponse<Category>(categoryRepository.saveAndFlush(category), true, null);
-    } 
+    public ResponseEntity<?> insertCategory(@RequestBody Category category) {
+        Optional<String> optionalError = categoryService.validateCategory(category);
+        if(optionalError.isPresent())
+            return new ResponseEntity<RestError>(new RestError(optionalError.get(), 422), HttpStatus.UNPROCESSABLE_ENTITY);
+        else
+            return new ResponseEntity<Category>(categoryRepository.save(category), HttpStatus.OK);
+    }
 }

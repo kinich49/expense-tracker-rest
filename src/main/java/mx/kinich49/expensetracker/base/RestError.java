@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 public class RestError {
 
-    private String message;
-    private int code;
+    private final String errorMessage;
+    private final int errorCode;
 }

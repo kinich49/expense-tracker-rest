@@ -1,9 +1,12 @@
 package mx.kinich49.expensetracker.models;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -21,7 +24,10 @@ public class Category{
     @GenericGenerator(name = "native",
     strategy = "native")
     private long id;
+
     @NotNull
     private String title;
+
     private String color;
+    
 }
