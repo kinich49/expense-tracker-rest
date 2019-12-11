@@ -14,16 +14,11 @@ import mx.kinich49.expensetracker.services.TransactionItemService;
 @Service
 public class TransactionItemServiceImpl implements TransactionItemService {
 
-    private TransactionItemRepository transactionItemRepository;
+    private TransactionItemRepository repository;
 
     @Autowired
-    public TransactionItemServiceImpl(TransactionItemRepository transactionItemRepository){
-        this.transactionItemRepository = transactionItemRepository;
+    public TransactionItemServiceImpl(TransactionItemRepository repository){
+        this.repository = repository;
     } 
 
-    @Override
-    public List<TransactionItem> findTransactions(Category category, LocalDate localDate) {
-        // TODO Auto-generated method stub
-        return null;
-    }
 }

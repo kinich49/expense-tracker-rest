@@ -14,7 +14,7 @@ import org.hibernate.annotations.GenericGenerator;
 import lombok.Data;
 
 @Data
-@Entity(name = "TransactionItems")
+@Entity(name = "Transaction_Items")
 public class TransactionItem {
 
     @Id
@@ -33,6 +33,7 @@ public class TransactionItem {
     @NotNull
     private String amount;
 
-    private LocalDate date;
+    @NotNull
+    private LocalDate dateCreated;
 
 }
