@@ -31,7 +31,7 @@ public class TransactionItem {
     private String memo;
 
     @NotNull
-    private String amount;
+    private long amount;
 
     @NotNull
     private LocalDate dateCreated;

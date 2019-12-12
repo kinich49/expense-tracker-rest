@@ -9,24 +9,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import mx.kinich49.expensetracker.base.RestError;
+import mx.kinich49.expensetracker.exceptions.CategoryNotFoundException;
 import mx.kinich49.expensetracker.models.TransactionItem;
 import mx.kinich49.expensetracker.repositories.TransactionItemRepository;
+import mx.kinich49.expensetracker.requests.TransactionItemRequest;
+import mx.kinich49.expensetracker.services.TransactionItemService;
 
 @RestController
 @RequestMapping("api/transactions")
 public class TransactionItemController {
 
     private TransactionItemRepository repository;
+    private TransactionItemService service;
 
     @Autowired
-    public TransactionItemController(TransactionItemRepository repository) {
+    public TransactionItemController(TransactionItemRepository repository, TransactionItemService service) {
         this.repository = repository;
+        this.service = service;
     }
 
     @GetMapping(params = "category_id")
@@ -55,5 +61,16 @@ public class TransactionItemController {
     @GetMapping(params = "month")
     public ResponseEntity<RestError> getTransactionItems(@RequestParam(value = "month") int month) {
         return new ResponseEntity<RestError>(new RestError("Parameter year is missing", 422), null, HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
+    @PostMapping
+    public ResponseEntity<?> postTransactionItem(@RequestBody TransactionItemRequest request){
+        try {
+            TransactionItem transactionItem = service.addTransactionItem(request);
+            return new ResponseEntity<>(transactionItem, HttpStatus.OK);
+        } catch (CategoryNotFoundException e){
+            RestError restError = new RestError(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY.value());
+            return new ResponseEntity<>(restError, HttpStatus.UNPROCESSABLE_ENTITY);
+        }
     }
 }
