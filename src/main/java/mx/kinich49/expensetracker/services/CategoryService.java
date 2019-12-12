@@ -3,6 +3,9 @@ package mx.kinich49.expensetracker.services;
 import java.util.Optional;
 
 import org.springframework.lang.NonNull;
+
+import mx.kinich49.expensetracker.dtos.CategoryDto;
+import mx.kinich49.expensetracker.exceptions.CategoryNotFoundException;
 import mx.kinich49.expensetracker.models.Category;
 
 public interface CategoryService {
@@ -15,4 +18,6 @@ public interface CategoryService {
      * will return the error message inside Optional
      */
     Optional<String> validateCategory(@NonNull Category category);
+
+    CategoryDto findCategoryAndTransactions(long categoryId) throws CategoryNotFoundException;
 }
