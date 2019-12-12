@@ -1,6 +1,5 @@
 package mx.kinich49.expensetracker.controllers;
 
-import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -8,11 +7,14 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import mx.kinich49.expensetracker.base.RestError;
@@ -72,5 +74,11 @@ public class TransactionItemController {
             RestError restError = new RestError(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY.value());
             return new ResponseEntity<>(restError, HttpStatus.UNPROCESSABLE_ENTITY);
         }
+    }
+
+    @DeleteMapping(value = "/id/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteTransactionItem(@PathVariable(value= "id") long transactionId) {
+        repository.deleteById(transactionId);
     }
 }
