@@ -20,4 +20,5 @@ public interface CategoryService {
     Optional<String> validateCategory(@NonNull Category category);
 
     CategoryDto findCategoryAndTransactions(long categoryId) throws CategoryNotFoundException;
+
 }

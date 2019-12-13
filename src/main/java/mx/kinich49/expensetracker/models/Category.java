@@ -33,8 +33,8 @@ public class Category{
 
     private String color;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     @JsonIgnore
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     List<TransactionItem> transactionItems;
     
 }

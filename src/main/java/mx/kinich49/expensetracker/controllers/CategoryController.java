@@ -7,11 +7,13 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import mx.kinich49.expensetracker.base.RestError;
@@ -60,5 +62,11 @@ public class CategoryController {
             return new ResponseEntity<RestError>(new RestError(optionalError.get(), 422), HttpStatus.UNPROCESSABLE_ENTITY);
         else
             return new ResponseEntity<Category>(categoryRepository.save(category), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/id/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteCategory(@PathVariable("id") long categoryId) {
+        categoryRepository.deleteById(categoryId);
     }
 }
