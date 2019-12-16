@@ -1,5 +1,6 @@
 package mx.kinich49.expensetracker.models;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -31,6 +32,9 @@ public class MonthlyBudget {
 
     @Column
     private String title;
+
+    @Column
+    private LocalDate budgetDate;
     
     @OneToMany(
         mappedBy = "monthlyBudget",
@@ -48,7 +52,7 @@ public class MonthlyBudget {
         category.getMonthlyBudgetCategories().add(monthlyBudgetCategory);
     }
  
-    public void removeTag(Category category) {
+    public void removeCategory(Category category) {
         for (Iterator<MonthlyBudgetCategory> iterator = monthlyBudgetCategories.iterator();
              iterator.hasNext(); ) {
             MonthlyBudgetCategory  monthlyBudgetCategory = iterator.next();

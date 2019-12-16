@@ -13,23 +13,33 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import mx.kinich49.expensetracker.dtos.MonthlyBudgetDto;
+import mx.kinich49.expensetracker.exceptions.MonthlyBudgetNotFoundException;
 import mx.kinich49.expensetracker.models.MonthlyBudget;
 import mx.kinich49.expensetracker.repositories.MonthlyBudgetRepository;
+import mx.kinich49.expensetracker.services.MonthlyBudgetService;
 
 @RestController
 @RequestMapping("/api/budgets")
 public class MonthlyBudgetController {
 
     private MonthlyBudgetRepository repository;
+    private MonthlyBudgetService service;
 
     @Autowired
-    private MonthlyBudgetController(MonthlyBudgetRepository repository) {
+    private MonthlyBudgetController(MonthlyBudgetRepository repository, MonthlyBudgetService service) {
         this.repository = repository;
+        this.service = service;
     }
 
-    @GetMapping(params = { "date" })
-    public ResponseEntity<?> getMonthlyBudget(@RequestParam("date") LocalDate date) {
-        return null;
+    @GetMapping(params = { "month","year" })
+    public ResponseEntity<?> getMonthlyBudget(@RequestParam("month") int month, @RequestParam("year") int year) {
+        try {
+            MonthlyBudgetDto dto = service.findMonthlyBudgetBy(month, year);
+            return new ResponseEntity<>(dto, HttpStatus.OK);
+        } catch (MonthlyBudgetNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping

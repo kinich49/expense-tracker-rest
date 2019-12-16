@@ -13,7 +13,7 @@ import lombok.EqualsAndHashCode;
 
 @Entity(name = "Monthly_Budget_Categories")
 @Data
-@EqualsAndHashCode(of = {"monthlyBudget", "category", "monthOfYear", "year"})
+@EqualsAndHashCode(of = {"monthlyBudget", "category"})
 public class MonthlyBudgetCategory {
 
     @EmbeddedId
@@ -29,14 +29,5 @@ public class MonthlyBudgetCategory {
 
     @Column
     private long monthlyLimit;
-
-    @Column
-    private LocalDate dateCreated;
-
-    @Column
-    private int monthOfYear;
-
-    @Column
-    private int year;
 
 }
