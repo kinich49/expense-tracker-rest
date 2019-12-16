@@ -17,6 +17,5 @@ public class CategoryDto {
     public static CategoryDto from(Category category) {
         return new CategoryDto(category.getId(), category.getTitle(), category.getColor(),
                 category.getTransactionItems());
-
     }
 }
