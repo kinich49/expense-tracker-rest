@@ -28,8 +28,8 @@ import mx.kinich49.expensetracker.services.TransactionItemService;
 @RequestMapping("api/transactions")
 public class TransactionItemController {
 
-    private TransactionItemRepository repository;
-    private TransactionItemService service;
+    private final TransactionItemRepository repository;
+    private final TransactionItemService service;
 
     @Autowired
     public TransactionItemController(TransactionItemRepository repository, TransactionItemService service) {
@@ -41,28 +41,31 @@ public class TransactionItemController {
     public ResponseEntity<List<TransactionItem>> getTransactionItems(
             @RequestParam(value = "category_id") long categoryId) {
         List<TransactionItem> transactionItems = Optional.ofNullable(repository.findByCategoryId(categoryId))
-                .orElseGet(() -> Collections.emptyList());
-        return new ResponseEntity<List<TransactionItem>>(transactionItems, HttpStatus.OK);
+                .orElseGet(Collections::emptyList);
+        return new ResponseEntity<>(transactionItems, HttpStatus.OK);
     }
 
     @GetMapping
     public ResponseEntity<List<TransactionItem>> getTransactionItems() {
-        List<TransactionItem> transactionItems = Optional.ofNullable(repository.findAll())
-                .orElseGet(() -> Collections.emptyList());
-        return new ResponseEntity<List<TransactionItem>>(transactionItems, HttpStatus.OK);
+        List<TransactionItem> transactionItems = Optional.of(repository.findAll())
+                .orElseGet(Collections::emptyList);
+        return new ResponseEntity<>(transactionItems, HttpStatus.OK);
     }
 
     @GetMapping(params = {"month", "year"})
     public ResponseEntity<List<TransactionItem>> getTransactionItems(@RequestParam(value = "month") int month,
             @RequestParam(value = "year") int year) {
         List<TransactionItem> transactionItems = Optional.ofNullable(repository.findByMonthAndYear(month, year))
-                .orElseGet(() -> Collections.emptyList());
-        return new ResponseEntity<List<TransactionItem>>(transactionItems, HttpStatus.OK);
+                .orElseGet(Collections::emptyList);
+        return new ResponseEntity<>(transactionItems, HttpStatus.OK);
     }
 
     @GetMapping(params = "month")
     public ResponseEntity<RestError> getTransactionItems(@RequestParam(value = "month") int month) {
-        return new ResponseEntity<RestError>(new RestError("Parameter year is missing", 422), null, HttpStatus.UNPROCESSABLE_ENTITY);
+        return new ResponseEntity<>(
+                new RestError("Parameter year is missing", 422),
+                null,
+                HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
     @PostMapping

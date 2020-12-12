@@ -23,17 +23,19 @@ import mx.kinich49.expensetracker.services.MonthlyBudgetService;
 @RequestMapping("/api/budgets")
 public class MonthlyBudgetController {
 
-    private MonthlyBudgetRepository repository;
-    private MonthlyBudgetService service;
+    private final MonthlyBudgetRepository repository;
+    private final MonthlyBudgetService service;
 
     @Autowired
-    private MonthlyBudgetController(MonthlyBudgetRepository repository, MonthlyBudgetService service) {
+    private MonthlyBudgetController(MonthlyBudgetRepository repository,
+                                    MonthlyBudgetService service) {
         this.repository = repository;
         this.service = service;
     }
 
     @GetMapping(params = { "month","year" })
-    public ResponseEntity<?> getMonthlyBudget(@RequestParam("month") int month, @RequestParam("year") int year) {
+    public ResponseEntity<?> getMonthlyBudget(@RequestParam("month") int month,
+                                              @RequestParam("year") int year) {
         try {
             MonthlyBudgetDto dto = service.findMonthlyBudgetBy(month, year);
             return new ResponseEntity<>(dto, HttpStatus.OK);
@@ -44,8 +46,8 @@ public class MonthlyBudgetController {
 
     @GetMapping
     public ResponseEntity<?> getMonthlyBudgets() {
-        List<MonthlyBudget> monthlyBudgets = Optional.ofNullable(repository.findAll())
-                .orElseGet(() -> Collections.emptyList());
+        List<MonthlyBudget> monthlyBudgets = Optional.of(repository.findAll())
+                .orElseGet(Collections::emptyList);
         return new ResponseEntity<>(monthlyBudgets, HttpStatus.OK);
     }
 }
