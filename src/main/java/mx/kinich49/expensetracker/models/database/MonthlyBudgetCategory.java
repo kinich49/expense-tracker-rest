@@ -1,6 +1,4 @@
-package mx.kinich49.expensetracker.models;
-
-import java.time.LocalDate;
+package mx.kinich49.expensetracker.models.database;
 
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;

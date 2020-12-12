@@ -1,6 +1,5 @@
 package mx.kinich49.expensetracker.controllers;
 
-import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -13,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import mx.kinich49.expensetracker.dtos.MonthlyBudgetDto;
+import mx.kinich49.expensetracker.models.web.WMonthlyBudgetWebModel;
 import mx.kinich49.expensetracker.exceptions.MonthlyBudgetNotFoundException;
-import mx.kinich49.expensetracker.models.MonthlyBudget;
+import mx.kinich49.expensetracker.models.database.MonthlyBudget;
 import mx.kinich49.expensetracker.repositories.MonthlyBudgetRepository;
 import mx.kinich49.expensetracker.services.MonthlyBudgetService;
 
@@ -37,7 +36,7 @@ public class MonthlyBudgetController {
     public ResponseEntity<?> getMonthlyBudget(@RequestParam("month") int month,
                                               @RequestParam("year") int year) {
         try {
-            MonthlyBudgetDto dto = service.findMonthlyBudgetBy(month, year);
+            WMonthlyBudgetWebModel dto = service.findMonthlyBudgetBy(month, year);
             return new ResponseEntity<>(dto, HttpStatus.OK);
         } catch (MonthlyBudgetNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

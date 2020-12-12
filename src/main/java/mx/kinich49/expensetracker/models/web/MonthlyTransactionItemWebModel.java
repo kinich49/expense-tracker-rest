@@ -1,14 +1,14 @@
-package mx.kinich49.expensetracker.dtos;
+package mx.kinich49.expensetracker.models.web;
 
 import java.time.LocalDate;
 
 import org.springframework.lang.NonNull;
 
 import lombok.Data;
-import mx.kinich49.expensetracker.models.TransactionItem;
+import mx.kinich49.expensetracker.models.database.TransactionItem;
 
 @Data
-public class MonthlyTransactionItemDto {
+public class MonthlyTransactionItemWebModel {
 
     private final long transactionId;
     private final String title;
@@ -16,8 +16,8 @@ public class MonthlyTransactionItemDto {
     private final long amount;
     private final LocalDate dateCreated;
 
-    public static MonthlyTransactionItemDto from(@NonNull TransactionItem transactionItem) {
-        return new MonthlyTransactionItemDto(transactionItem.getId(), transactionItem.getTitle(),
+    public static MonthlyTransactionItemWebModel from(@NonNull TransactionItem transactionItem) {
+        return new MonthlyTransactionItemWebModel(transactionItem.getId(), transactionItem.getTitle(),
                 transactionItem.getMemo(), transactionItem.getAmount(), transactionItem.getDateCreated());
     }
 }

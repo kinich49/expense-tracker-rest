@@ -1,9 +1,9 @@
 package mx.kinich49.expensetracker.controllers;
 
 import mx.kinich49.expensetracker.base.RestError;
-import mx.kinich49.expensetracker.dtos.CategoryDto;
+import mx.kinich49.expensetracker.models.web.CategoryWebModel;
 import mx.kinich49.expensetracker.exceptions.CategoryNotFoundException;
-import mx.kinich49.expensetracker.models.Category;
+import mx.kinich49.expensetracker.models.database.Category;
 import mx.kinich49.expensetracker.repositories.CategoryRepository;
 import mx.kinich49.expensetracker.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +40,7 @@ public class CategoryController {
     @GetMapping("/id/{id}")
     public ResponseEntity<?> getCategory(@PathVariable("id") long categoryId){
         try {
-            CategoryDto dto = categoryService.findCategoryAndTransactions(categoryId);
+            CategoryWebModel dto = categoryService.findCategoryAndTransactions(categoryId);
             return new ResponseEntity<>(dto, HttpStatus.OK);
         } catch (CategoryNotFoundException e) {
             RestError restError = new RestError(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY.value());

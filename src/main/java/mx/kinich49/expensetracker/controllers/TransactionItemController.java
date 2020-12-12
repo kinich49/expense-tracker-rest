@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import mx.kinich49.expensetracker.base.RestError;
 import mx.kinich49.expensetracker.exceptions.CategoryNotFoundException;
-import mx.kinich49.expensetracker.models.TransactionItem;
+import mx.kinich49.expensetracker.models.database.TransactionItem;
 import mx.kinich49.expensetracker.repositories.TransactionItemRepository;
 import mx.kinich49.expensetracker.requests.TransactionItemRequest;
 import mx.kinich49.expensetracker.services.TransactionItemService;

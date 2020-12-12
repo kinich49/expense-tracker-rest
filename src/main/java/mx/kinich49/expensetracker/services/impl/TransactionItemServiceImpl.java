@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import mx.kinich49.expensetracker.exceptions.CategoryNotFoundException;
-import mx.kinich49.expensetracker.models.Category;
-import mx.kinich49.expensetracker.models.TransactionItem;
+import mx.kinich49.expensetracker.models.database.Category;
+import mx.kinich49.expensetracker.models.database.TransactionItem;
 import mx.kinich49.expensetracker.repositories.CategoryRepository;
 import mx.kinich49.expensetracker.repositories.TransactionItemRepository;
 import mx.kinich49.expensetracker.requests.TransactionItemRequest;

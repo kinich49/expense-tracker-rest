@@ -1,4 +1,4 @@
-package mx.kinich49.expensetracker.models;
+package mx.kinich49.expensetracker.models.database;
 
 import java.time.LocalDate;
 

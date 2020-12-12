@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.NonNull;
-import mx.kinich49.expensetracker.dtos.CategoryDto;
+import mx.kinich49.expensetracker.models.web.CategoryWebModel;
 import mx.kinich49.expensetracker.exceptions.CategoryNotFoundException;
-import mx.kinich49.expensetracker.models.Category;
+import mx.kinich49.expensetracker.models.database.Category;
 import mx.kinich49.expensetracker.repositories.CategoryRepository;
 import mx.kinich49.expensetracker.services.CategoryService;
 @Service
@@ -32,11 +32,11 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Transactional
     @Override
-    public CategoryDto findCategoryAndTransactions(long categoryId) throws CategoryNotFoundException {
+    public CategoryWebModel findCategoryAndTransactions(long categoryId) throws CategoryNotFoundException {
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new CategoryNotFoundException(categoryId));
 
-        return CategoryDto.from(category);
+        return CategoryWebModel.from(category);
     }
 
 

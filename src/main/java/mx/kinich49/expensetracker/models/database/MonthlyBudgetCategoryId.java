@@ -1,11 +1,11 @@
-package mx.kinich49.expensetracker.models;
+package mx.kinich49.expensetracker.models.database;
 
 import java.io.Serializable;
 import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.ManyToMany;
+
 import lombok.Data;
 
 @Data

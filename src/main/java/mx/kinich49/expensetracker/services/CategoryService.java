@@ -4,9 +4,9 @@ import java.util.Optional;
 
 import org.springframework.lang.NonNull;
 
-import mx.kinich49.expensetracker.dtos.CategoryDto;
+import mx.kinich49.expensetracker.models.web.CategoryWebModel;
 import mx.kinich49.expensetracker.exceptions.CategoryNotFoundException;
-import mx.kinich49.expensetracker.models.Category;
+import mx.kinich49.expensetracker.models.database.Category;
 
 public interface CategoryService {
 
@@ -19,6 +19,6 @@ public interface CategoryService {
      */
     Optional<String> validateCategory(@NonNull Category category);
 
-    CategoryDto findCategoryAndTransactions(long categoryId) throws CategoryNotFoundException;
+    CategoryWebModel findCategoryAndTransactions(long categoryId) throws CategoryNotFoundException;
 
 }
