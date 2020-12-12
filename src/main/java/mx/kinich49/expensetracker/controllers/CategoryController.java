@@ -1,10 +1,12 @@
 package mx.kinich49.expensetracker.controllers;
 
-import mx.kinich49.expensetracker.base.RestError;
-import mx.kinich49.expensetracker.models.web.CategoryWebModel;
-import mx.kinich49.expensetracker.exceptions.CategoryNotFoundException;
+import mx.kinich49.expensetracker.base.ApiError;
+import mx.kinich49.expensetracker.exceptions.InvalidNewCategoryException;
 import mx.kinich49.expensetracker.models.database.Category;
+import mx.kinich49.expensetracker.models.web.CategoryWebModel;
+import mx.kinich49.expensetracker.models.web.JsonApi;
 import mx.kinich49.expensetracker.repositories.CategoryRepository;
+import mx.kinich49.expensetracker.models.web.requests.CategoryRequest;
 import mx.kinich49.expensetracker.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,23 +40,24 @@ public class CategoryController {
     }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<?> getCategory(@PathVariable("id") long categoryId){
-        try {
-            CategoryWebModel dto = categoryService.findCategoryAndTransactions(categoryId);
-            return new ResponseEntity<>(dto, HttpStatus.OK);
-        } catch (CategoryNotFoundException e) {
-            RestError restError = new RestError(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY.value());
-            return new ResponseEntity<>(restError, HttpStatus.UNPROCESSABLE_ENTITY);
-        }
+    public ResponseEntity<JsonApi<CategoryWebModel>> getCategory(@PathVariable("id") long categoryId) {
+        return categoryService.findCategoryAndTransactions(categoryId)
+                .map(JsonApi::new)
+                .map(json -> new ResponseEntity<>(json, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping
-    public ResponseEntity<?> insertCategory(@RequestBody Category category) {
-        Optional<String> optionalError = categoryService.validateCategory(category);
-        if(optionalError.isPresent())
-            return new ResponseEntity<RestError>(new RestError(optionalError.get(), 422), HttpStatus.UNPROCESSABLE_ENTITY);
-        else
-            return new ResponseEntity<Category>(categoryRepository.save(category), HttpStatus.OK);
+    public ResponseEntity<?> insertCategory(@RequestBody CategoryRequest request) {
+        try {
+            CategoryWebModel webModel = categoryService.insertCategory(request);
+            JsonApi<CategoryWebModel> response = new JsonApi<>(webModel);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+
+        } catch (InvalidNewCategoryException e) {
+            ApiError error = new ApiError(e.getMessage());
+            return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+        }
     }
 
     @DeleteMapping("/id/{id}")

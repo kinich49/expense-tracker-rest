@@ -2,12 +2,7 @@ package mx.kinich49.expensetracker.models.database;
 
 import java.time.LocalDate;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -15,13 +10,13 @@ import org.hibernate.annotations.GenericGenerator;
 import lombok.Data;
 
 @Data
-@Entity(name = "Transaction_Items")
-public class TransactionItem {
+@Entity(name = "Transactions")
+public class Transaction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
-    private long id;
+    private Long id;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "category_id")
@@ -33,7 +28,7 @@ public class TransactionItem {
     private String memo;
 
     @NotNull
-    private long amount;
+    private int amount;
 
     @NotNull
     private LocalDate dateCreated;

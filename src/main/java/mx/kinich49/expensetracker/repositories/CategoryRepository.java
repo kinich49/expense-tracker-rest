@@ -7,6 +7,6 @@ import mx.kinich49.expensetracker.models.database.Category;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long>{
-    
-    Category findByTitle(String title);
+
+    boolean existsByName(String name);
 }

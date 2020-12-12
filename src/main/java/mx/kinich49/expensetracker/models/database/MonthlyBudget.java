@@ -1,24 +1,14 @@
 package mx.kinich49.expensetracker.models.database;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import org.hibernate.annotations.GenericGenerator;
-
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 @Data
 @Entity(name = "Monthly_Budgets")
@@ -35,14 +25,13 @@ public class MonthlyBudget {
 
     @Column
     private LocalDate budgetDate;
-    
+
     @OneToMany(
-        mappedBy = "monthlyBudget",
-        cascade = CascadeType.ALL,
-        orphanRemoval = true
+            mappedBy = "monthlyBudget",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
     )
-    @JsonIgnore
-    private Set<MonthlyBudgetCategory> monthlyBudgetCategories = new HashSet<>();
+    public Set<MonthlyBudgetCategory> monthlyBudgetCategories = new HashSet<>();
 
     public void addCategory(Category category) {
         MonthlyBudgetCategory monthlyBudgetCategory = new MonthlyBudgetCategory();

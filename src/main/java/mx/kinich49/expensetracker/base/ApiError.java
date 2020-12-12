@@ -4,8 +4,7 @@ import lombok.Data;
 
 @SuppressWarnings("unused")
 @Data
-public class RestError {
+public class ApiError {
 
     private final String errorMessage;
-    private final int errorCode;
 }

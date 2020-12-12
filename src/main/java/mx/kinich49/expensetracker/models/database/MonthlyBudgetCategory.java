@@ -26,6 +26,6 @@ public class MonthlyBudgetCategory {
     private Category category;
 
     @Column
-    private long monthlyLimit;
+    private int monthlyLimit;
 
 }
