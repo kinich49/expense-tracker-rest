@@ -1,4 +1,4 @@
-package mx.kinich49.expensetracker.base;
+package mx.kinich49.expensetracker.models.rest;
 
 import lombok.Data;
 

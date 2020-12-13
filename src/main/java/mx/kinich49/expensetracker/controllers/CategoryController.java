@@ -1,9 +1,9 @@
 package mx.kinich49.expensetracker.controllers;
 
-import mx.kinich49.expensetracker.base.ApiError;
+import mx.kinich49.expensetracker.models.rest.ApiError;
 import mx.kinich49.expensetracker.exceptions.InvalidNewCategoryException;
 import mx.kinich49.expensetracker.models.web.CategoryWebModel;
-import mx.kinich49.expensetracker.models.JsonApi;
+import mx.kinich49.expensetracker.models.rest.ApiResponse;
 import mx.kinich49.expensetracker.models.web.requests.CategoryRequest;
 import mx.kinich49.expensetracker.repositories.CategoryRepository;
 import mx.kinich49.expensetracker.services.CategoryService;
@@ -31,17 +31,17 @@ public class CategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<JsonApi<List<CategoryWebModel>>> getCategories() {
+    public ResponseEntity<ApiResponse<List<CategoryWebModel>>> getCategories() {
         return Optional.ofNullable(categoryService.findAll())
-                .map(JsonApi::new)
+                .map(ApiResponse::new)
                 .map(json -> new ResponseEntity<>(json, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<JsonApi<CategoryWebModel>> getCategory(@PathVariable("id") long categoryId) {
+    public ResponseEntity<ApiResponse<CategoryWebModel>> getCategory(@PathVariable("id") long categoryId) {
         return categoryService.findCategoryAndTransactions(categoryId)
-                .map(JsonApi::new)
+                .map(ApiResponse::new)
                 .map(json -> new ResponseEntity<>(json, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
@@ -50,7 +50,7 @@ public class CategoryController {
     public ResponseEntity<?> insertCategory(@RequestBody CategoryRequest request) {
         try {
             CategoryWebModel webModel = categoryService.insertCategory(request);
-            JsonApi<CategoryWebModel> response = new JsonApi<>(webModel);
+            ApiResponse<CategoryWebModel> response = new ApiResponse<>(webModel);
             return new ResponseEntity<>(response, HttpStatus.OK);
 
         } catch (InvalidNewCategoryException e) {
