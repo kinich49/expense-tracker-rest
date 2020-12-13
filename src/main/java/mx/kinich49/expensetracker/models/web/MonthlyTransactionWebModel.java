@@ -25,7 +25,7 @@ public class MonthlyTransactionWebModel {
                 transaction.getTitle(),
                 transaction.getMemo(),
                 transaction.getAmount(),
-                transaction.getDateCreated());
+                transaction.getTransactionDate());
     }
 
     public static List<MonthlyTransactionWebModel> from(Collection<Transaction> transactions) {

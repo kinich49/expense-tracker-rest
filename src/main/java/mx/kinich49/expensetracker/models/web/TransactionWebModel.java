@@ -15,18 +15,22 @@ public class TransactionWebModel {
     private final String title;
     private final String memo;
     private final int amount;
-    private final LocalDate localDate;
+    private final LocalDate transactionDate;
+    private final CategoryWebModel category;
 
     public static TransactionWebModel from(Transaction transaction) {
         if (transaction == null)
             return null;
+
+        CategoryWebModel category = CategoryWebModel.from(transaction.getCategory());
 
         return new TransactionWebModel(
                 transaction.getId(),
                 transaction.getTitle(),
                 transaction.getMemo(),
                 transaction.getAmount(),
-                transaction.getDateCreated()
+                transaction.getTransactionDate(),
+                category
         );
     }
 

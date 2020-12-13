@@ -31,6 +31,6 @@ public class Transaction {
     private int amount;
 
     @NotNull
-    private LocalDate dateCreated;
+    private LocalDate transactionDate;
 
 }

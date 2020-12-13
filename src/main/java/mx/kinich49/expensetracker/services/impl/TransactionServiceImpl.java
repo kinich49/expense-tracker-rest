@@ -4,14 +4,18 @@ import mx.kinich49.expensetracker.exceptions.CategoryNotFoundException;
 import mx.kinich49.expensetracker.models.database.Category;
 import mx.kinich49.expensetracker.models.database.Transaction;
 import mx.kinich49.expensetracker.models.web.TransactionWebModel;
+import mx.kinich49.expensetracker.models.web.requests.TransactionRequest;
 import mx.kinich49.expensetracker.repositories.CategoryRepository;
 import mx.kinich49.expensetracker.repositories.TransactionRepository;
-import mx.kinich49.expensetracker.models.web.requests.TransactionRequest;
 import mx.kinich49.expensetracker.services.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
+@SuppressWarnings("unused")
 public class TransactionServiceImpl implements TransactionService {
 
     private final TransactionRepository transactionRepository;
@@ -28,6 +32,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public TransactionWebModel addTransaction(TransactionRequest request) throws CategoryNotFoundException {
         long categoryId = request.getCategoryId();
+
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new CategoryNotFoundException(categoryId));
 
@@ -35,12 +40,37 @@ public class TransactionServiceImpl implements TransactionService {
         transaction.setAmount(request.getAmount());
         transaction.setTitle(request.getTitle());
         transaction.setMemo(request.getMemo());
-        transaction.setDateCreated(request.getDateCreated());
+        transaction.setTransactionDate(request.getDateCreated());
         transaction.setCategory(category);
 
         transaction = transactionRepository.save(transaction);
 
         return TransactionWebModel.from(transaction);
+    }
+
+    @Override
+    public List<TransactionWebModel> findTransactions(int month, int year) {
+        List<Transaction> transactions = transactionRepository.findByMonthAndYear(month, year);
+
+        if (transactions == null || transactions.isEmpty())
+            return null;
+
+        return transactions.stream()
+                .map(TransactionWebModel::from)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TransactionWebModel> findTransactionsByCategory(long categoryId, int month, int year) {
+        List<Transaction> transactions = transactionRepository
+                .findByCategoryIdAndYearAndMonth(categoryId, month, year);
+
+        if (transactions == null || transactions.isEmpty())
+            return null;
+
+        return transactions.stream()
+                .map(TransactionWebModel::from)
+                .collect(Collectors.toList());
     }
 
 }

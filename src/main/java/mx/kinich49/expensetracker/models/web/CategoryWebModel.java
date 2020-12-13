@@ -15,6 +15,7 @@ public class CategoryWebModel {
     public static CategoryWebModel from(Category category) {
         if (category == null)
             return null;
+
         return new CategoryWebModel(
                 category.getId(),
                 category.getName(),

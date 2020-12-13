@@ -13,12 +13,14 @@ import mx.kinich49.expensetracker.models.database.Transaction;
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
 
-        @Query("SELECT ti from Transactions ti where ti.category.id = ?1 AND MONTH(ti.dateCreated) = ?2 AND YEAR(ti.dateCreated) = ?3")
-        List<Transaction> findMonthlyTransactions(long categoryId, int month, int year);
+        @Query("SELECT t FROM Transactions t " +
+                "WHERE t.category.id = ?1 " +
+                "AND MONTH(t.transactionDate) = ?2 " +
+                "AND YEAR(t.transactionDate) = ?3")
+        List<Transaction> findByCategoryIdAndYearAndMonth(long categoryId, int month, int year);
 
-        @Query("SELECT ti from Transactions ti where ti.category.id = ?1")
-        List<Transaction> findByCategoryId(long categoryId);
-
-        @Query("SELECT ti from Transactions ti where month(ti.dateCreated) = ?1 AND year(ti.dateCreated) = ?2")
+        @Query("SELECT t FROM Transactions t " +
+                "WHERE month(t.transactionDate) = ?1 " +
+                "AND year(t.transactionDate) = ?2")
         List<Transaction> findByMonthAndYear(int month, int year);
 }

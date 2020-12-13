@@ -1,24 +1,23 @@
 package mx.kinich49.expensetracker.controllers;
 
-import mx.kinich49.expensetracker.models.rest.ApiError;
 import mx.kinich49.expensetracker.exceptions.CategoryNotFoundException;
-import mx.kinich49.expensetracker.models.database.Transaction;
+import mx.kinich49.expensetracker.models.rest.ApiError;
 import mx.kinich49.expensetracker.models.rest.ApiResponse;
 import mx.kinich49.expensetracker.models.web.TransactionWebModel;
-import mx.kinich49.expensetracker.repositories.TransactionRepository;
 import mx.kinich49.expensetracker.models.web.requests.TransactionRequest;
+import mx.kinich49.expensetracker.repositories.TransactionRepository;
 import mx.kinich49.expensetracker.services.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("api/transactions")
+@SuppressWarnings("unused")
 public class TransactionController {
 
     private final TransactionRepository repository;
@@ -32,26 +31,25 @@ public class TransactionController {
     }
 
     @GetMapping(params = "category_id")
-    public ResponseEntity<List<Transaction>> getTransactionItems(
-            @RequestParam(value = "category_id") long categoryId) {
-        List<Transaction> transactions = Optional.ofNullable(repository.findByCategoryId(categoryId))
-                .orElseGet(Collections::emptyList);
-        return new ResponseEntity<>(transactions, HttpStatus.OK);
+    public ResponseEntity<ApiResponse<List<TransactionWebModel>>> getTransactionItems(
+            @RequestParam(value = "category_id") long categoryId,
+            @RequestParam(value = "month") int month,
+            @RequestParam(value = "year") int year) {
+        return Optional.ofNullable(service.findTransactionsByCategory(categoryId, month, year))
+                .map(ApiResponse::new)
+                .map(response -> new ResponseEntity<>(response, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @GetMapping
-    public ResponseEntity<List<Transaction>> getTransactionItems() {
-        List<Transaction> transactions = Optional.of(repository.findAll())
-                .orElseGet(Collections::emptyList);
-        return new ResponseEntity<>(transactions, HttpStatus.OK);
-    }
 
     @GetMapping(params = {"month", "year"})
-    public ResponseEntity<List<Transaction>> getTransactionItems(@RequestParam(value = "month") int month,
-                                                                 @RequestParam(value = "year") int year) {
-        List<Transaction> transactions = Optional.ofNullable(repository.findByMonthAndYear(month, year))
-                .orElseGet(Collections::emptyList);
-        return new ResponseEntity<>(transactions, HttpStatus.OK);
+    public ResponseEntity<ApiResponse<List<TransactionWebModel>>> getTransactionItems(
+            @RequestParam(value = "month") int month,
+            @RequestParam(value = "year") int year) {
+        return Optional.ofNullable(service.findTransactions(month, year))
+                .map(ApiResponse::new)
+                .map(response -> new ResponseEntity<>(response, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @GetMapping(params = "month")
@@ -66,7 +64,7 @@ public class TransactionController {
     public ResponseEntity<?> postTransaction(@RequestBody TransactionRequest request) {
         try {
             TransactionWebModel webModel = service.addTransaction(request);
-            ApiResponse<TransactionWebModel> response = new ApiResponse<TransactionWebModel>(webModel);
+            ApiResponse<TransactionWebModel> response = new ApiResponse<>(webModel);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (CategoryNotFoundException e) {
             ApiError apiError = new ApiError(e.getMessage());
