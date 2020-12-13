@@ -30,7 +30,7 @@ public class TransactionController {
         this.service = service;
     }
 
-    @GetMapping(params = "category_id")
+    @GetMapping(params = {"category_id", "month", "year"})
     public ResponseEntity<ApiResponse<List<TransactionWebModel>>> getTransactionItems(
             @RequestParam(value = "category_id") long categoryId,
             @RequestParam(value = "month") int month,
