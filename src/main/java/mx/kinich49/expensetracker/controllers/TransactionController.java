@@ -3,7 +3,7 @@ package mx.kinich49.expensetracker.controllers;
 import mx.kinich49.expensetracker.base.ApiError;
 import mx.kinich49.expensetracker.exceptions.CategoryNotFoundException;
 import mx.kinich49.expensetracker.models.database.Transaction;
-import mx.kinich49.expensetracker.models.web.JsonApi;
+import mx.kinich49.expensetracker.models.JsonApi;
 import mx.kinich49.expensetracker.models.web.TransactionWebModel;
 import mx.kinich49.expensetracker.repositories.TransactionRepository;
 import mx.kinich49.expensetracker.models.web.requests.TransactionRequest;
@@ -66,7 +66,7 @@ public class TransactionController {
     public ResponseEntity<?> postTransaction(@RequestBody TransactionRequest request) {
         try {
             TransactionWebModel webModel = service.addTransaction(request);
-            JsonApi<TransactionWebModel> response = new JsonApi<>(webModel);
+            JsonApi<TransactionWebModel> response = new JsonApi<TransactionWebModel>(webModel);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (CategoryNotFoundException e) {
             ApiError apiError = new ApiError(e.getMessage());

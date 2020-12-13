@@ -3,13 +3,15 @@ package mx.kinich49.expensetracker.services.impl;
 import mx.kinich49.expensetracker.exceptions.InvalidNewCategoryException;
 import mx.kinich49.expensetracker.models.database.Category;
 import mx.kinich49.expensetracker.models.web.CategoryWebModel;
-import mx.kinich49.expensetracker.repositories.CategoryRepository;
 import mx.kinich49.expensetracker.models.web.requests.CategoryRequest;
+import mx.kinich49.expensetracker.repositories.CategoryRepository;
 import mx.kinich49.expensetracker.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -46,6 +48,17 @@ public class CategoryServiceImpl implements CategoryService {
     public Optional<CategoryWebModel> findCategoryAndTransactions(long categoryId) {
         return categoryRepository.findById(categoryId)
                 .map(CategoryWebModel::from);
+    }
+
+    @Override
+    public List<CategoryWebModel> findAll() {
+        List<Category> categories = categoryRepository.findAll();
+        if (categories.isEmpty())
+            return null;
+        return categories
+                .stream()
+                .map(CategoryWebModel::from)
+                .collect(Collectors.toList());
     }
 
 }

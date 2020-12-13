@@ -2,18 +2,16 @@ package mx.kinich49.expensetracker.controllers;
 
 import mx.kinich49.expensetracker.base.ApiError;
 import mx.kinich49.expensetracker.exceptions.InvalidNewCategoryException;
-import mx.kinich49.expensetracker.models.database.Category;
 import mx.kinich49.expensetracker.models.web.CategoryWebModel;
-import mx.kinich49.expensetracker.models.web.JsonApi;
-import mx.kinich49.expensetracker.repositories.CategoryRepository;
+import mx.kinich49.expensetracker.models.JsonApi;
 import mx.kinich49.expensetracker.models.web.requests.CategoryRequest;
+import mx.kinich49.expensetracker.repositories.CategoryRepository;
 import mx.kinich49.expensetracker.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,10 +31,11 @@ public class CategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Category>> getCategories() {
-        List<Category> categories = Optional.of(categoryRepository.findAll())
-                .orElseGet(Collections::emptyList);
-        return new ResponseEntity<>(categories, HttpStatus.OK);
+    public ResponseEntity<JsonApi<List<CategoryWebModel>>> getCategories() {
+        return Optional.ofNullable(categoryService.findAll())
+                .map(JsonApi::new)
+                .map(json -> new ResponseEntity<>(json, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @GetMapping("/id/{id}")

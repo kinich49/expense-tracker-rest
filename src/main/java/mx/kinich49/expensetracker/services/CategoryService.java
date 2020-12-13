@@ -4,6 +4,7 @@ import mx.kinich49.expensetracker.exceptions.InvalidNewCategoryException;
 import mx.kinich49.expensetracker.models.web.CategoryWebModel;
 import mx.kinich49.expensetracker.models.web.requests.CategoryRequest;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface CategoryService {
@@ -16,5 +17,7 @@ public interface CategoryService {
     CategoryWebModel insertCategory(CategoryRequest request) throws InvalidNewCategoryException;
 
     Optional<CategoryWebModel> findCategoryAndTransactions(long categoryId);
+
+    List<CategoryWebModel> findAll();
 
 }
