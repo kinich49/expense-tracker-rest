@@ -7,7 +7,6 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @Entity(name = "Categories")
@@ -18,7 +17,7 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.AUTO,
             generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
-    private long id;
+    private Long id;
 
     @NotNull
     private String name;
@@ -29,8 +28,18 @@ public class Category {
             cascade = CascadeType.ALL)
     List<Transaction> transactions;
 
-    @OneToMany(mappedBy = "category",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true)
-    private Set<MonthlyBudgetCategory> monthlyBudgetCategories;
+//    @OneToMany(mappedBy = "category",
+//            cascade = CascadeType.ALL,
+//            orphanRemoval = true)
+//    private List<MonthlyBudgetCategory> monthlyBudgetCategories;
+//
+//    public void addMonthlyBudgetCategory(MonthlyBudgetCategory monthlyBudgetCategory) {
+//        monthlyBudgetCategory.setCategory(this);
+//        monthlyBudgetCategories.add(monthlyBudgetCategory);
+//    }
+//
+//    public void removeMonthlyBudgetCategory(MonthlyBudgetCategory monthlyBudgetCategory) {
+//        monthlyBudgetCategories.remove(monthlyBudgetCategory);
+//        monthlyBudgetCategory.setCategory(null);
+//    }
 }

@@ -1,31 +1,33 @@
 package mx.kinich49.expensetracker.models.database;
 
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
 
 @Entity(name = "Monthly_Budget_Categories")
 @Data
-@EqualsAndHashCode(of = {"monthlyBudget", "category"})
+@ToString(exclude = {"monthlyBudget", "category"})
+@EqualsAndHashCode(of = {"category", "monthlyBudget"})
 public class MonthlyBudgetCategory {
 
-    @EmbeddedId
-    private MonthlyBudgetCategoryId pk;
-
-    @ManyToOne
-    @MapsId("monthlyBudgetId")
-    private MonthlyBudget monthlyBudget;
-
-    @ManyToOne
-    @MapsId("categoryId")
-    private Category category;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO,
+            generator = "native")
+    @GenericGenerator(name = "native", strategy = "native")
+    private Long id;
 
     @Column
     private int monthlyLimit;
+
+    @ManyToOne
+    @JoinColumn(name = "monthly_budget_id")
+    private MonthlyBudget monthlyBudget;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 
 }

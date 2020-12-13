@@ -6,10 +6,14 @@ import org.springframework.stereotype.Repository;
 
 import mx.kinich49.expensetracker.models.database.MonthlyBudget;
 
+import java.util.Optional;
+
 @Repository
 public interface MonthlyBudgetRepository extends JpaRepository<MonthlyBudget, Long> {
 
-    @Query("SELECT mb from Monthly_Budgets mb where month(mb.budgetDate) = ?1 AND year(mb.budgetDate) = ?2")
-    MonthlyBudget findByMonthAndYear(int month, int year);
+    @Query("SELECT mb FROM Monthly_Budgets mb " +
+            "WHERE month(mb.budgetDate) = ?1 " +
+            "AND year(mb.budgetDate) = ?2")
+    Optional<MonthlyBudget> findByMonthAndYear(int month, int year);
     
 }
