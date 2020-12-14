@@ -24,6 +24,9 @@ public class MonthlyBudget {
     @Column
     private LocalDate budgetDate;
 
+    @Column
+    private int monthlyLimit;
+
     @OneToMany(
             mappedBy = "monthlyBudget",
             cascade = CascadeType.ALL,

@@ -11,6 +11,7 @@ public class MonthlyBudgetWebModel {
 
     private final long id;
     private final LocalDate budgetDate;
+    private final int monthlyLimit;
     private final List<MonthlyBudgetCategoryWebModel> monthlyBudgetCategories;
 
     public static MonthlyBudgetWebModel from(MonthlyBudget monthlyBudget) {
@@ -22,6 +23,7 @@ public class MonthlyBudgetWebModel {
 
         return new MonthlyBudgetWebModel(monthlyBudget.getId(),
                 monthlyBudget.getBudgetDate(),
+                monthlyBudget.getMonthlyLimit(),
                 monthlyBudgetCategories);
     }
 
