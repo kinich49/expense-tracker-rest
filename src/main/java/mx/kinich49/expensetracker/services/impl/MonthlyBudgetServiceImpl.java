@@ -1,7 +1,6 @@
 package mx.kinich49.expensetracker.services.impl;
 
-import mx.kinich49.expensetracker.exceptions.CategoryNotFoundException;
-import mx.kinich49.expensetracker.exceptions.MonthlyBudgetNotFoundException;
+import mx.kinich49.expensetracker.exceptions.InvalidMonthlyCategoryBudgetException;
 import mx.kinich49.expensetracker.models.database.Category;
 import mx.kinich49.expensetracker.models.database.MonthlyBudget;
 import mx.kinich49.expensetracker.models.database.MonthlyBudgetCategory;
@@ -13,6 +12,7 @@ import mx.kinich49.expensetracker.repositories.CategoryRepository;
 import mx.kinich49.expensetracker.repositories.MonthlyBudgetCategoryRepository;
 import mx.kinich49.expensetracker.repositories.MonthlyBudgetRepository;
 import mx.kinich49.expensetracker.services.MonthlyBudgetService;
+import mx.kinich49.expensetracker.services.MonthlyCategoryBudgetValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,14 +25,17 @@ public class MonthlyBudgetServiceImpl implements MonthlyBudgetService {
     private final MonthlyBudgetRepository monthlyBudgetRepository;
     private final MonthlyBudgetCategoryRepository monthlyBudgetCategoryRepository;
     private final CategoryRepository categoryRepository;
+    private final MonthlyCategoryBudgetValidator monthlyCategoryBudgetValidator;
 
     @Autowired
     public MonthlyBudgetServiceImpl(MonthlyBudgetRepository monthlyBudgetRepository,
                                     MonthlyBudgetCategoryRepository monthlyBudgetCategoryRepository,
-                                    CategoryRepository categoryRepository) {
+                                    CategoryRepository categoryRepository,
+                                    MonthlyCategoryBudgetValidator monthlyCategoryBudgetValidator) {
         this.monthlyBudgetRepository = monthlyBudgetRepository;
         this.monthlyBudgetCategoryRepository = monthlyBudgetCategoryRepository;
         this.categoryRepository = categoryRepository;
+        this.monthlyCategoryBudgetValidator = monthlyCategoryBudgetValidator;
     }
 
     @Override
@@ -53,21 +56,31 @@ public class MonthlyBudgetServiceImpl implements MonthlyBudgetService {
 
     @Override
     public MonthlyBudgetCategoryWebModel addMonthlyBudgetCategory(MonthlyBudgetCategoryRequest request)
-            throws MonthlyBudgetNotFoundException, CategoryNotFoundException {
+            throws InvalidMonthlyCategoryBudgetException {
         Optional<MonthlyBudget> optMonthlyBudget = monthlyBudgetRepository.findById(request.getBudgetId());
 
-        if (!optMonthlyBudget.isPresent())
-            throw new MonthlyBudgetNotFoundException(request.getBudgetId());
+        if (!optMonthlyBudget.isPresent()) {
+            String error = String.format("Monthly Budget with id %1$d not found", request.getBudgetId());
+            throw new InvalidMonthlyCategoryBudgetException(error);
+        }
 
 
         MonthlyBudget monthlyBudget = optMonthlyBudget.get();
 
         Optional<Category> optCategory = categoryRepository.findById(request.getCategoryId());
 
-        if (!optCategory.isPresent())
-            throw new CategoryNotFoundException(request.getCategoryId());
+        if (!optCategory.isPresent()) {
+            String error = String.format("Category with id %1$d not found", request.getCategoryId());
+            throw new InvalidMonthlyCategoryBudgetException(error);
+        }
 
         Category category = optCategory.get();
+
+        if (!monthlyCategoryBudgetValidator.isLimitValid(request, monthlyBudget)) {
+            String error = String.format("Setting %1$d as limit puts you over your monthly limit of %2$d",
+                    request.getMonthlyLimit(), monthlyBudget.getMonthlyLimit());
+            throw new InvalidMonthlyCategoryBudgetException(error);
+        }
 
         MonthlyBudgetCategory monthlyBudgetCategory = monthlyBudgetCategoryRepository
                 .findByCategoryIdAndMonthlyBudgetId(request.getCategoryId(), request.getBudgetId())

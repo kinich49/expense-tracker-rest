@@ -1,6 +1,6 @@
 package mx.kinich49.expensetracker.services.impl;
 
-import mx.kinich49.expensetracker.exceptions.CategoryNotFoundException;
+import mx.kinich49.expensetracker.exceptions.InvalidTransactionException;
 import mx.kinich49.expensetracker.models.database.Category;
 import mx.kinich49.expensetracker.models.database.Transaction;
 import mx.kinich49.expensetracker.models.web.TransactionWebModel;
@@ -30,11 +30,14 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public TransactionWebModel addTransaction(TransactionRequest request) throws CategoryNotFoundException {
+    public TransactionWebModel addTransaction(TransactionRequest request) throws InvalidTransactionException {
         long categoryId = request.getCategoryId();
 
         Category category = categoryRepository.findById(categoryId)
-                .orElseThrow(() -> new CategoryNotFoundException(categoryId));
+                .orElseThrow(() -> {
+                    String error = String.format("Category with id %1$d not found", categoryId);
+                    return new InvalidTransactionException(error);
+                });
 
         Transaction transaction = new Transaction();
         transaction.setAmount(request.getAmount());

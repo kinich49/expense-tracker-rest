@@ -1,6 +1,6 @@
 package mx.kinich49.expensetracker.controllers;
 
-import mx.kinich49.expensetracker.exceptions.CategoryNotFoundException;
+import mx.kinich49.expensetracker.exceptions.InvalidTransactionException;
 import mx.kinich49.expensetracker.models.rest.ApiError;
 import mx.kinich49.expensetracker.models.rest.ApiResponse;
 import mx.kinich49.expensetracker.models.web.TransactionWebModel;
@@ -66,7 +66,7 @@ public class TransactionController {
             TransactionWebModel webModel = service.addTransaction(request);
             ApiResponse<TransactionWebModel> response = new ApiResponse<>(webModel);
             return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (CategoryNotFoundException e) {
+        } catch (InvalidTransactionException e) {
             ApiError apiError = new ApiError(e.getMessage());
             return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
         }
