@@ -7,17 +7,18 @@ import mx.kinich49.expensetracker.models.database.MonthlyBudgetCategory;
 import mx.kinich49.expensetracker.models.database.MonthlyIncome;
 import mx.kinich49.expensetracker.models.web.MonthlyBudgetCategoryWebModel;
 import mx.kinich49.expensetracker.models.web.MonthlyBudgetWebModel;
+import mx.kinich49.expensetracker.models.web.SimpleMonthlyBudgetWebModel;
 import mx.kinich49.expensetracker.models.web.requests.MonthlyBudgetCategoryRequest;
 import mx.kinich49.expensetracker.models.web.requests.MonthlyBudgetRequest;
 import mx.kinich49.expensetracker.repositories.CategoryRepository;
 import mx.kinich49.expensetracker.repositories.MonthlyBudgetCategoryRepository;
 import mx.kinich49.expensetracker.repositories.MonthlyBudgetRepository;
+import mx.kinich49.expensetracker.repositories.MonthlyIncomeRepository;
 import mx.kinich49.expensetracker.services.MonthlyBudgetService;
 import mx.kinich49.expensetracker.services.validators.MonthlyCategoryBudgetValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -28,31 +29,35 @@ public class MonthlyBudgetServiceImpl implements MonthlyBudgetService {
     private final MonthlyBudgetCategoryRepository monthlyBudgetCategoryRepository;
     private final CategoryRepository categoryRepository;
     private final MonthlyCategoryBudgetValidator monthlyCategoryBudgetValidator;
+    private final MonthlyIncomeRepository monthlyIncomeRepository;
 
     @Autowired
     public MonthlyBudgetServiceImpl(MonthlyBudgetRepository monthlyBudgetRepository,
                                     MonthlyBudgetCategoryRepository monthlyBudgetCategoryRepository,
                                     CategoryRepository categoryRepository,
-                                    MonthlyCategoryBudgetValidator monthlyCategoryBudgetValidator) {
+                                    MonthlyCategoryBudgetValidator monthlyCategoryBudgetValidator,
+                                    MonthlyIncomeRepository monthlyIncomeRepository) {
         this.monthlyBudgetRepository = monthlyBudgetRepository;
         this.monthlyBudgetCategoryRepository = monthlyBudgetCategoryRepository;
         this.categoryRepository = categoryRepository;
         this.monthlyCategoryBudgetValidator = monthlyCategoryBudgetValidator;
+        this.monthlyIncomeRepository = monthlyIncomeRepository;
     }
 
     @Override
-    public MonthlyBudgetWebModel insertMonthlyBudget(MonthlyBudgetRequest request) {
+    public SimpleMonthlyBudgetWebModel insertMonthlyBudget(MonthlyBudgetRequest request) {
         MonthlyBudget monthlyBudget = new MonthlyBudget();
         monthlyBudget.setBudgetDate(request.getBudgetDate());
 
         monthlyBudget = monthlyBudgetRepository.save(monthlyBudget);
 
-        return MonthlyBudgetWebModel.from(monthlyBudget);
+        return SimpleMonthlyBudgetWebModel.from(monthlyBudget);
     }
 
     @Override
-    public List<MonthlyBudgetWebModel> findMonthlyBudget(int month, int year) {
-        return MonthlyBudgetWebModel.from(monthlyBudgetRepository.findByMonthAndYear(month, year));
+    public Optional<MonthlyBudgetWebModel> findMonthlyBudget(int month, int year) {
+        return monthlyIncomeRepository.customFind(month, year)
+                .map(MonthlyBudgetWebModel::from);
     }
 
     @Override

@@ -5,6 +5,7 @@ import mx.kinich49.expensetracker.models.rest.ApiError;
 import mx.kinich49.expensetracker.models.rest.ApiResponse;
 import mx.kinich49.expensetracker.models.web.MonthlyBudgetCategoryWebModel;
 import mx.kinich49.expensetracker.models.web.MonthlyBudgetWebModel;
+import mx.kinich49.expensetracker.models.web.SimpleMonthlyBudgetWebModel;
 import mx.kinich49.expensetracker.models.web.requests.MonthlyBudgetCategoryRequest;
 import mx.kinich49.expensetracker.models.web.requests.MonthlyBudgetRequest;
 import mx.kinich49.expensetracker.services.MonthlyBudgetService;
@@ -29,17 +30,17 @@ public class MonthlyBudgetController {
     }
 
     @GetMapping(params = {"month", "year"})
-    public ResponseEntity<ApiResponse<List<MonthlyBudgetWebModel>>> getTransactionItems(
+    public ResponseEntity<ApiResponse<MonthlyBudgetWebModel>> getTransactionItems(
             @RequestParam(value = "month") int month,
             @RequestParam(value = "year") int year) {
-        return Optional.ofNullable(service.findMonthlyBudget(month, year))
+        return service.findMonthlyBudget(month, year)
                 .map(ApiResponse::new)
                 .map(response -> new ResponseEntity<>(response, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse<MonthlyBudgetWebModel>> postMonthlyBudget(
+    public ResponseEntity<ApiResponse<SimpleMonthlyBudgetWebModel>> postMonthlyBudget(
             @RequestBody MonthlyBudgetRequest request) {
         return Optional.of(service.insertMonthlyBudget(request))
                 .map(ApiResponse::new)

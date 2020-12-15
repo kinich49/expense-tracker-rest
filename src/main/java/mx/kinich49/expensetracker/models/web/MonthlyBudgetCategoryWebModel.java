@@ -24,7 +24,7 @@ public class MonthlyBudgetCategoryWebModel {
         long budgetId = monthlyBudgetCategory.getMonthlyBudget().getId();
         int monthlyLimit = monthlyBudgetCategory.getMonthlyLimit();
 
-        String monthlyLimitWithFormat = MonthlyBudgetWebModel.formatLimit(monthlyLimit, "MXN");
+        String monthlyLimitWithFormat = SimpleMonthlyBudgetWebModel.formatLimit(monthlyLimit, "MXN");
 
         return new MonthlyBudgetCategoryWebModel(
                 monthlyBudgetCategory.getId(),

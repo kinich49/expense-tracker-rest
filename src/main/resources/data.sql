@@ -9,8 +9,8 @@ INSERT INTO Categories(name, color) VALUES ('Services', '#4BDCDB')
 
 INSERT INTO Monthly_Incomes(upper_income_limit) VALUES (1000000)
 
-INSERT INTO Monthly_Budgets(budget_date, monthly_income_id) VALUES ('2020-12-01', 1)
-INSERT INTO Monthly_Budgets(budget_date, monthly_income_id) VALUES ('2020-12-01', 1)
+INSERT INTO Monthly_Budgets(budget_date, title, monthly_income_id) VALUES ('2020-12-01', 'Non-Fixed Expenses', 1)
+INSERT INTO Monthly_Budgets(budget_date, title, monthly_income_id) VALUES ('2020-12-01', 'Fixed Expenses', 1)
 
 INSERT INTO Monthly_Budget_Categories(monthly_limit, category_id, monthly_budget_id) VALUES(200000, 1, 1)
 INSERT INTO Monthly_Budget_Categories(monthly_limit, category_id, monthly_budget_id) VALUES(200000, 2, 1)
