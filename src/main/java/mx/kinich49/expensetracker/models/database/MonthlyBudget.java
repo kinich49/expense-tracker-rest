@@ -24,15 +24,17 @@ public class MonthlyBudget {
     @Column
     private LocalDate budgetDate;
 
-    @Column
-    private int monthlyLimit;
-
     @OneToMany(
             mappedBy = "monthlyBudget",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
     private List<MonthlyBudgetCategory> monthlyBudgetCategories = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "monthly_income_id")
+    private MonthlyIncome monthlyIncome;
+
 
     public void addMonthlyBudgetCategory(MonthlyBudgetCategory monthlyBudgetCategory) {
         monthlyBudgetCategory.setMonthlyBudget(this);
@@ -42,5 +44,14 @@ public class MonthlyBudget {
     public void removeMonthlyBudgetCategory(MonthlyBudgetCategory monthlyBudgetCategory) {
         monthlyBudgetCategories.remove(monthlyBudgetCategory);
         monthlyBudgetCategory.setMonthlyBudget(null);
+    }
+
+    public int getMonthlyLimit() {
+        if (monthlyBudgetCategories.isEmpty())
+            return 0;
+
+        return monthlyBudgetCategories.stream()
+                .mapToInt(MonthlyBudgetCategory::getMonthlyLimit)
+                .reduce(0, Integer::sum);
     }
 }

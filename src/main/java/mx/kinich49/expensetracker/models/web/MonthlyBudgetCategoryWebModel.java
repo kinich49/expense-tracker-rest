@@ -13,7 +13,7 @@ public class MonthlyBudgetCategoryWebModel {
     private final long id;
     private final CategoryWebModel category;
     private final long budgetId;
-    private final int monthlyLimit;
+    private final String monthlyLimit;
 
     public static MonthlyBudgetCategoryWebModel from(MonthlyBudgetCategory monthlyBudgetCategory) {
         if (monthlyBudgetCategory == null)
@@ -24,11 +24,13 @@ public class MonthlyBudgetCategoryWebModel {
         long budgetId = monthlyBudgetCategory.getMonthlyBudget().getId();
         int monthlyLimit = monthlyBudgetCategory.getMonthlyLimit();
 
+        String monthlyLimitWithFormat = MonthlyBudgetWebModel.formatLimit(monthlyLimit, "MXN");
+
         return new MonthlyBudgetCategoryWebModel(
                 monthlyBudgetCategory.getId(),
                 category,
                 budgetId,
-                monthlyLimit
+                monthlyLimitWithFormat
         );
     }
 

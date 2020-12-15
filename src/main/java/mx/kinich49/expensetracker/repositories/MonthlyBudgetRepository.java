@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import mx.kinich49.expensetracker.models.database.MonthlyBudget;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -14,6 +15,6 @@ public interface MonthlyBudgetRepository extends JpaRepository<MonthlyBudget, Lo
     @Query("SELECT mb FROM Monthly_Budgets mb " +
             "WHERE month(mb.budgetDate) = ?1 " +
             "AND year(mb.budgetDate) = ?2")
-    Optional<MonthlyBudget> findByMonthAndYear(int month, int year);
+    List<MonthlyBudget> findByMonthAndYear(int month, int year);
     
 }
