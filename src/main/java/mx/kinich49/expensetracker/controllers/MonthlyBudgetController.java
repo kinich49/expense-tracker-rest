@@ -14,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -40,12 +39,17 @@ public class MonthlyBudgetController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse<SimpleMonthlyBudgetWebModel>> postMonthlyBudget(
+    public ResponseEntity<ApiResponse<SimpleMonthlyBudgetWebModel>> addMonthlyBudget(
             @RequestBody MonthlyBudgetRequest request) {
         return Optional.of(service.insertMonthlyBudget(request))
                 .map(ApiResponse::new)
                 .map(response -> new ResponseEntity<>(response, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.BAD_REQUEST));
+    }
+
+    @DeleteMapping(path = "/{budgetId}")
+    public void removeMonthlyBudget(@PathVariable(name = "budgetId") long budgetId) {
+        service.removeMonthlyBudget(budgetId);
     }
 
     @PostMapping("/category")
@@ -58,5 +62,15 @@ public class MonthlyBudgetController {
             ApiError apiError = new ApiError(e.getMessage());
             return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @DeleteMapping(
+            path = "/{budgetId}",
+            params = {"categoryId"}
+    )
+    @ResponseStatus(code = HttpStatus.OK)
+    public void removeMonthlyBudgetCategory(@PathVariable("budgetId") long budgetId,
+                                            @RequestParam(name = "categoryId") long categoryId) {
+        service.removeMonthlyBudgetCategory(budgetId, categoryId);
     }
 }

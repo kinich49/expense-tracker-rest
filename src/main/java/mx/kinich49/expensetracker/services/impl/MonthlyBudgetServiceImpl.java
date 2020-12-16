@@ -102,4 +102,30 @@ public class MonthlyBudgetServiceImpl implements MonthlyBudgetService {
 
         return MonthlyBudgetCategoryWebModel.from(monthlyBudgetCategory);
     }
+
+    @Override
+    public void removeMonthlyBudgetCategory(long budgetId, long categoryId) {
+        Optional<MonthlyBudgetCategory> optionalMonthlyBudgetCategory = monthlyBudgetCategoryRepository
+                .findByCategoryIdAndMonthlyBudgetId(categoryId, budgetId);
+
+        if (!optionalMonthlyBudgetCategory.isPresent())
+            return;
+
+        Optional<MonthlyBudget> optionalMonthlyBudget = monthlyBudgetRepository.findById(budgetId);
+        if (!optionalMonthlyBudget.isPresent())
+            return;
+
+        MonthlyBudgetCategory monthlyBudgetCategory = optionalMonthlyBudgetCategory.get();
+        MonthlyBudget monthlyBudget = optionalMonthlyBudget.get();
+
+        monthlyBudget.removeMonthlyBudgetCategory(monthlyBudgetCategory);
+
+        monthlyBudgetCategoryRepository.delete(monthlyBudgetCategory);
+        monthlyBudgetRepository.save(monthlyBudget);
+    }
+
+    @Override
+    public void removeMonthlyBudget(long budgetId) {
+        monthlyBudgetRepository.deleteById(budgetId);
+    }
 }
