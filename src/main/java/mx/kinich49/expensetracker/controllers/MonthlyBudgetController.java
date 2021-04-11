@@ -3,15 +3,18 @@ package mx.kinich49.expensetracker.controllers;
 import mx.kinich49.expensetracker.exceptions.BusinessException;
 import mx.kinich49.expensetracker.models.rest.ApiResponse;
 import mx.kinich49.expensetracker.models.web.MonthlyBudgetCategoryWebModel;
+import mx.kinich49.expensetracker.models.web.MonthlyBudgetWebModel;
 import mx.kinich49.expensetracker.models.web.SimpleMonthlyBudgetWebModel;
 import mx.kinich49.expensetracker.models.web.requests.MonthlyBudgetCategoryRequest;
 import mx.kinich49.expensetracker.models.web.requests.MonthlyBudgetRequest;
 import mx.kinich49.expensetracker.services.MonthlyBudgetService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.YearMonth;
 import java.util.Optional;
 
 @RestController
@@ -24,6 +27,16 @@ public class MonthlyBudgetController {
     @Autowired
     public MonthlyBudgetController(MonthlyBudgetService service) {
         this.service = service;
+    }
+
+    @GetMapping
+    public ResponseEntity<ApiResponse<MonthlyBudgetWebModel>> getMonthlyBudgets(@RequestParam
+                                                                                @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                                                                                        YearMonth date) {
+        return service.findMonthlyBudgets(date)
+                .map(ApiResponse::new)
+                .map(response -> new ResponseEntity<>(response, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping
