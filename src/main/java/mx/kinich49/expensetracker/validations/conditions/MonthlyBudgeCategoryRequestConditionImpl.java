@@ -25,6 +25,13 @@ public class MonthlyBudgeCategoryRequestConditionImpl
         this.categoryRepository = categoryRepository;
     }
 
+    /**
+     * Condition to pass: Both monthlyBudget Id and Category Id should exist
+     *
+     * @param param the instance to assert it meets all conditions
+     * @return An optional containing an error message if the condition is not met.
+     * Optional empty otherwise
+     */
     @Override
     public Optional<String> assertCondition(Parameter param) {
         MonthlyBudgetCategoryRequest request = param.request;
