@@ -1,6 +1,6 @@
 package mx.kinich49.expensetracker.services.impl;
 
-import mx.kinich49.expensetracker.exceptions.InvalidNewCategoryException;
+import mx.kinich49.expensetracker.exceptions.BusinessException;
 import mx.kinich49.expensetracker.models.database.Category;
 import mx.kinich49.expensetracker.models.web.CategoryWebModel;
 import mx.kinich49.expensetracker.models.web.requests.CategoryRequest;
@@ -24,16 +24,16 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryWebModel insertCategory(CategoryRequest request) throws InvalidNewCategoryException {
+    public CategoryWebModel insertCategory(CategoryRequest request) throws BusinessException {
         //Throw exception if name is not set in request
         if (request.getName() == null || request.getName().isEmpty()) {
-            throw new InvalidNewCategoryException("Name can't be null");
+            throw new BusinessException("Name can't be null");
         }
 
         //Throw exception if name is already in use
         if (categoryRepository.existsByName(request.getName())) {
             String message = String.format("Name %1$s is already in use", request.getName());
-            throw new InvalidNewCategoryException(message);
+            throw new BusinessException(message);
         }
 
         Category category = new Category();

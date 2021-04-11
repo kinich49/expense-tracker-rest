@@ -13,21 +13,17 @@ import java.util.List;
 @EqualsAndHashCode(of = {"id", "name"})
 public class Category {
 
+    @OneToMany(mappedBy = "category",
+            cascade = CascadeType.ALL)
+    List<Transaction> transactions;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO,
             generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
     private Long id;
-
     @NotNull
     private String name;
-
     private String color;
-
-    @OneToMany(mappedBy = "category",
-            cascade = CascadeType.ALL)
-    List<Transaction> transactions;
-
     @OneToMany(mappedBy = "category",
             cascade = CascadeType.ALL,
             orphanRemoval = true)

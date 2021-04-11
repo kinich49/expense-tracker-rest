@@ -8,8 +8,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories
 public class ExpenseTrackerApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(ExpenseTrackerApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(ExpenseTrackerApplication.class, args);
+    }
 
 }

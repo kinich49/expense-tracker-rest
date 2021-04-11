@@ -1,6 +1,6 @@
 package mx.kinich49.expensetracker.services;
 
-import mx.kinich49.expensetracker.exceptions.InvalidMonthlyCategoryBudgetException;
+import mx.kinich49.expensetracker.exceptions.BusinessException;
 import mx.kinich49.expensetracker.models.web.MonthlyBudgetCategoryWebModel;
 import mx.kinich49.expensetracker.models.web.MonthlyBudgetWebModel;
 import mx.kinich49.expensetracker.models.web.SimpleMonthlyBudgetWebModel;
@@ -17,7 +17,7 @@ public interface MonthlyBudgetService {
     Optional<MonthlyBudgetWebModel> findMonthlyBudgets(YearMonth date);
 
     MonthlyBudgetCategoryWebModel addMonthlyBudgetCategory(MonthlyBudgetCategoryRequest request)
-            throws InvalidMonthlyCategoryBudgetException;
+            throws BusinessException;
 
     void removeMonthlyBudgetCategory(long budgetId, long categoryId);
 

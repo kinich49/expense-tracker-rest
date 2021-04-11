@@ -1,13 +1,11 @@
 package mx.kinich49.expensetracker.models.database;
 
-import java.time.LocalDate;
+import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-
-import org.hibernate.annotations.GenericGenerator;
-
-import lombok.Data;
+import java.time.LocalDate;
 
 @Data
 @Entity(name = "Transactions")

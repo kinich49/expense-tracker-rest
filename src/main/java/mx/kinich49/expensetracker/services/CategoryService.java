@@ -1,6 +1,6 @@
 package mx.kinich49.expensetracker.services;
 
-import mx.kinich49.expensetracker.exceptions.InvalidNewCategoryException;
+import mx.kinich49.expensetracker.exceptions.BusinessException;
 import mx.kinich49.expensetracker.models.web.CategoryWebModel;
 import mx.kinich49.expensetracker.models.web.requests.CategoryRequest;
 
@@ -14,7 +14,7 @@ public interface CategoryService {
      * @return and instance of CategoryWebModel if the request is valid
      * @throws InvalidNewCategoryException if the category cannot be created
      */
-    CategoryWebModel insertCategory(CategoryRequest request) throws InvalidNewCategoryException;
+    CategoryWebModel insertCategory(CategoryRequest request) throws BusinessException;
 
     Optional<CategoryWebModel> findCategoryAndTransactions(long categoryId);
 

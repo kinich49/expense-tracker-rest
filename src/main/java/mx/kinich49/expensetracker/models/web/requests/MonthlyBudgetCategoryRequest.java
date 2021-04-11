@@ -7,7 +7,7 @@ import java.time.YearMonth;
 @Data
 public class MonthlyBudgetCategoryRequest {
 
-    private Long monthlyBudgetCategoryId;
+    private long monthlyBudgetCategoryId;
     private long budgetId;
     private YearMonth yearMonth;
     private long categoryId;

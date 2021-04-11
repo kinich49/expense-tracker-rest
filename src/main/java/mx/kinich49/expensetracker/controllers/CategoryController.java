@@ -1,9 +1,8 @@
 package mx.kinich49.expensetracker.controllers;
 
-import mx.kinich49.expensetracker.models.rest.ApiError;
-import mx.kinich49.expensetracker.exceptions.InvalidNewCategoryException;
-import mx.kinich49.expensetracker.models.web.CategoryWebModel;
+import mx.kinich49.expensetracker.exceptions.BusinessException;
 import mx.kinich49.expensetracker.models.rest.ApiResponse;
+import mx.kinich49.expensetracker.models.web.CategoryWebModel;
 import mx.kinich49.expensetracker.models.web.requests.CategoryRequest;
 import mx.kinich49.expensetracker.repositories.CategoryRepository;
 import mx.kinich49.expensetracker.services.CategoryService;
@@ -53,9 +52,8 @@ public class CategoryController {
             ApiResponse<CategoryWebModel> response = new ApiResponse<>(webModel);
             return new ResponseEntity<>(response, HttpStatus.OK);
 
-        } catch (InvalidNewCategoryException e) {
-            ApiError error = new ApiError(e.getMessage());
-            return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+        } catch (BusinessException e) {
+            return new ResponseEntity<>(new ApiResponse<>(e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
 

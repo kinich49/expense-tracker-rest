@@ -1,7 +1,6 @@
 package mx.kinich49.expensetracker.controllers;
 
-import mx.kinich49.expensetracker.exceptions.InvalidTransactionException;
-import mx.kinich49.expensetracker.models.rest.ApiError;
+import mx.kinich49.expensetracker.exceptions.BusinessException;
 import mx.kinich49.expensetracker.models.rest.ApiResponse;
 import mx.kinich49.expensetracker.models.web.TransactionWebModel;
 import mx.kinich49.expensetracker.models.web.requests.TransactionRequest;
@@ -54,9 +53,9 @@ public class TransactionController {
     }
 
     @GetMapping(params = "month")
-    public ResponseEntity<ApiError> getTransactions(@RequestParam(value = "month") int month) {
+    public ResponseEntity<ApiResponse<?>> getTransactions(@RequestParam(value = "month") int month) {
         return new ResponseEntity<>(
-                new ApiError("Parameter year is missing"),
+                new ApiResponse<>("Parameter year is missing"),
                 null,
                 HttpStatus.UNPROCESSABLE_ENTITY);
     }
@@ -67,9 +66,8 @@ public class TransactionController {
             TransactionWebModel webModel = service.addTransaction(request);
             ApiResponse<TransactionWebModel> response = new ApiResponse<>(webModel);
             return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (InvalidTransactionException e) {
-            ApiError apiError = new ApiError(e.getMessage());
-            return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
+        } catch (BusinessException e) {
+            return new ResponseEntity<>(new ApiResponse<>(e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
 

@@ -1,10 +1,21 @@
 package mx.kinich49.expensetracker.models.rest;
 
-import lombok.Data;
+import lombok.Getter;
 
-@Data
-public class ApiResponse<T> {
+public final class ApiResponse<T> {
 
+    @Getter
     private final T data;
+    @Getter
+    private final String error;
 
+    public ApiResponse(T data) {
+        this.data = data;
+        this.error = null;
+    }
+
+    public ApiResponse(String error) {
+        this.error = error;
+        this.data = null;
+    }
 }

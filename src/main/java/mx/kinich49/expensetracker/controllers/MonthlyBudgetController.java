@@ -1,10 +1,8 @@
 package mx.kinich49.expensetracker.controllers;
 
-import mx.kinich49.expensetracker.exceptions.InvalidMonthlyCategoryBudgetException;
-import mx.kinich49.expensetracker.models.rest.ApiError;
+import mx.kinich49.expensetracker.exceptions.BusinessException;
 import mx.kinich49.expensetracker.models.rest.ApiResponse;
 import mx.kinich49.expensetracker.models.web.MonthlyBudgetCategoryWebModel;
-import mx.kinich49.expensetracker.models.web.MonthlyBudgetWebModel;
 import mx.kinich49.expensetracker.models.web.SimpleMonthlyBudgetWebModel;
 import mx.kinich49.expensetracker.models.web.requests.MonthlyBudgetCategoryRequest;
 import mx.kinich49.expensetracker.models.web.requests.MonthlyBudgetRequest;
@@ -48,9 +46,8 @@ public class MonthlyBudgetController {
             MonthlyBudgetCategoryWebModel webModel = service.addMonthlyBudgetCategory(request);
             ApiResponse<MonthlyBudgetCategoryWebModel> response = new ApiResponse<>(webModel);
             return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (InvalidMonthlyCategoryBudgetException e) {
-            ApiError apiError = new ApiError(e.getMessage());
-            return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
+        } catch (BusinessException e) {
+            return new ResponseEntity<>(new ApiResponse<>(e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
 
