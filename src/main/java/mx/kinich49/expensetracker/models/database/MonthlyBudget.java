@@ -2,17 +2,21 @@ package mx.kinich49.expensetracker.models.database;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
+import mx.kinich49.expensetracker.models.database.converters.YearMonthDateAttributeConverter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@NoArgsConstructor
 @Entity(name = "Monthly_Budgets")
-@EqualsAndHashCode(of = {"id", "budgetDate"})
+@EqualsAndHashCode(of = {"id", "beginDate", "endDate"})
 @ToString(exclude = {"monthlyBudgetCategories"})
 public class MonthlyBudget {
 
@@ -22,7 +26,16 @@ public class MonthlyBudget {
     private Long id;
 
     @Column
-    private LocalDate budgetDate;
+    @Convert(
+            converter = YearMonthDateAttributeConverter.class
+    )
+    private YearMonth beginDate;
+
+    @Column
+    @Convert(
+            converter = YearMonthDateAttributeConverter.class
+    )
+    private YearMonth endDate;
 
     @Column
     private String title;
@@ -34,10 +47,9 @@ public class MonthlyBudget {
     )
     private List<MonthlyBudgetCategory> monthlyBudgetCategories = new ArrayList<>();
 
-    @ManyToOne
-    @JoinColumn(name = "monthly_income_id")
-    private MonthlyIncome monthlyIncome;
-
+//    @ManyToOne
+//    @JoinColumn(name = "monthly_income_id")
+//    private MonthlyIncome monthlyIncome;
 
     public void addMonthlyBudgetCategory(MonthlyBudgetCategory monthlyBudgetCategory) {
         monthlyBudgetCategory.setMonthlyBudget(this);

@@ -57,7 +57,35 @@
 			</exclusions>
 		</dependency>
 	</dependencies>
-
+	<profiles>
+		<profile>
+			<id>development</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<activeProperty>development</activeProperty>
+			</properties>
+		</profile>
+		<profile>
+			<id>test</id>
+			<properties>
+				<activeProperty>test</activeProperty>
+			</properties>
+		</profile>
+		<profile>
+			<id>production</id>
+			<properties>
+				<activeProperty>production</activeProperty>
+			</properties>
+		</profile>
+		<profile>
+			<id>local</id>
+			<properties>
+				<activeProperty>local</activeProperty>
+			</properties>
+		</profile>
+	</profiles>
 	<build>
 		<plugins>
 			<plugin>

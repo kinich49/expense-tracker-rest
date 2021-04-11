@@ -35,6 +35,7 @@ public class TransactionController {
             @RequestParam(value = "category_id") long categoryId,
             @RequestParam(value = "month") int month,
             @RequestParam(value = "year") int year) {
+        //TODO change two ints for YearMonth
         return Optional.ofNullable(service.findTransactionsByCategory(categoryId, month, year))
                 .map(ApiResponse::new)
                 .map(response -> new ResponseEntity<>(response, HttpStatus.OK))

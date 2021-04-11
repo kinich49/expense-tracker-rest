@@ -2,11 +2,12 @@ package mx.kinich49.expensetracker.models.web.requests;
 
 import lombok.Data;
 
-import java.time.LocalDate;
+import java.time.YearMonth;
 
 @Data
 public class MonthlyBudgetRequest {
 
-    private LocalDate budgetDate;
-
+    private YearMonth beginDate;
+    private YearMonth endDate;
+    private String title;
 }

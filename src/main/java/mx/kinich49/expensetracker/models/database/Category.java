@@ -28,18 +28,18 @@ public class Category {
             cascade = CascadeType.ALL)
     List<Transaction> transactions;
 
-//    @OneToMany(mappedBy = "category",
-//            cascade = CascadeType.ALL,
-//            orphanRemoval = true)
-//    private List<MonthlyBudgetCategory> monthlyBudgetCategories;
-//
-//    public void addMonthlyBudgetCategory(MonthlyBudgetCategory monthlyBudgetCategory) {
-//        monthlyBudgetCategory.setCategory(this);
-//        monthlyBudgetCategories.add(monthlyBudgetCategory);
-//    }
-//
-//    public void removeMonthlyBudgetCategory(MonthlyBudgetCategory monthlyBudgetCategory) {
-//        monthlyBudgetCategories.remove(monthlyBudgetCategory);
-//        monthlyBudgetCategory.setCategory(null);
-//    }
+    @OneToMany(mappedBy = "category",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private List<MonthlyBudgetCategory> monthlyBudgetCategories;
+
+    public void addMonthlyBudgetCategory(MonthlyBudgetCategory monthlyBudgetCategory) {
+        monthlyBudgetCategory.setCategory(this);
+        monthlyBudgetCategories.add(monthlyBudgetCategory);
+    }
+
+    public void removeMonthlyBudgetCategory(MonthlyBudgetCategory monthlyBudgetCategory) {
+        monthlyBudgetCategories.remove(monthlyBudgetCategory);
+        monthlyBudgetCategory.setCategory(null);
+    }
 }

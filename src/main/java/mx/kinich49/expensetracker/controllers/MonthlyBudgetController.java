@@ -28,16 +28,6 @@ public class MonthlyBudgetController {
         this.service = service;
     }
 
-    @GetMapping(params = {"month", "year"})
-    public ResponseEntity<ApiResponse<MonthlyBudgetWebModel>> getTransactionItems(
-            @RequestParam(value = "month") int month,
-            @RequestParam(value = "year") int year) {
-        return service.findMonthlyBudget(month, year)
-                .map(ApiResponse::new)
-                .map(response -> new ResponseEntity<>(response, HttpStatus.OK))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
-
     @PostMapping
     public ResponseEntity<ApiResponse<SimpleMonthlyBudgetWebModel>> addMonthlyBudget(
             @RequestBody MonthlyBudgetRequest request) {

@@ -11,8 +11,9 @@ import java.util.stream.Collectors;
 public class MonthlyBudgetCategoryWebModel {
 
     private final long id;
-    private final CategoryWebModel category;
     private final long budgetId;
+    private final CategoryWebModel category;
+
     private final String monthlyLimit;
 
     public static MonthlyBudgetCategoryWebModel from(MonthlyBudgetCategory monthlyBudgetCategory) {
@@ -28,8 +29,8 @@ public class MonthlyBudgetCategoryWebModel {
 
         return new MonthlyBudgetCategoryWebModel(
                 monthlyBudgetCategory.getId(),
-                category,
                 budgetId,
+                category,
                 monthlyLimitWithFormat
         );
     }

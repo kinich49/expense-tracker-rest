@@ -19,6 +19,8 @@ import mx.kinich49.expensetracker.services.validators.MonthlyCategoryBudgetValid
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.YearMonth;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -47,17 +49,25 @@ public class MonthlyBudgetServiceImpl implements MonthlyBudgetService {
     @Override
     public SimpleMonthlyBudgetWebModel insertMonthlyBudget(MonthlyBudgetRequest request) {
         MonthlyBudget monthlyBudget = new MonthlyBudget();
-        monthlyBudget.setBudgetDate(request.getBudgetDate());
+        monthlyBudget.setBeginDate(request.getBeginDate());
+        monthlyBudget.setEndDate(request.getEndDate());
+        monthlyBudget.setTitle(request.getTitle());
 
         monthlyBudget = monthlyBudgetRepository.save(monthlyBudget);
 
         return SimpleMonthlyBudgetWebModel.from(monthlyBudget);
     }
 
+
     @Override
-    public Optional<MonthlyBudgetWebModel> findMonthlyBudget(int month, int year) {
-        return monthlyIncomeRepository.customFind(month, year)
-                .map(MonthlyBudgetWebModel::from);
+    public Optional<MonthlyBudgetWebModel> findMonthlyBudgets(YearMonth date) {
+        //TODO throw BusinessException instead
+        MonthlyIncome monthlyIncome = monthlyIncomeRepository.findByActive(true)
+                .orElseThrow(() -> new RuntimeException("No active income found"));
+
+        List<MonthlyBudget> monthlyBudgets = monthlyBudgetRepository.findByDate(date);
+
+        return Optional.ofNullable(MonthlyBudgetWebModel.from(monthlyIncome, monthlyBudgets));
     }
 
     @Override
@@ -67,11 +77,14 @@ public class MonthlyBudgetServiceImpl implements MonthlyBudgetService {
 
         if (!optMonthlyBudget.isPresent()) {
             String error = String.format("Monthly Budget with id %1$d not found", request.getBudgetId());
+            //TODO throw BusinessException instead
             throw new InvalidMonthlyCategoryBudgetException(error);
         }
 
         MonthlyBudget monthlyBudget = optMonthlyBudget.get();
-        MonthlyIncome monthlyIncome = monthlyBudget.getMonthlyIncome();
+        //TODO throw BusinessException instead
+        MonthlyIncome monthlyIncome = monthlyIncomeRepository.findByActive(true)
+                .orElseThrow(() -> new RuntimeException("No active income found"));
 
         Optional<Category> optCategory = categoryRepository.findById(request.getCategoryId());
 
@@ -82,9 +95,18 @@ public class MonthlyBudgetServiceImpl implements MonthlyBudgetService {
 
         Category category = optCategory.get();
 
-        if (!monthlyCategoryBudgetValidator.isLimitValid(request, monthlyIncome)) {
+        List<MonthlyBudget> monthlyBudgets = monthlyBudgetRepository.findByDate(request.getYearMonth());
+
+        if (monthlyBudgets == null || monthlyBudgets.isEmpty()) {
+            //TODO throw BusinessException instead
+            String error = String.format("Can't find monthly budgets for %s", request.getYearMonth().toString());
+            throw new RuntimeException(error);
+        }
+
+        if (!monthlyCategoryBudgetValidator.isLimitValid(request, monthlyIncome, monthlyBudgets)) {
             String error = String.format("Setting %1$d as limit puts you over your monthly limit",
                     request.getMonthlyLimit());
+            //TODO throw BusinessException instead
             throw new InvalidMonthlyCategoryBudgetException(error);
         }
 

@@ -7,13 +7,14 @@ import mx.kinich49.expensetracker.models.web.SimpleMonthlyBudgetWebModel;
 import mx.kinich49.expensetracker.models.web.requests.MonthlyBudgetCategoryRequest;
 import mx.kinich49.expensetracker.models.web.requests.MonthlyBudgetRequest;
 
+import java.time.YearMonth;
 import java.util.Optional;
 
 public interface MonthlyBudgetService {
 
     SimpleMonthlyBudgetWebModel insertMonthlyBudget(MonthlyBudgetRequest request);
 
-    Optional<MonthlyBudgetWebModel> findMonthlyBudget(int month, int year);
+    Optional<MonthlyBudgetWebModel> findMonthlyBudgets(YearMonth date);
 
     MonthlyBudgetCategoryWebModel addMonthlyBudgetCategory(MonthlyBudgetCategoryRequest request)
             throws InvalidMonthlyCategoryBudgetException;

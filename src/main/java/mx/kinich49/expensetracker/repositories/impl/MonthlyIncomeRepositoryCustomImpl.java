@@ -18,8 +18,8 @@ public class MonthlyIncomeRepositoryCustomImpl implements MonthlyIncomeRepositor
                 "FROM Monthly_Incomes mi " +
                 "INNER JOIN Monthly_Budgets mb " +
                 "ON mi.id = mb.monthlyIncome.id " +
-                "WHERE month(mb.budgetDate) =:month " +
-                "AND year(mb.budgetDate) =:year";
+                "WHERE month(mb.beginDate) =:month " +
+                "AND year(mb.beginDate) =:year";
 
         MonthlyIncome monthlyIncome = entityManager.createQuery(query, MonthlyIncome.class)
                 .setParameter("month", month)

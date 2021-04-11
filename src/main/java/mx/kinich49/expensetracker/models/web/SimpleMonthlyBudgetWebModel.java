@@ -6,6 +6,7 @@ import mx.kinich49.expensetracker.models.database.MonthlyBudget;
 
 import java.text.DecimalFormat;
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,8 +18,12 @@ public class SimpleMonthlyBudgetWebModel {
 
     private final long id;
     private final String title;
-    private final LocalDate budgetDate;
+
+    private final YearMonth beginDate;
+    private final YearMonth endDate;
+
     private final String monthlyLimit;
+
     private final List<MonthlyBudgetCategoryWebModel> monthlyBudgetCategories;
 
     public static SimpleMonthlyBudgetWebModel from(MonthlyBudget monthlyBudget) {
@@ -29,9 +34,11 @@ public class SimpleMonthlyBudgetWebModel {
                 .from(monthlyBudget.getMonthlyBudgetCategories());
 
         String monthlyLimitWithFormat = formatLimit(monthlyBudget.getMonthlyLimit(), "MXN");
+
         return new SimpleMonthlyBudgetWebModel(monthlyBudget.getId(),
                 monthlyBudget.getTitle(),
-                monthlyBudget.getBudgetDate(),
+                monthlyBudget.getBeginDate(),
+                monthlyBudget.getEndDate(),
                 monthlyLimitWithFormat,
                 monthlyBudgetCategories);
     }
@@ -47,6 +54,7 @@ public class SimpleMonthlyBudgetWebModel {
 
     public static String formatLimit(int limit, String currency) {
         double scaledLimit = transformLimit(limit);
+
         return String.format("%1$s%2$s %3$s",
                 "$", LIMIT_FORMAT.format(scaledLimit), currency);
     }

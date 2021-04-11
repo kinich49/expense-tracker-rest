@@ -7,6 +7,7 @@ import mx.kinich49.expensetracker.models.web.requests.MonthlyBudgetCategoryReque
 import mx.kinich49.expensetracker.services.validators.MonthlyCategoryBudgetValidator;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -14,12 +15,14 @@ import java.util.stream.Stream;
 public class MonthlyCategoryBudgetValidatorImpl implements MonthlyCategoryBudgetValidator {
 
     @Override
-    public boolean isLimitValid(MonthlyBudgetCategoryRequest request, MonthlyIncome monthlyIncome) {
+    public boolean isLimitValid(MonthlyBudgetCategoryRequest request,
+                                MonthlyIncome monthlyIncome,
+                                List<MonthlyBudget> monthlyBudgets) {
         int expenseLimit = monthlyIncome.getUpperIncomeLimit();
         long categoryId = request.getCategoryId();
         long monthlyCategoryLimit = request.getMonthlyLimit();
 
-        int currentLimit = monthlyIncome.getMonthlyBudgets().stream()
+        int currentLimit = monthlyBudgets.stream()
                 .flatMap((Function<MonthlyBudget, Stream<MonthlyBudgetCategory>>) monthlyBudget ->
                         monthlyBudget.getMonthlyBudgetCategories().stream())
                 .filter(monthlyBudgetCategory -> monthlyBudgetCategory.getCategory().getId() != categoryId)
