@@ -36,13 +36,15 @@ public class MonthlyBudgeCategoryRequestConditionImpl
     public Optional<String> assertCondition(Parameter param) {
         MonthlyBudgetCategoryRequest request = param.request;
 
-        if (param.request == null)
+        if (request == null)
             return Optional.of("Request must not be null");
 
         boolean budgetExists = monthlyBudgetRepository.existsById(request.getBudgetId());
         boolean categoryExists = categoryRepository.existsById(request.getCategoryId());
 
-        if (budgetExists && categoryExists)
+        boolean monthlyLimitIsPresent = request.getMonthlyLimit() > 0;
+
+        if (budgetExists && categoryExists && monthlyLimitIsPresent)
             return Optional.empty();
 
         StringBuilder stringBuilder = new StringBuilder();
@@ -53,7 +55,10 @@ public class MonthlyBudgeCategoryRequestConditionImpl
         if (!categoryExists)
             stringBuilder.append(String.format("Category with id: %d not found. ", request.getCategoryId()));
 
-        return Optional.of(stringBuilder.toString());
+        if (!monthlyLimitIsPresent)
+            stringBuilder.append("Monthly limit is not set.");
+
+        return Optional.of(stringBuilder.toString().trim());
     }
 
     @Data
