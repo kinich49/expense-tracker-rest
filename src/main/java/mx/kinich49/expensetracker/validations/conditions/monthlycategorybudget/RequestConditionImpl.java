@@ -1,4 +1,4 @@
-package mx.kinich49.expensetracker.validations.conditions;
+package mx.kinich49.expensetracker.validations.conditions.monthlycategorybudget;
 
 import lombok.Data;
 import mx.kinich49.expensetracker.models.web.requests.MonthlyBudgetCategoryRequest;
@@ -12,15 +12,14 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
-public class MonthlyBudgeCategoryRequestConditionImpl
-        implements Condition<MonthlyBudgeCategoryRequestConditionImpl.Parameter> {
+public class RequestConditionImpl implements Condition<RequestConditionImpl.Parameter> {
 
     private final MonthlyBudgetRepository monthlyBudgetRepository;
     private final CategoryRepository categoryRepository;
 
     @Autowired
-    public MonthlyBudgeCategoryRequestConditionImpl(MonthlyBudgetRepository monthlyBudgetRepository,
-                                                    CategoryRepository categoryRepository) {
+    public RequestConditionImpl(MonthlyBudgetRepository monthlyBudgetRepository,
+                                CategoryRepository categoryRepository) {
         this.monthlyBudgetRepository = monthlyBudgetRepository;
         this.categoryRepository = categoryRepository;
     }

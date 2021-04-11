@@ -8,8 +8,9 @@ import mx.kinich49.expensetracker.models.database.MonthlyIncome;
 import mx.kinich49.expensetracker.models.web.requests.MonthlyBudgetCategoryRequest;
 import mx.kinich49.expensetracker.validations.Validator;
 import mx.kinich49.expensetracker.validations.ValidatorParameter;
-import mx.kinich49.expensetracker.validations.conditions.MonthlyBudgeCategoryRequestConditionImpl;
-import mx.kinich49.expensetracker.validations.conditions.MonthlyCategoryLimitConditionImpl;
+import mx.kinich49.expensetracker.validations.conditions.monthlycategorybudget.RequestConditionImpl;
+import mx.kinich49.expensetracker.validations.conditions.monthlycategorybudget.BudgetsConditionImpl;
+import mx.kinich49.expensetracker.validations.conditions.monthlycategorybudget.LimitConditionImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,25 +22,36 @@ import java.util.stream.Stream;
 @Component
 public class MonthlyCategoryBudgetValidatorImpl implements Validator<MonthlyCategoryBudgetValidatorImpl.Parameter> {
 
-    private final MonthlyBudgeCategoryRequestConditionImpl monthlyCategoryBudgetCondition;
-    private final MonthlyCategoryLimitConditionImpl monthlyCategoryLimitCondition;
+    private final RequestConditionImpl monthlyCategoryBudgetCondition;
+    private final LimitConditionImpl monthlyCategoryLimitCondition;
+    private final BudgetsConditionImpl monthlyCategoryBudgetBudgetsCondition;
 
     @Autowired
-    public MonthlyCategoryBudgetValidatorImpl(MonthlyBudgeCategoryRequestConditionImpl monthlyCategoryBudgetCondition,
-                                              MonthlyCategoryLimitConditionImpl monthlyCategoryLimitCondition) {
+    public MonthlyCategoryBudgetValidatorImpl(RequestConditionImpl monthlyCategoryBudgetCondition,
+                                              LimitConditionImpl monthlyCategoryLimitCondition,
+                                              BudgetsConditionImpl monthlyCategoryBudgetBudgetsCondition) {
         this.monthlyCategoryBudgetCondition = monthlyCategoryBudgetCondition;
         this.monthlyCategoryLimitCondition = monthlyCategoryLimitCondition;
+        this.monthlyCategoryBudgetBudgetsCondition = monthlyCategoryBudgetBudgetsCondition;
     }
 
     @Override
     public void validate(Parameter param) throws BusinessException {
 
-        Optional<String> requestResult = monthlyCategoryBudgetCondition
-                .assertCondition(new MonthlyBudgeCategoryRequestConditionImpl.Parameter(param.request));
+        Optional<String> requestConditionResult = monthlyCategoryBudgetCondition
+                .assertCondition(new RequestConditionImpl.Parameter(param.request));
 
-        if (requestResult.isPresent()) {
-            throw new BusinessException(requestResult.get());
+        if (requestConditionResult.isPresent()) {
+            throw new BusinessException(requestConditionResult.get());
         }
+
+        Optional<String> budgetsConditionResult = monthlyCategoryBudgetBudgetsCondition
+                .assertCondition(new BudgetsConditionImpl.Parameter(param.monthlyBudgets));
+
+        if (budgetsConditionResult.isPresent()) {
+            throw new BusinessException(budgetsConditionResult.get());
+        }
+
         int expenseLimit = param.monthlyIncome.getUpperIncomeLimit();
         long categoryId = param.request.getCategoryId();
         int monthlyCategoryLimit = param.request.getMonthlyLimit();
@@ -51,8 +63,8 @@ public class MonthlyCategoryBudgetValidatorImpl implements Validator<MonthlyCate
                 .mapToInt(MonthlyBudgetCategory::getMonthlyLimit)
                 .reduce(0, Integer::sum);
 
-        MonthlyCategoryLimitConditionImpl.Parameter monthlyCategoryLimitParameter =
-                new MonthlyCategoryLimitConditionImpl.Parameter(currentLimit, monthlyCategoryLimit, expenseLimit);
+        LimitConditionImpl.Parameter monthlyCategoryLimitParameter =
+                new LimitConditionImpl.Parameter(currentLimit, monthlyCategoryLimit, expenseLimit);
         Optional<String> monthlyCategoryLimitResult = monthlyCategoryLimitCondition.assertCondition(monthlyCategoryLimitParameter);
 
         if (monthlyCategoryLimitResult.isPresent())

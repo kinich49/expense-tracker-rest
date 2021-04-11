@@ -1,8 +1,9 @@
-package mx.kinich49.expensetracker.validations.conditions;
+package mx.kinich49.expensetracker.validations.conditions.monthlycategorybudget;
 
 import mx.kinich49.expensetracker.models.web.requests.MonthlyBudgetCategoryRequest;
 import mx.kinich49.expensetracker.repositories.CategoryRepository;
 import mx.kinich49.expensetracker.repositories.MonthlyBudgetRepository;
+import mx.kinich49.expensetracker.validations.conditions.monthlycategorybudget.RequestConditionImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,10 +19,10 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class MonthlyBudgetCategoryRequestCondition {
+public class RequestConditionTest {
 
     @InjectMocks
-    private MonthlyBudgeCategoryRequestConditionImpl subject;
+    private RequestConditionImpl subject;
 
     @Mock
     MonthlyBudgetRepository monthlyBudgetRepository;
@@ -45,8 +46,8 @@ public class MonthlyBudgetCategoryRequestCondition {
         request.setMonthlyLimit(1_000);
         request.setYearMonth(YearMonth.of(2020, 12));
 
-        MonthlyBudgeCategoryRequestConditionImpl.Parameter parameter =
-                new MonthlyBudgeCategoryRequestConditionImpl.Parameter(request);
+        RequestConditionImpl.Parameter parameter =
+                new RequestConditionImpl.Parameter(request);
 
         when(monthlyBudgetRepository.existsById(eq(1L)))
                 .thenReturn(true);
@@ -63,8 +64,8 @@ public class MonthlyBudgetCategoryRequestCondition {
     @DisplayName("Should return error message when request is null")
     public void shouldReturnErrorMessage_when_requestIsNull() {
         //given
-        MonthlyBudgeCategoryRequestConditionImpl.Parameter parameter =
-                new MonthlyBudgeCategoryRequestConditionImpl.Parameter(null);
+        RequestConditionImpl.Parameter parameter =
+                new RequestConditionImpl.Parameter(null);
 
         //when
         Optional<String> result = subject.assertCondition(parameter);
@@ -83,8 +84,8 @@ public class MonthlyBudgetCategoryRequestCondition {
         request.setMonthlyLimit(1_000);
         request.setYearMonth(YearMonth.of(2020, 12));
 
-        MonthlyBudgeCategoryRequestConditionImpl.Parameter parameter =
-                new MonthlyBudgeCategoryRequestConditionImpl.Parameter(request);
+        RequestConditionImpl.Parameter parameter =
+                new RequestConditionImpl.Parameter(request);
 
         when(monthlyBudgetRepository.existsById(eq(0L)))
                 .thenReturn(false);
@@ -108,8 +109,8 @@ public class MonthlyBudgetCategoryRequestCondition {
         request.setMonthlyLimit(1_000);
         request.setYearMonth(YearMonth.of(2020, 12));
 
-        MonthlyBudgeCategoryRequestConditionImpl.Parameter parameter =
-                new MonthlyBudgeCategoryRequestConditionImpl.Parameter(request);
+        RequestConditionImpl.Parameter parameter =
+                new RequestConditionImpl.Parameter(request);
 
         when(monthlyBudgetRepository.existsById(eq(1L)))
                 .thenReturn(true);
@@ -132,8 +133,8 @@ public class MonthlyBudgetCategoryRequestCondition {
         request.setCategoryId(1L);
         request.setYearMonth(YearMonth.of(2020, 12));
 
-        MonthlyBudgeCategoryRequestConditionImpl.Parameter parameter =
-                new MonthlyBudgeCategoryRequestConditionImpl.Parameter(request);
+        RequestConditionImpl.Parameter parameter =
+                new RequestConditionImpl.Parameter(request);
 
         when(monthlyBudgetRepository.existsById(eq(1L)))
                 .thenReturn(true);

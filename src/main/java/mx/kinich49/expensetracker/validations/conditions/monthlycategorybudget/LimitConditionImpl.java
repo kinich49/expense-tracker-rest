@@ -1,4 +1,4 @@
-package mx.kinich49.expensetracker.validations.conditions;
+package mx.kinich49.expensetracker.validations.conditions.monthlycategorybudget;
 
 import lombok.Data;
 import mx.kinich49.expensetracker.validations.Condition;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
-public class MonthlyCategoryLimitConditionImpl implements Condition<MonthlyCategoryLimitConditionImpl.Parameter> {
+public class LimitConditionImpl implements Condition<LimitConditionImpl.Parameter> {
 
     /**
      * Condition to pass: the sum of the new monthly category limit

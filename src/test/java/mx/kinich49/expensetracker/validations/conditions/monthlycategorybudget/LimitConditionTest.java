@@ -1,5 +1,6 @@
-package mx.kinich49.expensetracker.validations.conditions;
+package mx.kinich49.expensetracker.validations.conditions.monthlycategorybudget;
 
+import mx.kinich49.expensetracker.validations.conditions.monthlycategorybudget.LimitConditionImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,10 +12,10 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
-public class MonthlyCategoryLimitConditionTest {
+public class LimitConditionTest {
 
     @InjectMocks
-    MonthlyCategoryLimitConditionImpl subject;
+    LimitConditionImpl subject;
 
     @Test
     @DisplayName("Sanity test")
@@ -26,8 +27,8 @@ public class MonthlyCategoryLimitConditionTest {
     @DisplayName("Should return error message when accumulated limit is greater than expense limit")
     public void shouldReturnMessage_when_accumulatedLimitIsNotValid() {
         //given
-        MonthlyCategoryLimitConditionImpl.Parameter parameter = new
-                MonthlyCategoryLimitConditionImpl.Parameter(1000, 500, 1200);
+        LimitConditionImpl.Parameter parameter = new
+                LimitConditionImpl.Parameter(1000, 500, 1200);
 
         //when
         Optional<String> result = subject.assertCondition(parameter);
@@ -35,15 +36,14 @@ public class MonthlyCategoryLimitConditionTest {
         //then
         assertTrue(result.isPresent());
         assertEquals("The limit 500 goes over the top of your monthly expense limit of 1200", result.get());
-
     }
 
     @Test
     @DisplayName("Should return empty when accumulated limit is less than expense limit ")
     public void shouldReturnEmpty_when_accumulatedIsLessThanExpenseLimit(){
         //given
-        MonthlyCategoryLimitConditionImpl.Parameter parameter = new
-                MonthlyCategoryLimitConditionImpl.Parameter(1000, 500, 2000);
+        LimitConditionImpl.Parameter parameter = new
+                LimitConditionImpl.Parameter(1000, 500, 2000);
 
         //when
         Optional<String> result = subject.assertCondition(parameter);
@@ -55,8 +55,8 @@ public class MonthlyCategoryLimitConditionTest {
     @DisplayName("Should return empty when accumulated limit is equals than expense limit ")
     public void shouldReturnEmpty_when_accumulatedIsEqualsThanExpenseLimit(){
         //given
-        MonthlyCategoryLimitConditionImpl.Parameter parameter = new
-                MonthlyCategoryLimitConditionImpl.Parameter(1000, 500, 1500);
+        LimitConditionImpl.Parameter parameter = new
+                LimitConditionImpl.Parameter(1000, 500, 1500);
 
         //when
         Optional<String> result = subject.assertCondition(parameter);
