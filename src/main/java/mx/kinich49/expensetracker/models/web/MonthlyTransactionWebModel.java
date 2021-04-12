@@ -4,6 +4,7 @@ import lombok.Data;
 import mx.kinich49.expensetracker.models.database.Transaction;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,7 +16,7 @@ public class MonthlyTransactionWebModel {
     private final String title;
     private final String memo;
     private final long amount;
-    private final LocalDate dateCreated;
+    private final LocalDateTime dateCreated;
 
     public static MonthlyTransactionWebModel from(Transaction transaction) {
         if (transaction == null)

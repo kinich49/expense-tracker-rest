@@ -2,7 +2,7 @@ package mx.kinich49.expensetracker.models.web.requests;
 
 import lombok.Data;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 public class TransactionRequest {
@@ -11,5 +11,5 @@ public class TransactionRequest {
     private String title;
     private String memo;
     private int amount;
-    private LocalDate dateCreated;
+    private LocalDateTime dateCreated;
 }

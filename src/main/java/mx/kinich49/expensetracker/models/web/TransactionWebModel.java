@@ -3,7 +3,7 @@ package mx.kinich49.expensetracker.models.web;
 import lombok.Data;
 import mx.kinich49.expensetracker.models.database.Transaction;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,7 +15,7 @@ public class TransactionWebModel {
     private final String title;
     private final String memo;
     private final int amount;
-    private final LocalDate transactionDate;
+    private final LocalDateTime transactionDate;
     private final CategoryWebModel category;
 
     public static TransactionWebModel from(Transaction transaction) {

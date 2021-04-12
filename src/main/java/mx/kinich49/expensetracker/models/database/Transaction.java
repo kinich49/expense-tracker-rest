@@ -5,7 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Entity(name = "Transactions")
@@ -29,6 +29,6 @@ public class Transaction {
     private int amount;
 
     @NotNull
-    private LocalDate transactionDate;
+    private LocalDateTime transactionDate;
 
 }
