@@ -60,10 +60,9 @@ public class MonthlyBudgetServiceImpl implements MonthlyBudgetService {
 
 
     @Override
-    public Optional<MonthlyBudgetWebModel> findMonthlyBudgets(YearMonth date) {
-        //TODO throw BusinessException instead
+    public Optional<MonthlyBudgetWebModel> findMonthlyBudgets(YearMonth date) throws BusinessException{
         MonthlyIncome monthlyIncome = monthlyIncomeRepository.findByActive(true)
-                .orElseThrow(() -> new RuntimeException("No active income found"));
+                .orElseThrow(() -> new BusinessException("No active income found"));
 
         List<MonthlyBudget> monthlyBudgets = monthlyBudgetRepository.findByDate(date);
 
@@ -81,9 +80,8 @@ public class MonthlyBudgetServiceImpl implements MonthlyBudgetService {
         }
 
         MonthlyBudget monthlyBudget = optMonthlyBudget.get();
-        //TODO throw BusinessException instead
         MonthlyIncome monthlyIncome = monthlyIncomeRepository.findByActive(true)
-                .orElseThrow(() -> new RuntimeException("No active income found"));
+                .orElseThrow(() -> new BusinessException("No active income found"));
 
         Optional<Category> optCategory = categoryRepository.findById(request.getCategoryId());
 

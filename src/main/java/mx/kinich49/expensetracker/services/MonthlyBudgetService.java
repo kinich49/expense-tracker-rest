@@ -14,7 +14,7 @@ public interface MonthlyBudgetService {
 
     SimpleMonthlyBudgetWebModel insertMonthlyBudget(MonthlyBudgetRequest request);
 
-    Optional<MonthlyBudgetWebModel> findMonthlyBudgets(YearMonth date);
+    Optional<MonthlyBudgetWebModel> findMonthlyBudgets(YearMonth date) throws BusinessException;
 
     MonthlyBudgetCategoryWebModel addMonthlyBudgetCategory(MonthlyBudgetCategoryRequest request)
             throws BusinessException;

@@ -3,7 +3,6 @@ package mx.kinich49.expensetracker.controllers;
 import mx.kinich49.expensetracker.exceptions.BusinessException;
 import mx.kinich49.expensetracker.models.rest.ApiResponse;
 import mx.kinich49.expensetracker.models.web.MonthlyBudgetCategoryWebModel;
-import mx.kinich49.expensetracker.models.web.MonthlyBudgetWebModel;
 import mx.kinich49.expensetracker.models.web.SimpleMonthlyBudgetWebModel;
 import mx.kinich49.expensetracker.models.web.requests.MonthlyBudgetCategoryRequest;
 import mx.kinich49.expensetracker.models.web.requests.MonthlyBudgetRequest;
@@ -30,13 +29,17 @@ public class MonthlyBudgetController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<MonthlyBudgetWebModel>> getMonthlyBudgets(@RequestParam
-                                                                                @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-                                                                                        YearMonth date) {
-        return service.findMonthlyBudgets(date)
-                .map(ApiResponse::new)
-                .map(response -> new ResponseEntity<>(response, HttpStatus.OK))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public ResponseEntity<?> getMonthlyBudgets(@RequestParam
+                                               @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                                                       YearMonth date) {
+        try {
+            return service.findMonthlyBudgets(date)
+                    .map(ApiResponse::new)
+                    .map(response -> new ResponseEntity<>(response, HttpStatus.OK))
+                    .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        } catch (BusinessException e) {
+            return new ResponseEntity<>(new ApiResponse<>(e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PostMapping
