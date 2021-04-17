@@ -60,8 +60,9 @@ public class MonthlyIncomeRepositoryTest {
     /**
      * Asserts that the expected YearMonth is equal or after
      * the result's beginDate
+     *
      * @param expected the expected year month yyyy-MM
-     * @param result the subject's result
+     * @param result   the subject's result
      */
     private void assertBeginDate(YearMonth expected, MonthlyIncome result) {
         assertNotNull(result);
@@ -105,5 +106,26 @@ public class MonthlyIncomeRepositoryTest {
 
         //then
         assertFalse(optResult.isPresent());
+    }
+
+    /**
+     * This test should try to validate
+     * that a monthly income exists for two dates
+     * and doesn't exists for one date
+     * <p>
+     * The data is in /resources/test.sql
+     */
+    @Test
+    @DisplayName("Validate exists by given date")
+    public void validate_existsByDate() {
+        //given
+        YearMonth now = YearMonth.now();
+        YearMonth date_1999_01 = YearMonth.of(1999, 1);
+        YearMonth date_2020_01 = YearMonth.of(2020, 1);
+
+        //when and then
+        assertTrue(subject.existsByBeginDate(now));
+        assertFalse(subject.existsByBeginDate(date_1999_01));
+        assertTrue(subject.existsByBeginDate(date_2020_01));
     }
 }
