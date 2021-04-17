@@ -37,7 +37,7 @@ public class CategoryController {
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @GetMapping("/id/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<CategoryWebModel>> getCategory(@PathVariable("id") long categoryId) {
         return categoryService.findCategoryAndTransactions(categoryId)
                 .map(ApiResponse::new)

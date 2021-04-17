@@ -2,10 +2,13 @@ package mx.kinich49.expensetracker.models.database;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import mx.kinich49.expensetracker.models.database.converters.YearMonthDateAttributeConverter;
+import mx.kinich49.expensetracker.models.web.requests.MonthlyIncomeRequest;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.YearMonth;
 
 @Data
 @NoArgsConstructor
@@ -22,23 +25,26 @@ public class MonthlyIncome {
     private int upperIncomeLimit;
 
     @Column
+    @Convert(
+            converter = YearMonthDateAttributeConverter.class
+    )
     @NotNull
-    private boolean active;
+    private YearMonth beginDate;
 
-//    @OneToMany(
-//            mappedBy = "monthlyIncome",
-//            cascade = CascadeType.ALL,
-//            orphanRemoval = true
-//    )
-//    private List<MonthlyBudget> monthlyBudgets = new ArrayList<>();
-//
-//    public void addMonthlyBudget(MonthlyBudget monthlyBudget) {
-//        monthlyBudget.setMonthlyIncome(this);
-//        monthlyBudgets.add(monthlyBudget);
-//    }
-//
-//    public void removeMonthlyBudgetCategory(MonthlyBudget monthlyBudget) {
-//        monthlyBudgets.remove(monthlyBudget);
-//        monthlyBudget.setMonthlyIncome(null);
-//    }
+    @Column
+    @Convert(
+            converter = YearMonthDateAttributeConverter.class
+    )
+    private YearMonth endDate;
+
+
+    public static MonthlyIncome from(MonthlyIncomeRequest request) {
+        MonthlyIncome monthlyIncome = new MonthlyIncome();
+
+        monthlyIncome.setBeginDate(request.getBeginDate());
+        monthlyIncome.setEndDate(request.getEndDate());
+        monthlyIncome.setUpperIncomeLimit(request.getUpperIncomeLimit());
+
+        return monthlyIncome;
+    }
 }

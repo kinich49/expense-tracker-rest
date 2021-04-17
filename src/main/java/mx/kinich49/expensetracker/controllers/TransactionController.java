@@ -71,7 +71,7 @@ public class TransactionController {
         }
     }
 
-    @DeleteMapping(value = "/id/{id}")
+    @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteTransaction(@PathVariable(value = "id") long transactionId) {
         repository.deleteById(transactionId);
