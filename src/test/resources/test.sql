@@ -8,6 +8,8 @@ INSERT INTO Categories(name, color) VALUES ('Savings', '#3CE326')
 INSERT INTO Categories(name, color) VALUES ('Services', '#4BDCDB')
 
 INSERT INTO Monthly_Incomes(upper_income_limit, begin_date) VALUES (1000000, '2020-10-01')
+INSERT INTO Monthly_Incomes(upper_income_limit, begin_date, end_date) VALUES (800000, '2020-01-01', '2020-06-30')
+INSERT INTO Monthly_Incomes(upper_income_limit, begin_date, end_date) VALUES (900000, '2020-07-01', '2020-09-30')
 
 INSERT INTO Monthly_Budgets(begin_date, end_date, title) VALUES ('2020-10-01', '2021-01-31', 'Non-Fixed Expenses')
 INSERT INTO Monthly_Budgets(begin_date, title) VALUES ('2020-12-01', 'Fixed Expenses')
