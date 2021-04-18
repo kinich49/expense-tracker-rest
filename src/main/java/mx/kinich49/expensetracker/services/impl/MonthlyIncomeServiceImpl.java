@@ -6,6 +6,7 @@ import mx.kinich49.expensetracker.models.web.MonthlyIncomeWebModel;
 import mx.kinich49.expensetracker.models.web.requests.MonthlyIncomeRequest;
 import mx.kinich49.expensetracker.repositories.MonthlyIncomeRepository;
 import mx.kinich49.expensetracker.services.MonthlyIncomeService;
+import mx.kinich49.expensetracker.validations.validators.monthlyincome.MonthlyIncomeValidatorImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,23 +16,21 @@ import java.util.Optional;
 public class MonthlyIncomeServiceImpl implements MonthlyIncomeService {
 
     private final MonthlyIncomeRepository monthlyIncomeRepository;
+    private final MonthlyIncomeValidatorImpl monthlyIncomeValidator;
 
     @Autowired
-    public MonthlyIncomeServiceImpl(MonthlyIncomeRepository monthlyIncomeRepository) {
+    public MonthlyIncomeServiceImpl(MonthlyIncomeRepository monthlyIncomeRepository,
+                                    MonthlyIncomeValidatorImpl monthlyIncomeValidator) {
         this.monthlyIncomeRepository = monthlyIncomeRepository;
+        this.monthlyIncomeValidator = monthlyIncomeValidator;
     }
 
     @Override
     public MonthlyIncomeWebModel addMonthlyIncome(MonthlyIncomeRequest request) throws BusinessException {
-        Optional<MonthlyIncome> collusion = monthlyIncomeRepository.collides(request.getBeginDate(), request.getEndDate());
-        if (collusion.isPresent()) {
-            String message = String.format("Monthly Income with id: %1$d collides with request.",
-                    collusion.get().getId());
-            throw new BusinessException(message);
-        }
+        MonthlyIncomeValidatorImpl.Parameter parameter = new MonthlyIncomeValidatorImpl.Parameter(request);
+        monthlyIncomeValidator.validate(parameter);
 
         MonthlyIncome monthlyIncome = monthlyIncomeRepository.save(MonthlyIncome.from(request));
-
         return MonthlyIncomeWebModel.from(monthlyIncome);
     }
 

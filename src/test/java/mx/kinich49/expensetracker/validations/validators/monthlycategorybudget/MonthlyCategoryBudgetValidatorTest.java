@@ -1,4 +1,4 @@
-package mx.kinich49.expensetracker.validations.validators;
+package mx.kinich49.expensetracker.validations.validators.monthlycategorybudget;
 
 import mx.kinich49.expensetracker.exceptions.BusinessException;
 import mx.kinich49.expensetracker.models.database.MonthlyBudget;
@@ -7,6 +7,7 @@ import mx.kinich49.expensetracker.models.web.requests.MonthlyBudgetCategoryReque
 import mx.kinich49.expensetracker.validations.conditions.monthlycategorybudget.BudgetsConditionImpl;
 import mx.kinich49.expensetracker.validations.conditions.monthlycategorybudget.LimitConditionImpl;
 import mx.kinich49.expensetracker.validations.conditions.monthlycategorybudget.RequestConditionImpl;
+import mx.kinich49.expensetracker.validations.validators.monthlycategorybudget.MonthlyCategoryBudgetValidatorImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

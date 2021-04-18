@@ -3,7 +3,6 @@ package mx.kinich49.expensetracker.models.web;
 import lombok.Data;
 import mx.kinich49.expensetracker.models.database.Transaction;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;

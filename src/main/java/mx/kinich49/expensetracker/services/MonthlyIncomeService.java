@@ -4,7 +4,6 @@ import mx.kinich49.expensetracker.exceptions.BusinessException;
 import mx.kinich49.expensetracker.models.web.MonthlyIncomeWebModel;
 import mx.kinich49.expensetracker.models.web.requests.MonthlyIncomeRequest;
 
-import java.time.YearMonth;
 import java.util.Optional;
 
 public interface MonthlyIncomeService {

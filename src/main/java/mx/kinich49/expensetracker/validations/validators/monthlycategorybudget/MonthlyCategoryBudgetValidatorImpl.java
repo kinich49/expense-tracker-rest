@@ -1,4 +1,4 @@
-package mx.kinich49.expensetracker.validations.validators;
+package mx.kinich49.expensetracker.validations.validators.monthlycategorybudget;
 
 import lombok.RequiredArgsConstructor;
 import mx.kinich49.expensetracker.exceptions.BusinessException;
@@ -8,9 +8,9 @@ import mx.kinich49.expensetracker.models.database.MonthlyIncome;
 import mx.kinich49.expensetracker.models.web.requests.MonthlyBudgetCategoryRequest;
 import mx.kinich49.expensetracker.validations.Validator;
 import mx.kinich49.expensetracker.validations.ValidatorParameter;
-import mx.kinich49.expensetracker.validations.conditions.monthlycategorybudget.RequestConditionImpl;
 import mx.kinich49.expensetracker.validations.conditions.monthlycategorybudget.BudgetsConditionImpl;
 import mx.kinich49.expensetracker.validations.conditions.monthlycategorybudget.LimitConditionImpl;
+import mx.kinich49.expensetracker.validations.conditions.monthlycategorybudget.RequestConditionImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
