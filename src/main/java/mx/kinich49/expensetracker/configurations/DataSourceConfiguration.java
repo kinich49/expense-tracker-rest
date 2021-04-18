@@ -25,7 +25,6 @@ public class DataSourceConfiguration {
     @Bean
     @ConfigurationProperties(prefix = "app.datasource")
     public DataSource dataSource() throws SQLException {
-        System.out.println("Test");
         return new MariaDbDataSource();
     }
 }
