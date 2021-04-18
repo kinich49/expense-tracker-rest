@@ -20,6 +20,7 @@ public class MonthlyIncomeWebModel {
             return null;
 
         MonthlyIncomeWebModel monthlyIncomeWebModel = new MonthlyIncomeWebModel();
+        monthlyIncomeWebModel.setId(monthlyIncome.getId());
         monthlyIncomeWebModel.setBeginDate(monthlyIncome.getBeginDate());
         monthlyIncomeWebModel.setEndDate(monthlyIncome.getEndDate());
         monthlyIncomeWebModel.setUpperIncomeLimit(formatIncome(monthlyIncome.getUpperIncomeLimit()));

@@ -3,18 +3,25 @@ package mx.kinich49.expensetracker.repositories;
 import mx.kinich49.expensetracker.models.database.MonthlyIncome;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.YearMonth;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
+@ExtendWith(SpringExtension.class)
+@DataJpaTest
 @ActiveProfiles("test")
-public class MonthlyIncomeRepositoryTest {
+public class MonthlyIncomeRepositoryJpaTest {
 
     @Autowired
     private MonthlyIncomeRepository subject;
@@ -127,5 +134,47 @@ public class MonthlyIncomeRepositoryTest {
         assertTrue(subject.existsByBeginDate(now));
         assertFalse(subject.existsByBeginDate(date_1999_01));
         assertTrue(subject.existsByBeginDate(date_2020_01));
+    }
+
+    /**
+     * This test tries to retrieve current monthly income
+     */
+    @Test
+    @DisplayName("Should return current monthly income")
+    public void shouldReturn_currentMonthlyIncome() {
+        //when
+        Optional<MonthlyIncome> optResult = subject.findCurrentIncome();
+
+        //then
+        assertTrue(optResult.isPresent());
+
+        MonthlyIncome result = optResult.get();
+        assertEquals(YearMonth.of(2020, 10), result.getBeginDate());
+        assertNull(result.getEndDate());
+    }
+
+    /**
+     * This test tries to set currentIncome (Which has ID 1,
+     * as stated in /resources/test.sql) an endDate of now
+     * And then fail to retrieve current income, which
+     * should be an Optional.empty()
+     *
+     * @throws Exception if monthly income with ID 1 does not exist
+     */
+    @Test
+    @DisplayName("Should fail to return current monthly income")
+    public void shouldFail_toReturn_currentMonthlyIncome() throws Exception {
+        //Given
+        MonthlyIncome monthlyIncome = subject.findById(1L)
+                .orElseThrow(() -> new Exception("monthly income with id 1 not found"));
+
+        monthlyIncome.setEndDate(YearMonth.now());
+        subject.save(monthlyIncome);
+
+        //when
+        Optional<MonthlyIncome> optResult = subject.findCurrentIncome();
+
+        //then
+        assertFalse(optResult.isPresent());
     }
 }

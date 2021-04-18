@@ -7,7 +7,7 @@ INSERT INTO Categories(name, color) VALUES ('Rent', '#E36926')
 INSERT INTO Categories(name, color) VALUES ('Savings', '#3CE326')
 INSERT INTO Categories(name, color) VALUES ('Services', '#4BDCDB')
 
-INSERT INTO Monthly_Incomes(upper_income_limit, active) VALUES (1000000, true)
+INSERT INTO Monthly_Incomes(upper_income_limit, begin_date) VALUES (1000000, '2020-12-01')
 
 INSERT INTO Monthly_Budgets(begin_date, title) VALUES ('2020-12-01', 'Non-Fixed Expenses')
 INSERT INTO Monthly_Budgets(begin_date, title) VALUES ('2020-12-01', 'Fixed Expenses')

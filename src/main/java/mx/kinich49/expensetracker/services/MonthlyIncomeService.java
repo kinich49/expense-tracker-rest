@@ -15,7 +15,7 @@ public interface MonthlyIncomeService {
 
     void deleteMonthlyIncome(long id);
 
-    Optional<MonthlyIncomeWebModel> findMonthlyIncomeBy(YearMonth date);
+    Optional<MonthlyIncomeWebModel> findCurrentIncome();
 
     Optional<MonthlyIncomeWebModel> findMonthlyIncomeBy(long id);
 }

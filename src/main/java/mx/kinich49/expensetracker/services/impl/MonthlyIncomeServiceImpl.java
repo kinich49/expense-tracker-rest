@@ -9,7 +9,6 @@ import mx.kinich49.expensetracker.services.MonthlyIncomeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.YearMonth;
 import java.util.Optional;
 
 @Service
@@ -24,8 +23,11 @@ public class MonthlyIncomeServiceImpl implements MonthlyIncomeService {
 
     @Override
     public MonthlyIncomeWebModel addMonthlyIncome(MonthlyIncomeRequest request) throws BusinessException {
-        if (monthlyIncomeRepository.existsByBeginDate(request.getBeginDate())) {
-            throw new BusinessException("Already found a monthly income with begin date " + request.getBeginDate());
+        Optional<MonthlyIncome> collusion = monthlyIncomeRepository.collides(request.getBeginDate(), request.getEndDate());
+        if (collusion.isPresent()) {
+            String message = String.format("Monthly Income with id: %1$d collides with request.",
+                    collusion.get().getId());
+            throw new BusinessException(message);
         }
 
         MonthlyIncome monthlyIncome = monthlyIncomeRepository.save(MonthlyIncome.from(request));
@@ -51,10 +53,9 @@ public class MonthlyIncomeServiceImpl implements MonthlyIncomeService {
     }
 
     @Override
-    public Optional<MonthlyIncomeWebModel> findMonthlyIncomeBy(YearMonth beginDate) {
-        return monthlyIncomeRepository.findByBeginDate(beginDate)
+    public Optional<MonthlyIncomeWebModel> findCurrentIncome() {
+        return monthlyIncomeRepository.findCurrentIncome()
                 .map(MonthlyIncomeWebModel::from);
-
     }
 
     @Override
