@@ -18,6 +18,7 @@ public class TransactionWebModel {
     private final LocalDateTime transactionDate;
     private final PaymentMethodWebModel paymentMethod;
     private final CategoryWebModel category;
+    private final StoreWebModel store;
 
     public static TransactionWebModel from(Transaction transaction) {
         if (transaction == null)
@@ -25,6 +26,8 @@ public class TransactionWebModel {
 
         CategoryWebModel category = CategoryWebModel.from(transaction.getCategory());
         PaymentMethodWebModel paymentMethod = PaymentMethodWebModel.from(transaction.getPaymentMethod());
+        StoreWebModel store = StoreWebModel.from(transaction.getStore());
+
         return new TransactionWebModel(
                 transaction.getId(),
                 transaction.getTitle(),
@@ -32,7 +35,8 @@ public class TransactionWebModel {
                 transaction.getAmount(),
                 transaction.getTransactionDate(),
                 paymentMethod,
-                category
+                category,
+                store
         );
     }
 

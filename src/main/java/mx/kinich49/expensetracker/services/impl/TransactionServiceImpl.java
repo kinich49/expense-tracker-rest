@@ -3,12 +3,15 @@ package mx.kinich49.expensetracker.services.impl;
 import mx.kinich49.expensetracker.exceptions.BusinessException;
 import mx.kinich49.expensetracker.models.database.Category;
 import mx.kinich49.expensetracker.models.database.PaymentMethod;
+import mx.kinich49.expensetracker.models.database.Store;
 import mx.kinich49.expensetracker.models.database.Transaction;
 import mx.kinich49.expensetracker.models.web.TransactionWebModel;
 import mx.kinich49.expensetracker.models.web.requests.PaymentMethodRequest;
+import mx.kinich49.expensetracker.models.web.requests.StoreRequest;
 import mx.kinich49.expensetracker.models.web.requests.TransactionRequest;
 import mx.kinich49.expensetracker.repositories.CategoryRepository;
 import mx.kinich49.expensetracker.repositories.PaymentMethodRepository;
+import mx.kinich49.expensetracker.repositories.StoreRepository;
 import mx.kinich49.expensetracker.repositories.TransactionRepository;
 import mx.kinich49.expensetracker.services.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,14 +28,17 @@ public class TransactionServiceImpl implements TransactionService {
     private final TransactionRepository transactionRepository;
     private final CategoryRepository categoryRepository;
     private final PaymentMethodRepository paymentMethodRepository;
+    private final StoreRepository storeRepository;
 
     @Autowired
     public TransactionServiceImpl(TransactionRepository transactionRepository,
                                   CategoryRepository categoryRepository,
-                                  PaymentMethodRepository paymentMethodRepository) {
+                                  PaymentMethodRepository paymentMethodRepository,
+                                  StoreRepository storeRepository) {
         this.transactionRepository = transactionRepository;
         this.categoryRepository = categoryRepository;
         this.paymentMethodRepository = paymentMethodRepository;
+        this.storeRepository = storeRepository;
     }
 
     @Override
@@ -46,6 +52,8 @@ public class TransactionServiceImpl implements TransactionService {
                 });
 
         PaymentMethod paymentMethod = fetchOrCreate(request.getPaymentMethod());
+        Store store = fetchOrCreate(request.getStore());
+
         Transaction transaction = new Transaction();
         transaction.setAmount(request.getAmount());
         transaction.setTitle(request.getTitle());
@@ -53,6 +61,7 @@ public class TransactionServiceImpl implements TransactionService {
         transaction.setTransactionDate(request.getDateCreated());
         transaction.setCategory(category);
         transaction.setPaymentMethod(paymentMethod);
+        transaction.setStore(store);
 
         transaction = transactionRepository.save(transaction);
 
@@ -91,6 +100,14 @@ public class TransactionServiceImpl implements TransactionService {
 
         return paymentMethodRepository.findById(request.getId())
                 .orElse(paymentMethodRepository.save(PaymentMethod.from(request)));
+    }
+
+    private Store fetchOrCreate(StoreRequest request) {
+        if (request.getId() == null)
+            return storeRepository.save(Store.from(request));
+
+        return storeRepository.findById(request.getId())
+                .orElse(storeRepository.save(Store.from(request)));
     }
 
     @Override

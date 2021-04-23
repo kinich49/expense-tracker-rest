@@ -2,7 +2,6 @@ package mx.kinich49.expensetracker.models.database;
 
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.OnDelete;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -24,6 +23,10 @@ public class Transaction {
     @ManyToOne(optional = false)
     @JoinColumn(name = "payment_method_id")
     private PaymentMethod paymentMethod;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "store_id")
+    private Store store;
 
     @NotNull
     private String title;

@@ -13,4 +13,5 @@ public class TransactionRequest {
     private int amount;
     private PaymentMethodRequest paymentMethod;
     private LocalDateTime dateCreated;
+    private StoreRequest store;
 }
