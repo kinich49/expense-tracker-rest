@@ -11,5 +11,6 @@ public class TransactionRequest {
     private String title;
     private String memo;
     private int amount;
+    private PaymentMethodRequest paymentMethod;
     private LocalDateTime dateCreated;
 }

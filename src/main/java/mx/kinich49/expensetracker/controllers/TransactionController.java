@@ -7,10 +7,12 @@ import mx.kinich49.expensetracker.models.web.requests.TransactionRequest;
 import mx.kinich49.expensetracker.repositories.TransactionRepository;
 import mx.kinich49.expensetracker.services.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,6 +60,23 @@ public class TransactionController {
                 new ApiResponse<>("Parameter year is missing"),
                 null,
                 HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
+    @GetMapping("/payment/{id}")
+    public ResponseEntity<?> getTransactionsByPaymentMethod(@PathVariable(name = "id")
+                                                                    long paymentMethodId,
+                                                            @DateTimeFormat
+                                                            @RequestParam
+                                                                    LocalDateTime beginDate,
+                                                            @DateTimeFormat
+                                                            @RequestParam
+                                                                    LocalDateTime endDate) {
+        try {
+            List<TransactionWebModel> webModels = service.findTransactions(paymentMethodId, beginDate, endDate);
+            return new ResponseEntity<>(new ApiResponse<>(webModels), HttpStatus.OK);
+        } catch (BusinessException e) {
+            return new ResponseEntity<>(new ApiResponse<>(e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PostMapping
