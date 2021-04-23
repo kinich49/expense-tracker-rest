@@ -11,12 +11,15 @@ public interface TransactionService {
 
     TransactionWebModel addTransaction(TransactionRequest request) throws BusinessException;
 
-    List<TransactionWebModel> findTransactions(int month, int year);
+    List<TransactionWebModel> findTransactions(LocalDateTime startDate,
+                                               LocalDateTime endDate);
 
-    List<TransactionWebModel> findTransactions(long paymentMethod,
-                                               LocalDateTime startDate,
-                                               LocalDateTime endDate) throws BusinessException;
+    List<TransactionWebModel> findTransactionsByPaymentMethod(long paymentMethod,
+                                                              LocalDateTime startDate,
+                                                              LocalDateTime endDate) throws BusinessException;
 
-    List<TransactionWebModel> findTransactionsByCategory(long categoryId, int month, int year);
+    List<TransactionWebModel> findTransactionsByCategory(long categoryId,
+                                                         LocalDateTime startDate,
+                                                         LocalDateTime endDate) throws BusinessException;
 
 }

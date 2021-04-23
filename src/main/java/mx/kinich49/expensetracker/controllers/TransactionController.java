@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -31,35 +30,32 @@ public class TransactionController {
         this.service = service;
     }
 
-    @GetMapping(params = {"category_id", "month", "year"})
-    public ResponseEntity<ApiResponse<List<TransactionWebModel>>> getTransactionItems(
-            @RequestParam(value = "category_id") long categoryId,
-            @RequestParam(value = "month") int month,
-            @RequestParam(value = "year") int year) {
-        //TODO change two ints for YearMonth
-        return Optional.ofNullable(service.findTransactionsByCategory(categoryId, month, year))
-                .map(ApiResponse::new)
-                .map(response -> new ResponseEntity<>(response, HttpStatus.OK))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
+    @GetMapping
+    public ResponseEntity<?> getTransactionItems(@RequestParam long categoryId,
+                                                 @RequestParam
+                                                 @DateTimeFormat LocalDateTime startDate,
+                                                 @RequestParam
+                                                 @DateTimeFormat LocalDateTime endDate) {
+        try {
+            return Optional.ofNullable(service.findTransactionsByCategory(categoryId, startDate, endDate))
+                    .map(ApiResponse::new)
+                    .map(response -> new ResponseEntity<>(response, HttpStatus.OK))
+                    .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        } catch (BusinessException e) {
+            return new ResponseEntity<>(new ApiResponse<>(e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
 
+    }
 
     @GetMapping(params = {"month", "year"})
-    public ResponseEntity<ApiResponse<List<TransactionWebModel>>> getTransactionItems(
-            @RequestParam(value = "month") int month,
-            @RequestParam(value = "year") int year) {
-        return Optional.ofNullable(service.findTransactions(month, year))
+    public ResponseEntity<?> getTransactionItems(@RequestParam
+                                                 @DateTimeFormat LocalDateTime startDate,
+                                                 @RequestParam
+                                                 @DateTimeFormat LocalDateTime endDate) {
+        return Optional.ofNullable(service.findTransactions(startDate, endDate))
                 .map(ApiResponse::new)
                 .map(response -> new ResponseEntity<>(response, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
-
-    @GetMapping(params = "month")
-    public ResponseEntity<ApiResponse<?>> getTransactions(@RequestParam(value = "month") int month) {
-        return new ResponseEntity<>(
-                new ApiResponse<>("Parameter year is missing"),
-                null,
-                HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
     @GetMapping("/payment/{id}")
@@ -67,13 +63,15 @@ public class TransactionController {
                                                                     long paymentMethodId,
                                                             @DateTimeFormat
                                                             @RequestParam
-                                                                    LocalDateTime beginDate,
+                                                                    LocalDateTime startDate,
                                                             @DateTimeFormat
                                                             @RequestParam
                                                                     LocalDateTime endDate) {
         try {
-            List<TransactionWebModel> webModels = service.findTransactions(paymentMethodId, beginDate, endDate);
-            return new ResponseEntity<>(new ApiResponse<>(webModels), HttpStatus.OK);
+            return Optional.ofNullable(service.findTransactionsByPaymentMethod(paymentMethodId, startDate, endDate))
+                    .map(ApiResponse::new)
+                    .map(response -> new ResponseEntity<>(response, HttpStatus.OK))
+                    .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
         } catch (BusinessException e) {
             return new ResponseEntity<>(new ApiResponse<>(e.getMessage()), HttpStatus.BAD_REQUEST);
         }

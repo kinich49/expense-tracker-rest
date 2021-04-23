@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class CategoryRequest {
 
+    private final Long id;
     private final String name;
     private final String color;
 

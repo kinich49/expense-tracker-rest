@@ -7,11 +7,11 @@ import java.time.LocalDateTime;
 @Data
 public class TransactionRequest {
 
-    private long categoryId;
     private String title;
     private String memo;
     private int amount;
     private PaymentMethodRequest paymentMethod;
     private LocalDateTime dateCreated;
     private StoreRequest store;
+    private CategoryRequest category;
 }

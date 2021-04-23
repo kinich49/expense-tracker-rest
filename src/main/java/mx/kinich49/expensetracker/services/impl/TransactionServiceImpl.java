@@ -6,6 +6,7 @@ import mx.kinich49.expensetracker.models.database.PaymentMethod;
 import mx.kinich49.expensetracker.models.database.Store;
 import mx.kinich49.expensetracker.models.database.Transaction;
 import mx.kinich49.expensetracker.models.web.TransactionWebModel;
+import mx.kinich49.expensetracker.models.web.requests.CategoryRequest;
 import mx.kinich49.expensetracker.models.web.requests.PaymentMethodRequest;
 import mx.kinich49.expensetracker.models.web.requests.StoreRequest;
 import mx.kinich49.expensetracker.models.web.requests.TransactionRequest;
@@ -18,8 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
 @SuppressWarnings("unused")
@@ -43,14 +45,8 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public TransactionWebModel addTransaction(TransactionRequest request) throws BusinessException {
-        long categoryId = request.getCategoryId();
 
-        Category category = categoryRepository.findById(categoryId)
-                .orElseThrow(() -> {
-                    String error = String.format("Category with id %1$d not found", categoryId);
-                    return new BusinessException(error);
-                });
-
+        Category category = fetchOrCreate(request.getCategory());
         PaymentMethod paymentMethod = fetchOrCreate(request.getPaymentMethod());
         Store store = fetchOrCreate(request.getStore());
 
@@ -63,34 +59,43 @@ public class TransactionServiceImpl implements TransactionService {
         transaction.setPaymentMethod(paymentMethod);
         transaction.setStore(store);
 
-        transaction = transactionRepository.save(transaction);
-
-        return TransactionWebModel.from(transaction);
+        return TransactionWebModel.from(transactionRepository.save(transaction));
     }
 
     @Override
-    public List<TransactionWebModel> findTransactions(int month, int year) {
-        List<Transaction> transactions = transactionRepository.findByMonthAndYear(month, year);
-
-        if (transactions == null || transactions.isEmpty())
-            return null;
-
-        return transactions.stream()
+    public List<TransactionWebModel> findTransactions(LocalDateTime startDate,
+                                                      LocalDateTime endDate) {
+        return Optional.ofNullable(transactionRepository.findByTransactionDateBetween(startDate, endDate))
                 .map(TransactionWebModel::from)
-                .collect(Collectors.toList());
+                .orElse(Collections.emptyList());
     }
 
     @Override
-    public List<TransactionWebModel> findTransactions(long paymentMethodId,
-                                                      LocalDateTime startDate,
-                                                      LocalDateTime endDate) throws BusinessException {
+    public List<TransactionWebModel> findTransactionsByPaymentMethod(long paymentMethodId,
+                                                                     LocalDateTime startDate,
+                                                                     LocalDateTime endDate) throws BusinessException {
         PaymentMethod paymentMethod = paymentMethodRepository.findById(paymentMethodId)
                 .orElseThrow(() -> new BusinessException("PaymentMethod with id " + paymentMethodId + " not found"));
 
-        List<Transaction> transactions = transactionRepository
-                .findByPaymentMethodAndTransactionDateBetween(paymentMethod, startDate, endDate);
+        return Optional.ofNullable(
+                transactionRepository
+                        .findByPaymentMethodAndTransactionDateBetween(paymentMethod, startDate, endDate))
+                .map(TransactionWebModel::from)
+                .orElse(Collections.emptyList());
+    }
 
-        return TransactionWebModel.from(transactions);
+    @Override
+    public List<TransactionWebModel> findTransactionsByCategory(long categoryId,
+                                                                LocalDateTime startDate,
+                                                                LocalDateTime endDate) throws BusinessException {
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new BusinessException("Category with id " + categoryId + " not found"));
+
+        return Optional.ofNullable(
+                transactionRepository
+                        .findByCategoryAndTransactionDateBetween(category, startDate, endDate))
+                .map(TransactionWebModel::from)
+                .orElse(Collections.emptyList());
     }
 
     private PaymentMethod fetchOrCreate(PaymentMethodRequest request) {
@@ -110,17 +115,12 @@ public class TransactionServiceImpl implements TransactionService {
                 .orElse(storeRepository.save(Store.from(request)));
     }
 
-    @Override
-    public List<TransactionWebModel> findTransactionsByCategory(long categoryId, int month, int year) {
-        List<Transaction> transactions = transactionRepository
-                .findByCategoryIdAndYearAndMonth(categoryId, month, year);
+    private Category fetchOrCreate(CategoryRequest request) {
+        if (request.getId() == null)
+            return categoryRepository.save(Category.from(request));
 
-        if (transactions == null || transactions.isEmpty())
-            return null;
-
-        return transactions.stream()
-                .map(TransactionWebModel::from)
-                .collect(Collectors.toList());
+        return categoryRepository.findById(request.getId())
+                .orElse(categoryRepository.save(Category.from(request)));
     }
 
 }
