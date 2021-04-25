@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class MockPreconditions {
 
-    public static void validateCategory(MockHelper mockHelper) {
+    public static void validateCategory(MockHelper.Mock mockHelper) {
         if (mockHelper.getPrePersistCategory() == null ||
                 mockHelper.getPostPersistCategory() == null ||
                 mockHelper.getCategoryRequest() == null ||
@@ -15,7 +15,7 @@ public class MockPreconditions {
         }
     }
 
-    public static void validatePayment(MockHelper mockHelper) {
+    public static void validatePayment(MockHelper.Mock mockHelper) {
         if (mockHelper.getPrePersistPaymentMethod() == null ||
                 mockHelper.getPostPersistPaymentMethod() == null ||
                 mockHelper.getPaymentMethodRequest() == null ||
@@ -24,7 +24,7 @@ public class MockPreconditions {
         }
     }
 
-    public static void validateStore(MockHelper mockHelper) {
+    public static void validateStore(MockHelper.Mock mockHelper) {
         if (mockHelper.getPrePersistStore() == null ||
                 mockHelper.getPostPersistStore() == null ||
                 mockHelper.getStoreRequest() == null ||
