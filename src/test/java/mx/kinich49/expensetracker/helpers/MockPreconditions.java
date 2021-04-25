@@ -1,4 +1,4 @@
-package mx.kinich49.expensetracker.services;
+package mx.kinich49.expensetracker.helpers;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

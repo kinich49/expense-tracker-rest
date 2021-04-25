@@ -1,8 +1,7 @@
-package mx.kinich49.expensetracker.services;
+package mx.kinich49.expensetracker.helpers;
 
 import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import mx.kinich49.expensetracker.models.database.Category;
 import mx.kinich49.expensetracker.models.database.PaymentMethod;
