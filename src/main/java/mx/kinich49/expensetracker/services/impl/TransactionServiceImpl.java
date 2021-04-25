@@ -99,28 +99,21 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     private PaymentMethod fetchOrCreate(PaymentMethodRequest request) {
-        if (request.getId() == null) {
-            return paymentMethodRepository.save(PaymentMethod.from(request));
-        }
-
-        return paymentMethodRepository.findById(request.getId())
-                .orElse(paymentMethodRepository.save(PaymentMethod.from(request)));
+        return Optional.ofNullable(request.getId())
+                .flatMap(paymentMethodRepository::findById)
+                .orElseGet(() -> paymentMethodRepository.save(PaymentMethod.from(request)));
     }
 
     private Store fetchOrCreate(StoreRequest request) {
-        if (request.getId() == null)
-            return storeRepository.save(Store.from(request));
-
-        return storeRepository.findById(request.getId())
-                .orElse(storeRepository.save(Store.from(request)));
+        return Optional.ofNullable(request.getId())
+                .flatMap(storeRepository::findById)
+                .orElseGet(() -> storeRepository.save(Store.from(request)));
     }
 
     private Category fetchOrCreate(CategoryRequest request) {
-        if (request.getId() == null)
-            return categoryRepository.save(Category.from(request));
-
-        return categoryRepository.findById(request.getId())
-                .orElse(categoryRepository.save(Category.from(request)));
+        return Optional.ofNullable(request.getId())
+                .flatMap(categoryRepository::findById)
+                .orElseGet(() -> categoryRepository.save(Category.from(request)));
     }
 
 }
