@@ -6,17 +6,14 @@ import mx.kinich49.expensetracker.models.database.PaymentMethod;
 @Data
 public class PaymentMethodWebModel {
 
-    private Long id;
-    private String name;
+    private final Long id;
+    private final String name;
 
     public static PaymentMethodWebModel from(PaymentMethod paymentMethod) {
         if (paymentMethod == null)
             return null;
 
-        PaymentMethodWebModel webModel = new PaymentMethodWebModel();
-        webModel.setId(paymentMethod.getId());
-        webModel.setName(paymentMethod.getName());
-
-        return webModel;
+        return new PaymentMethodWebModel(paymentMethod.getId(),
+                paymentMethod.getName());
     }
 }

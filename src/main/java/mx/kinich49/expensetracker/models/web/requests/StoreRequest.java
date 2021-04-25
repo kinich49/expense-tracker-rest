@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class StoreRequest {
 
-    private Long id;
-    private String name;
+    private final Long id;
+    private final String name;
 }
