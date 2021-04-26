@@ -75,6 +75,7 @@ public class MockHelper {
     @Getter
     @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
     public static class Mock {
+
         private TransactionRequest transactionRequest;
         private Transaction postPersistTransaction;
         private Transaction prePersistTransaction;
@@ -85,6 +86,7 @@ public class MockHelper {
         private String transactionMemo;
         private LocalDateTime transactionDate;
 
+        private boolean allowNullCategory;
         private CategoryRequest categoryRequest;
         private Category postPersistCategory;
         private Category prePersistCategory;
@@ -93,6 +95,7 @@ public class MockHelper {
         private String categoryName;
         private String categoryColor;
 
+        private boolean allowNullStore;
         private StoreRequest storeRequest;
         private Store postPersistStore;
         private Store prePersistStore;
@@ -100,6 +103,7 @@ public class MockHelper {
         private Long storeId;
         private String storeName;
 
+        private boolean allowNullPaymentMethod;
         private PaymentMethodRequest paymentMethodRequest;
         private PaymentMethod postPersistPaymentMethod;
         private PaymentMethod prePersistPaymentMethod;
@@ -108,9 +112,12 @@ public class MockHelper {
         private String paymentMethodName;
 
         public Mock withValidTransaction(LocalDateTime transactionDate) {
-            MockPreconditions.validateCategory(this);
-            MockPreconditions.validatePayment(this);
-            MockPreconditions.validateStore(this);
+            if (!allowNullCategory)
+                MockPreconditions.validateCategory(this);
+            if (!allowNullPaymentMethod)
+                MockPreconditions.validatePayment(this);
+            if (!allowNullStore)
+                MockPreconditions.validateStore(this);
 
             transactionAmount = 10000;
             transactionTitle = "Test Transaction";
@@ -124,11 +131,11 @@ public class MockHelper {
             }
 
             transactionRequest = new TransactionRequest(transactionTitle, transactionMemo,
-                    transactionAmount, paymentMethodRequest, transactionDate, storeRequest, categoryRequest);
+                    transactionAmount, paymentMethodRequest, this.transactionDate, storeRequest, categoryRequest);
 
             postPersistTransaction = new Transaction();
             postPersistTransaction.setId(transactionId);
-            postPersistTransaction.setTransactionDate(transactionDate);
+            postPersistTransaction.setTransactionDate(this.transactionDate);
             postPersistTransaction.setTitle(transactionTitle);
             postPersistTransaction.setMemo(transactionMemo);
             postPersistTransaction.setPaymentMethod(postPersistPaymentMethod);
@@ -137,7 +144,7 @@ public class MockHelper {
             postPersistTransaction.setStore(postPersistStore);
 
             prePersistTransaction = new Transaction();
-            prePersistTransaction.setTransactionDate(transactionDate);
+            prePersistTransaction.setTransactionDate(this.transactionDate);
             prePersistTransaction.setTitle(transactionTitle);
             prePersistTransaction.setMemo(transactionMemo);
             prePersistTransaction.setPaymentMethod(postPersistPaymentMethod);
@@ -146,13 +153,20 @@ public class MockHelper {
             prePersistTransaction.setStore(null);
 
             transactionWebModel = new TransactionWebModel(transactionId, transactionTitle, transactionMemo, transactionAmount,
-                    transactionDate, paymentMethodWebModel, categoryWebModel, storeWebModel);
+                    this.transactionDate, paymentMethodWebModel, categoryWebModel, storeWebModel);
 
             return this;
         }
 
         public Mock withValidTransaction() {
             return withValidTransaction(null);
+        }
+
+        public Mock withEmptyTransaction() {
+            transactionRequest = new TransactionRequest(null, null,
+                    0, null, null, null, null);
+
+            return this;
         }
 
         public Mock withInvalidTransaction() {
@@ -202,6 +216,21 @@ public class MockHelper {
             return this;
         }
 
+        public Mock withNullCategory() {
+            allowNullCategory = true;
+            return this;
+        }
+
+        public Mock withNullStore() {
+            allowNullStore = true;
+            return this;
+        }
+
+        public Mock withNullPaymentMethod() {
+            allowNullPaymentMethod = true;
+            return this;
+        }
+
         public Mock withNewStore() {
             storeName = "New Test Store";
             storeId = 799L;
@@ -217,6 +246,21 @@ public class MockHelper {
 
             storeWebModel = new StoreWebModel(storeId, storeName);
 
+            return this;
+        }
+
+        public Mock withEmptyStore() {
+            storeRequest = new StoreRequest(null, null);
+            return this;
+        }
+
+        public Mock withEmptyCategory() {
+            categoryRequest = new CategoryRequest(null, null, null);
+            return this;
+        }
+
+        public Mock withEmptyPayment() {
+            paymentMethodRequest = new PaymentMethodRequest(null, null);
             return this;
         }
 
