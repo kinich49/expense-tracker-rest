@@ -20,7 +20,7 @@ public class StoreRequestCondition implements Condition<StoreRequestCondition.Pa
         if (request == null)
             return Optional.empty();
 
-        if (request.getId() == null || StringUtils.isNullOrEmpty(request.getName())) {
+        if (request.getId() == null && StringUtils.isNullOrEmptyOrBlank(request.getName())) {
             return Optional.of("Store must have an id and/or name. ");
         }
 

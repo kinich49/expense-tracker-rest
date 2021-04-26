@@ -19,7 +19,7 @@ public class CategoryRequestCondition implements Condition<CategoryRequestCondit
         if (request == null)
             return Optional.of("Category cannot be null. ");
 
-        if (request.getId() == null || StringUtils.isNullOrEmpty(request.getName())) {
+        if (request.getId() == null && StringUtils.isNullOrEmptyOrBlank(request.getName())) {
             return Optional.of("Category must have an id and/or name. ");
         }
 

@@ -42,7 +42,7 @@ public class TransactionServiceValidatorImpl implements Validator<TransactionSer
         validatePaymentMethod(param.transactionRequest, accumulator);
 
         if (StringUtils.isNeitherNullNorEmptyNorBlank(accumulator.toString())) {
-            throw new BusinessException(accumulator.toString());
+            throw new BusinessException(accumulator.toString().trim());
         }
     }
 

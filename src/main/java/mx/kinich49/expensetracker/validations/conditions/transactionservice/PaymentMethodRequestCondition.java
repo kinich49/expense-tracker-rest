@@ -19,7 +19,7 @@ public class PaymentMethodRequestCondition implements Condition<PaymentMethodReq
         if (request == null)
             return Optional.of("Payment method cannot be null. ");
 
-        if (request.getId() == null || StringUtils.isNullOrEmpty(request.getName())) {
+        if (request.getId() == null && StringUtils.isNullOrEmptyOrBlank(request.getName())) {
             return Optional.of("Payment method must have an id and/or name. ");
         }
 
