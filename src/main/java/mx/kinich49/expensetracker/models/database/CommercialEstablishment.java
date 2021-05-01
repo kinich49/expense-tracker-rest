@@ -10,8 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Data
-@Entity(name = "Stores")
-public class Store {
+@Entity(name = "CommercialEstablishments")
+public class CommercialEstablishment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO,
@@ -22,10 +22,10 @@ public class Store {
 
     private String name;
 
-    public static Store from(StoreRequest request) {
-        Store store = new Store();
-        store.setId(request.getId());
-        store.setName(request.getName());
-        return store;
+    public static CommercialEstablishment from(StoreRequest request) {
+        CommercialEstablishment commercialEstablishment = new CommercialEstablishment();
+        commercialEstablishment.setId(request.getId());
+        commercialEstablishment.setName(request.getName());
+        return commercialEstablishment;
     }
 }

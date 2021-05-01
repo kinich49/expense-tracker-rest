@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import mx.kinich49.expensetracker.models.database.Category;
 import mx.kinich49.expensetracker.models.database.PaymentMethod;
-import mx.kinich49.expensetracker.models.database.Store;
+import mx.kinich49.expensetracker.models.database.CommercialEstablishment;
 import mx.kinich49.expensetracker.models.database.Transaction;
 import mx.kinich49.expensetracker.models.web.CategoryWebModel;
 import mx.kinich49.expensetracker.models.web.PaymentMethodWebModel;
@@ -97,8 +97,8 @@ public class MockHelper {
 
         private boolean allowNullStore;
         private StoreRequest storeRequest;
-        private Store postPersistStore;
-        private Store prePersistStore;
+        private CommercialEstablishment postPersistCommercialEstablishment;
+        private CommercialEstablishment prePersistCommercialEstablishment;
         private StoreWebModel storeWebModel;
         private Long storeId;
         private String storeName;
@@ -141,7 +141,7 @@ public class MockHelper {
             postPersistTransaction.setPaymentMethod(postPersistPaymentMethod);
             postPersistTransaction.setCategory(postPersistCategory);
             postPersistTransaction.setAmount(transactionAmount);
-            postPersistTransaction.setStore(postPersistStore);
+            postPersistTransaction.setCommercialEstablishment(postPersistCommercialEstablishment);
 
             prePersistTransaction = new Transaction();
             prePersistTransaction.setTransactionDate(this.transactionDate);
@@ -150,7 +150,7 @@ public class MockHelper {
             prePersistTransaction.setPaymentMethod(postPersistPaymentMethod);
             prePersistTransaction.setCategory(postPersistCategory);
             prePersistTransaction.setAmount(transactionAmount);
-            prePersistTransaction.setStore(null);
+            prePersistTransaction.setCommercialEstablishment(null);
 
             transactionWebModel = new TransactionWebModel(transactionId, transactionTitle, transactionMemo, transactionAmount,
                     this.transactionDate, paymentMethodWebModel, categoryWebModel, storeWebModel);
@@ -237,12 +237,12 @@ public class MockHelper {
 
             storeRequest = new StoreRequest(null, storeName);
 
-            prePersistStore = new Store();
-            prePersistStore.setName(storeName);
+            prePersistCommercialEstablishment = new CommercialEstablishment();
+            prePersistCommercialEstablishment.setName(storeName);
 
-            postPersistStore = new Store();
-            postPersistStore.setId(storeId);
-            postPersistStore.setName(storeName);
+            postPersistCommercialEstablishment = new CommercialEstablishment();
+            postPersistCommercialEstablishment.setId(storeId);
+            postPersistCommercialEstablishment.setName(storeName);
 
             storeWebModel = new StoreWebModel(storeId, storeName);
 
@@ -270,13 +270,13 @@ public class MockHelper {
 
             storeRequest = new StoreRequest(storeId, storeName);
 
-            prePersistStore = new Store();
-            prePersistStore.setId(storeId);
-            prePersistStore.setName(storeName);
+            prePersistCommercialEstablishment = new CommercialEstablishment();
+            prePersistCommercialEstablishment.setId(storeId);
+            prePersistCommercialEstablishment.setName(storeName);
 
-            postPersistStore = new Store();
-            postPersistStore.setId(storeId);
-            postPersistStore.setName(storeName);
+            postPersistCommercialEstablishment = new CommercialEstablishment();
+            postPersistCommercialEstablishment.setId(storeId);
+            postPersistCommercialEstablishment.setName(storeName);
 
             storeWebModel = new StoreWebModel(storeId, storeName);
 

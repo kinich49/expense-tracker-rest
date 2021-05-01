@@ -26,7 +26,7 @@ public class TransactionWebModel {
 
         CategoryWebModel category = CategoryWebModel.from(transaction.getCategory());
         PaymentMethodWebModel paymentMethod = PaymentMethodWebModel.from(transaction.getPaymentMethod());
-        StoreWebModel store = StoreWebModel.from(transaction.getStore());
+        StoreWebModel store = StoreWebModel.from(transaction.getCommercialEstablishment());
 
         return new TransactionWebModel(
                 transaction.getId(),

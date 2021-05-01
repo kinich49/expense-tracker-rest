@@ -3,7 +3,7 @@ package mx.kinich49.expensetracker.services;
 import mx.kinich49.expensetracker.helpers.MockHelper;
 import mx.kinich49.expensetracker.models.database.Category;
 import mx.kinich49.expensetracker.models.database.PaymentMethod;
-import mx.kinich49.expensetracker.models.database.Store;
+import mx.kinich49.expensetracker.models.database.CommercialEstablishment;
 import mx.kinich49.expensetracker.models.database.Transaction;
 import mx.kinich49.expensetracker.models.web.TransactionWebModel;
 import mx.kinich49.expensetracker.repositories.CategoryRepository;
@@ -67,8 +67,8 @@ public class TransactionServiceTest {
         when(categoryRepository.save(eq(mock.getPrePersistCategory())))
                 .thenReturn(mock.getPostPersistCategory());
 
-        when(storeRepository.save(eq(mock.getPrePersistStore())))
-                .thenReturn(mock.getPostPersistStore());
+        when(storeRepository.save(eq(mock.getPrePersistCommercialEstablishment())))
+                .thenReturn(mock.getPostPersistCommercialEstablishment());
 
         when(paymentMethodRepository.save(eq(mock.getPrePersistPaymentMethod())))
                 .thenReturn(mock.getPostPersistPaymentMethod());
@@ -80,7 +80,7 @@ public class TransactionServiceTest {
         verify(categoryRepository, times(1)).save(eq(mock.getPrePersistCategory()));
         verify(transactionRepository, times(1)).save(any(Transaction.class));
         verify(paymentMethodRepository, times(1)).save(eq(mock.getPrePersistPaymentMethod()));
-        verify(storeRepository, times(1)).save(eq(mock.getPrePersistStore()));
+        verify(storeRepository, times(1)).save(eq(mock.getPrePersistCommercialEstablishment()));
 
         verify(categoryRepository, never()).findById(any());
         verify(paymentMethodRepository, never()).findById(any());
@@ -109,7 +109,7 @@ public class TransactionServiceTest {
                 .thenReturn(Optional.of(mock.getPostPersistCategory()));
 
         when(storeRepository.findById(eq(mock.getStoreId())))
-                .thenReturn(Optional.of(mock.getPostPersistStore()));
+                .thenReturn(Optional.of(mock.getPostPersistCommercialEstablishment()));
 
         when(paymentMethodRepository.findById(mock.getPaymentMethodId()))
                 .thenReturn(Optional.of(mock.getPostPersistPaymentMethod()));
@@ -120,7 +120,7 @@ public class TransactionServiceTest {
         verify(categoryRepository, never()).save(any(Category.class));
         verify(transactionRepository, times(1)).save(any(Transaction.class));
         verify(paymentMethodRepository, never()).save(any(PaymentMethod.class));
-        verify(storeRepository, never()).save(any(Store.class));
+        verify(storeRepository, never()).save(any(CommercialEstablishment.class));
 
         assertNotNull(result);
         assertEquals(mock.getTransactionWebModel(), result);

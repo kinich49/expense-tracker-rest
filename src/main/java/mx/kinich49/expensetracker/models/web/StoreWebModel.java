@@ -1,7 +1,7 @@
 package mx.kinich49.expensetracker.models.web;
 
 import lombok.Data;
-import mx.kinich49.expensetracker.models.database.Store;
+import mx.kinich49.expensetracker.models.database.CommercialEstablishment;
 
 @Data
 public class StoreWebModel {
@@ -9,11 +9,11 @@ public class StoreWebModel {
     private final long id;
     private final String name;
 
-    public static StoreWebModel from(Store store) {
-        if (store == null)
+    public static StoreWebModel from(CommercialEstablishment commercialEstablishment) {
+        if (commercialEstablishment == null)
             return null;
 
-        return new StoreWebModel(store.getId(),
-                store.getName());
+        return new StoreWebModel(commercialEstablishment.getId(),
+                commercialEstablishment.getName());
     }
 }

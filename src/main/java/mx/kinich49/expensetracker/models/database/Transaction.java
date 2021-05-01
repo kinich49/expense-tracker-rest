@@ -25,8 +25,8 @@ public class Transaction {
     private PaymentMethod paymentMethod;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "store_id")
-    private Store store;
+    @JoinColumn(name = "commercial_establishment_id")
+    private CommercialEstablishment commercialEstablishment;
 
     @NotNull
     private String title;

@@ -3,7 +3,7 @@ package mx.kinich49.expensetracker.services.impl;
 import mx.kinich49.expensetracker.exceptions.BusinessException;
 import mx.kinich49.expensetracker.models.database.Category;
 import mx.kinich49.expensetracker.models.database.PaymentMethod;
-import mx.kinich49.expensetracker.models.database.Store;
+import mx.kinich49.expensetracker.models.database.CommercialEstablishment;
 import mx.kinich49.expensetracker.models.database.Transaction;
 import mx.kinich49.expensetracker.models.web.TransactionWebModel;
 import mx.kinich49.expensetracker.models.web.requests.CategoryRequest;
@@ -55,7 +55,7 @@ public class TransactionServiceImpl implements TransactionService {
 
         Category category = fetchOrCreate(request.getCategory());
         PaymentMethod paymentMethod = fetchOrCreate(request.getPaymentMethod());
-        Store store = fetchOrCreate(request.getStore());
+        CommercialEstablishment commercialEstablishment = fetchOrCreate(request.getStore());
 
         Transaction transaction = new Transaction();
         transaction.setAmount(request.getAmount());
@@ -64,7 +64,7 @@ public class TransactionServiceImpl implements TransactionService {
         transaction.setTransactionDate(request.getDateCreated());
         transaction.setCategory(category);
         transaction.setPaymentMethod(paymentMethod);
-        transaction.setStore(store);
+        transaction.setCommercialEstablishment(commercialEstablishment);
 
         return TransactionWebModel.from(transactionRepository.save(transaction));
     }
@@ -111,10 +111,10 @@ public class TransactionServiceImpl implements TransactionService {
                 .orElseGet(() -> paymentMethodRepository.save(PaymentMethod.from(request)));
     }
 
-    private Store fetchOrCreate(StoreRequest request) {
+    private CommercialEstablishment fetchOrCreate(StoreRequest request) {
         return Optional.ofNullable(request.getId())
                 .flatMap(storeRepository::findById)
-                .orElseGet(() -> storeRepository.save(Store.from(request)));
+                .orElseGet(() -> storeRepository.save(CommercialEstablishment.from(request)));
     }
 
     private Category fetchOrCreate(CategoryRequest request) {

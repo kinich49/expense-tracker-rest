@@ -25,8 +25,8 @@ public class MockPreconditions {
     }
 
     public static void validateStore(MockHelper.Mock mockHelper) {
-        if (mockHelper.getPrePersistStore() == null ||
-                mockHelper.getPostPersistStore() == null ||
+        if (mockHelper.getPrePersistCommercialEstablishment() == null ||
+                mockHelper.getPostPersistCommercialEstablishment() == null ||
                 mockHelper.getStoreRequest() == null ||
                 mockHelper.getStoreWebModel() == null) {
             throw new RuntimeException("Store is not set");
