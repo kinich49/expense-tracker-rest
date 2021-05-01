@@ -1,10 +1,13 @@
 package mx.kinich49.expensetracker.repositories;
 
+import mx.kinich49.expensetracker.models.database.Category;
+import mx.kinich49.expensetracker.models.database.PaymentMethod;
 import mx.kinich49.expensetracker.models.database.Transaction;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -20,4 +23,12 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
             "WHERE month(t.transactionDate) = ?1 " +
             "AND year(t.transactionDate) = ?2")
     List<Transaction> findByMonthAndYear(int month, int year);
+
+    List<Transaction> findByPaymentMethodAndTransactionDateBetween(PaymentMethod paymentMethod,
+                                                                   LocalDateTime start, LocalDateTime end);
+
+    List<Transaction> findByCategoryAndTransactionDateBetween(Category category,
+                                                              LocalDateTime start, LocalDateTime end);
+
+    List<Transaction> findByTransactionDateBetween(LocalDateTime start, LocalDateTime end);
 }

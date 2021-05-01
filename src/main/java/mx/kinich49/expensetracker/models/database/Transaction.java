@@ -20,6 +20,14 @@ public class Transaction {
     @JoinColumn(name = "category_id")
     private Category category;
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "payment_method_id")
+    private PaymentMethod paymentMethod;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "commercial_establishment_id")
+    private CommercialEstablishment commercialEstablishment;
+
     @NotNull
     private String title;
 

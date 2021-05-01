@@ -7,7 +7,7 @@ import mx.kinich49.expensetracker.models.database.Category;
 public class CategoryWebModel {
 
     private final long id;
-    private final String title;
+    private final String name;
     private final String color;
 
     public static CategoryWebModel from(Category category) {

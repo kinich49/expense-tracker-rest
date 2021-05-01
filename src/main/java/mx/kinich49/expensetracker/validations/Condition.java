@@ -1,5 +1,7 @@
 package mx.kinich49.expensetracker.validations;
 
+import mx.kinich49.expensetracker.exceptions.ValidationFlowException;
+
 import java.util.Optional;
 
 /**
@@ -20,5 +22,5 @@ public interface Condition<T extends ConditionParameter> {
      * @return an Optional containing an error message, if any condition is not met.
      * An empty Optional otherwise.
      */
-    Optional<String> assertCondition(T param);
+    Optional<String> assertCondition(T param) throws ValidationFlowException;
 }

@@ -2,6 +2,7 @@ package mx.kinich49.expensetracker.models.database;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import mx.kinich49.expensetracker.models.web.requests.CategoryRequest;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -13,21 +14,25 @@ import java.util.List;
 @EqualsAndHashCode(of = {"id", "name"})
 public class Category {
 
-    @OneToMany(mappedBy = "category",
-            cascade = CascadeType.ALL)
-    List<Transaction> transactions;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO,
             generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
     private Long id;
+
     @NotNull
     private String name;
+
     private String color;
+
     @OneToMany(mappedBy = "category",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
     private List<MonthlyBudgetCategory> monthlyBudgetCategories;
+
+    @OneToMany(mappedBy = "category",
+            cascade = CascadeType.ALL)
+    List<Transaction> transactions;
 
     public void addMonthlyBudgetCategory(MonthlyBudgetCategory monthlyBudgetCategory) {
         monthlyBudgetCategory.setCategory(this);
@@ -37,5 +42,14 @@ public class Category {
     public void removeMonthlyBudgetCategory(MonthlyBudgetCategory monthlyBudgetCategory) {
         monthlyBudgetCategories.remove(monthlyBudgetCategory);
         monthlyBudgetCategory.setCategory(null);
+    }
+
+    public static Category from(CategoryRequest request) {
+        Category category = new Category();
+        category.setId(request.getId());
+        category.setName(request.getName());
+        category.setColor(request.getColor());
+
+        return category;
     }
 }
