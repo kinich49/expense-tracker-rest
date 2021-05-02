@@ -11,8 +11,8 @@ INSERT INTO Monthly_Incomes(upper_income_limit, begin_date) VALUES (1000000, '20
 INSERT INTO Monthly_Incomes(upper_income_limit, begin_date, end_date) VALUES (800000, '2020-01-01', '2020-06-30')
 INSERT INTO Monthly_Incomes(upper_income_limit, begin_date, end_date) VALUES (900000, '2020-07-01', '2020-09-30')
 
-INSERT INTO Monthly_Budgets(begin_date, end_date, title) VALUES ('2020-10-01', '2021-01-31', 'Non-Fixed Expenses')
-INSERT INTO Monthly_Budgets(begin_date, title) VALUES ('2020-12-01', 'Fixed Expenses')
+INSERT INTO Monthly_Budgets(begin_date, end_date, title, base_limit) VALUES ('2020-10-01', '2021-01-31', 'Non-Fixed Expenses', 0)
+INSERT INTO Monthly_Budgets(begin_date, title, base_limit) VALUES ('2020-12-01', 'Fixed Expenses', 0)
 
 INSERT INTO Monthly_Budget_Categories(monthly_limit, category_id, monthly_budget_id) VALUES(200000, 1, 1)
 INSERT INTO Monthly_Budget_Categories(monthly_limit, category_id, monthly_budget_id) VALUES(200000, 2, 1)

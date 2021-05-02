@@ -15,6 +15,7 @@ import mx.kinich49.expensetracker.repositories.MonthlyBudgetCategoryRepository;
 import mx.kinich49.expensetracker.repositories.MonthlyBudgetRepository;
 import mx.kinich49.expensetracker.repositories.MonthlyIncomeRepository;
 import mx.kinich49.expensetracker.services.MonthlyBudgetService;
+import mx.kinich49.expensetracker.validations.validators.monthlybudgetservice.BudgetValidatorImpl;
 import mx.kinich49.expensetracker.validations.validators.monthlycategorybudget.MonthlyCategoryBudgetValidatorImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,32 +33,36 @@ public class MonthlyBudgetServiceImpl implements MonthlyBudgetService {
     private final CategoryRepository categoryRepository;
     private final MonthlyCategoryBudgetValidatorImpl monthlyCategoryBudgetValidator;
     private final MonthlyIncomeRepository monthlyIncomeRepository;
+    private final BudgetValidatorImpl budgetValidator;
 
     @Autowired
     public MonthlyBudgetServiceImpl(MonthlyBudgetRepository monthlyBudgetRepository,
                                     MonthlyBudgetCategoryRepository monthlyBudgetCategoryRepository,
                                     CategoryRepository categoryRepository,
                                     MonthlyCategoryBudgetValidatorImpl monthlyCategoryBudgetValidator,
-                                    MonthlyIncomeRepository monthlyIncomeRepository) {
+                                    MonthlyIncomeRepository monthlyIncomeRepository,
+                                    BudgetValidatorImpl budgetValidator) {
         this.monthlyBudgetRepository = monthlyBudgetRepository;
         this.monthlyBudgetCategoryRepository = monthlyBudgetCategoryRepository;
         this.categoryRepository = categoryRepository;
         this.monthlyCategoryBudgetValidator = monthlyCategoryBudgetValidator;
         this.monthlyIncomeRepository = monthlyIncomeRepository;
+        this.budgetValidator = budgetValidator;
     }
 
     @Override
-    public SimpleMonthlyBudgetWebModel insertMonthlyBudget(MonthlyBudgetRequest request) {
+    public SimpleMonthlyBudgetWebModel insertMonthlyBudget(MonthlyBudgetRequest request) throws BusinessException {
+        budgetValidator.validate(new BudgetValidatorImpl.Parameter(request));
+
         MonthlyBudget monthlyBudget = new MonthlyBudget();
         monthlyBudget.setBeginDate(request.getBeginDate());
         monthlyBudget.setEndDate(request.getEndDate());
         monthlyBudget.setTitle(request.getTitle());
-
+        monthlyBudget.setBaseLimit(request.getBaseLimit());
         monthlyBudget = monthlyBudgetRepository.save(monthlyBudget);
 
         return SimpleMonthlyBudgetWebModel.from(monthlyBudget);
     }
-
 
     @Override
     public Optional<MonthlyBudgetWebModel> findMonthlyBudgets(YearMonth date) throws BusinessException {

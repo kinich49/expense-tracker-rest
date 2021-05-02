@@ -12,7 +12,7 @@ import java.util.Optional;
 
 public interface MonthlyBudgetService {
 
-    SimpleMonthlyBudgetWebModel insertMonthlyBudget(MonthlyBudgetRequest request);
+    SimpleMonthlyBudgetWebModel insertMonthlyBudget(MonthlyBudgetRequest request) throws BusinessException;
 
     Optional<MonthlyBudgetWebModel> findMonthlyBudgets(YearMonth date) throws BusinessException;
 
