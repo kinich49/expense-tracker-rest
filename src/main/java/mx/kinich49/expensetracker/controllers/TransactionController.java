@@ -30,12 +30,15 @@ public class TransactionController {
         this.service = service;
     }
 
-    @GetMapping
-    public ResponseEntity<?> getTransactionItems(@RequestParam long categoryId,
+    @GetMapping(params = {"categoryId", "startDate", "endDate"})
+    public ResponseEntity<?> getTransactionItems(@RequestParam
+                                                         long categoryId,
                                                  @RequestParam
-                                                 @DateTimeFormat LocalDateTime startDate,
+                                                 @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+                                                         LocalDateTime startDate,
                                                  @RequestParam
-                                                 @DateTimeFormat LocalDateTime endDate) {
+                                                 @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+                                                         LocalDateTime endDate) {
         try {
             return Optional.ofNullable(service.findTransactionsByCategory(categoryId, startDate, endDate))
                     .map(ApiResponse::new)
@@ -47,25 +50,27 @@ public class TransactionController {
 
     }
 
-    @GetMapping(params = {"month", "year"})
+    @GetMapping(params = {"startDate", "endDate"})
     public ResponseEntity<?> getTransactionItems(@RequestParam
-                                                 @DateTimeFormat LocalDateTime startDate,
+                                                 @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+                                                         LocalDateTime startDate,
                                                  @RequestParam
-                                                 @DateTimeFormat LocalDateTime endDate) {
+                                                 @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+                                                         LocalDateTime endDate) {
         return Optional.ofNullable(service.findTransactions(startDate, endDate))
                 .map(ApiResponse::new)
                 .map(response -> new ResponseEntity<>(response, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @GetMapping("/payment/{id}")
+    @GetMapping(value = "/payment/{id}", params = {"startDate", "endDate"})
     public ResponseEntity<?> getTransactionsByPaymentMethod(@PathVariable(name = "id")
                                                                     long paymentMethodId,
-                                                            @DateTimeFormat
                                                             @RequestParam
+                                                            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
                                                                     LocalDateTime startDate,
-                                                            @DateTimeFormat
                                                             @RequestParam
+                                                            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
                                                                     LocalDateTime endDate) {
         try {
             return Optional.ofNullable(service.findTransactionsByPaymentMethod(paymentMethodId, startDate, endDate))
