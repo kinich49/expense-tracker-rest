@@ -8,6 +8,7 @@ import mx.kinich49.expensetracker.models.database.converters.YearMonthDateAttrib
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,11 @@ import java.util.List;
 @Entity(name = "Monthly_Budgets")
 @EqualsAndHashCode(of = {"id", "beginDate", "endDate"})
 @ToString(exclude = {"monthlyBudgetCategories"})
+/*
+  The monthly limit is a dynamic value, calculated
+  by the sum of all the budget's category limit plus
+  the budget's base limit.
+ */
 public class MonthlyBudget {
 
     @Id
@@ -39,16 +45,16 @@ public class MonthlyBudget {
     @Column
     private String title;
 
+    @Column
+    @NotNull
+    private int baseLimit = 0;
+
     @OneToMany(
             mappedBy = "monthlyBudget",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
     private List<MonthlyBudgetCategory> monthlyBudgetCategories = new ArrayList<>();
-
-//    @ManyToOne
-//    @JoinColumn(name = "monthly_income_id")
-//    private MonthlyIncome monthlyIncome;
 
     public void addMonthlyBudgetCategory(MonthlyBudgetCategory monthlyBudgetCategory) {
         monthlyBudgetCategory.setMonthlyBudget(this);
@@ -62,10 +68,10 @@ public class MonthlyBudget {
 
     public int getMonthlyLimit() {
         if (monthlyBudgetCategories.isEmpty())
-            return 0;
+            return baseLimit;
 
         return monthlyBudgetCategories.stream()
                 .mapToInt(MonthlyBudgetCategory::getMonthlyLimit)
-                .reduce(0, Integer::sum);
+                .reduce(0, Integer::sum) + baseLimit;
     }
 }

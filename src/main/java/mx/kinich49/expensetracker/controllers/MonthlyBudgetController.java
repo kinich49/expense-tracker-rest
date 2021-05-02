@@ -45,10 +45,14 @@ public class MonthlyBudgetController {
     @PostMapping
     public ResponseEntity<ApiResponse<SimpleMonthlyBudgetWebModel>> addMonthlyBudget(
             @RequestBody MonthlyBudgetRequest request) {
-        return Optional.of(service.insertMonthlyBudget(request))
-                .map(ApiResponse::new)
-                .map(response -> new ResponseEntity<>(response, HttpStatus.OK))
-                .orElse(new ResponseEntity<>(HttpStatus.BAD_REQUEST));
+        try{
+            return Optional.of(service.insertMonthlyBudget(request))
+                    .map(ApiResponse::new)
+                    .map(response -> new ResponseEntity<>(response, HttpStatus.OK))
+                    .orElseGet(() -> new ResponseEntity<>(HttpStatus.BAD_REQUEST));
+        } catch (BusinessException e) {
+            return new ResponseEntity<>(new ApiResponse<>(e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @DeleteMapping(path = "/{budgetId}")

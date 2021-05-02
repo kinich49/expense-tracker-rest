@@ -10,4 +10,5 @@ public class MonthlyBudgetRequest {
     private YearMonth beginDate;
     private YearMonth endDate;
     private String title;
+    private int baseLimit;
 }
