@@ -2,6 +2,7 @@ package mx.kinich49.expensetracker.models.web;
 
 import lombok.Data;
 import mx.kinich49.expensetracker.models.database.Transaction;
+import mx.kinich49.expensetracker.utils.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -14,7 +15,7 @@ public class TransactionWebModel {
     private final Long id;
     private final String title;
     private final String memo;
-    private final int amount;
+    private final String amount;
     private final LocalDateTime transactionDate;
     private final PaymentMethodWebModel paymentMethod;
     private final CategoryWebModel category;
@@ -27,12 +28,13 @@ public class TransactionWebModel {
         CategoryWebModel category = CategoryWebModel.from(transaction.getCategory());
         PaymentMethodWebModel paymentMethod = PaymentMethodWebModel.from(transaction.getPaymentMethod());
         StoreWebModel store = StoreWebModel.from(transaction.getCommercialEstablishment());
+        String formattedAmount = StringUtils.formatCurrencyNumber(transaction.getAmount(), "MXN");
 
         return new TransactionWebModel(
                 transaction.getId(),
                 transaction.getTitle(),
                 transaction.getMemo(),
-                transaction.getAmount(),
+                formattedAmount,
                 transaction.getTransactionDate(),
                 paymentMethod,
                 category,

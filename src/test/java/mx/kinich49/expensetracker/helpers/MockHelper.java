@@ -15,6 +15,7 @@ import mx.kinich49.expensetracker.models.web.requests.CategoryRequest;
 import mx.kinich49.expensetracker.models.web.requests.PaymentMethodRequest;
 import mx.kinich49.expensetracker.models.web.requests.StoreRequest;
 import mx.kinich49.expensetracker.models.web.requests.TransactionRequest;
+import mx.kinich49.expensetracker.utils.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -152,7 +153,9 @@ public class MockHelper {
             prePersistTransaction.setAmount(transactionAmount);
             prePersistTransaction.setCommercialEstablishment(null);
 
-            transactionWebModel = new TransactionWebModel(transactionId, transactionTitle, transactionMemo, transactionAmount,
+            String formattedAmount = StringUtils.formatCurrencyNumber(transactionAmount, "MXN");
+
+            transactionWebModel = new TransactionWebModel(transactionId, transactionTitle, transactionMemo, formattedAmount,
                     this.transactionDate, paymentMethodWebModel, categoryWebModel, storeWebModel);
 
             return this;

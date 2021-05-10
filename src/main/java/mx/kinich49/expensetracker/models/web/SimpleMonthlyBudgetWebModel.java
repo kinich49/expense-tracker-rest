@@ -1,10 +1,9 @@
 package mx.kinich49.expensetracker.models.web;
 
 import lombok.Data;
-import mx.kinich49.expensetracker.Constants;
 import mx.kinich49.expensetracker.models.database.MonthlyBudget;
+import mx.kinich49.expensetracker.utils.StringUtils;
 
-import java.text.DecimalFormat;
 import java.time.YearMonth;
 import java.util.Collection;
 import java.util.List;
@@ -12,8 +11,6 @@ import java.util.stream.Collectors;
 
 @Data
 public class SimpleMonthlyBudgetWebModel {
-
-    public static final DecimalFormat LIMIT_FORMAT = new DecimalFormat("#,##0.00");
 
     private final long id;
     private final String title;
@@ -32,13 +29,13 @@ public class SimpleMonthlyBudgetWebModel {
         List<MonthlyBudgetCategoryWebModel> monthlyBudgetCategories = MonthlyBudgetCategoryWebModel
                 .from(monthlyBudget.getMonthlyBudgetCategories());
 
-        String monthlyLimitWithFormat = formatLimit(monthlyBudget.getMonthlyLimit(), "MXN");
+        String formattedLimit = StringUtils.formatCurrencyNumber(monthlyBudget.getMonthlyLimit(), "MXN");
 
         return new SimpleMonthlyBudgetWebModel(monthlyBudget.getId(),
                 monthlyBudget.getTitle(),
                 monthlyBudget.getBeginDate(),
                 monthlyBudget.getEndDate(),
-                monthlyLimitWithFormat,
+                formattedLimit,
                 monthlyBudgetCategories);
     }
 
@@ -49,17 +46,6 @@ public class SimpleMonthlyBudgetWebModel {
         return monthlyBudgets.stream()
                 .map(SimpleMonthlyBudgetWebModel::from)
                 .collect(Collectors.toList());
-    }
-
-    public static String formatLimit(int limit, String currency) {
-        double scaledLimit = transformLimit(limit);
-
-        return String.format("%1$s%2$s %3$s",
-                "$", LIMIT_FORMAT.format(scaledLimit), currency);
-    }
-
-    private static double transformLimit(int limit) {
-        return limit / Constants.PRICE_SCALE;
     }
 
 }

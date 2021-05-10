@@ -21,4 +21,15 @@ public final class StringUtils {
     public static boolean isNeitherNullNorEmptyNorBlank(String s) {
         return s != null && s.length() > 0 && !s.equals(" ");
     }
+
+    public static String formatCurrencyNumber(int number, String currency) {
+        double scaledLimit = transformLimit(number);
+
+        return String.format("%1$s%2$s %3$s",
+                "$", Constants.LIMIT_FORMAT.format(scaledLimit), currency);
+    }
+
+    private static double transformLimit(int number) {
+        return number / Constants.PRICE_SCALE;
+    }
 }

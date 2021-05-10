@@ -2,6 +2,7 @@ package mx.kinich49.expensetracker.models.web;
 
 import lombok.Data;
 import mx.kinich49.expensetracker.models.database.MonthlyBudgetCategory;
+import mx.kinich49.expensetracker.utils.StringUtils;
 
 import java.util.Collection;
 import java.util.List;
@@ -25,7 +26,7 @@ public class MonthlyBudgetCategoryWebModel {
         long budgetId = monthlyBudgetCategory.getMonthlyBudget().getId();
         int monthlyLimit = monthlyBudgetCategory.getMonthlyLimit();
 
-        String monthlyLimitWithFormat = SimpleMonthlyBudgetWebModel.formatLimit(monthlyLimit, "MXN");
+        String monthlyLimitWithFormat = StringUtils.formatCurrencyNumber(monthlyLimit, "MXN");
 
         return new MonthlyBudgetCategoryWebModel(
                 monthlyBudgetCategory.getId(),
