@@ -3,9 +3,7 @@ package mx.kinich49.expensetracker.models.database;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import mx.kinich49.expensetracker.models.web.requests.CategoryRequest;
-import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

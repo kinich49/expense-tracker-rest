@@ -3,7 +3,6 @@ package mx.kinich49.expensetracker.validations.conditions.monthlycategorybudget;
 import mx.kinich49.expensetracker.models.web.requests.MonthlyBudgetCategoryRequest;
 import mx.kinich49.expensetracker.repositories.CategoryRepository;
 import mx.kinich49.expensetracker.repositories.MonthlyBudgetRepository;
-import mx.kinich49.expensetracker.validations.conditions.monthlycategorybudget.RequestConditionImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

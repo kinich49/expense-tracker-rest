@@ -1,6 +1,5 @@
 package mx.kinich49.expensetracker.validations.conditions.monthlycategorybudget;
 
-import mx.kinich49.expensetracker.validations.conditions.monthlycategorybudget.LimitConditionImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
