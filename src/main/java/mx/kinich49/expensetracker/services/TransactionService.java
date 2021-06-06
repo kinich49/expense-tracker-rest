@@ -1,6 +1,7 @@
 package mx.kinich49.expensetracker.services;
 
 import mx.kinich49.expensetracker.exceptions.BusinessException;
+import mx.kinich49.expensetracker.models.web.ExpensesWebModel;
 import mx.kinich49.expensetracker.models.web.TransactionWebModel;
 import mx.kinich49.expensetracker.models.web.requests.TransactionRequest;
 
@@ -13,6 +14,9 @@ public interface TransactionService {
 
     List<TransactionWebModel> findTransactions(LocalDateTime startDate,
                                                LocalDateTime endDate);
+
+    List<ExpensesWebModel> findExpenses(LocalDateTime startDate,
+                                        LocalDateTime endDate);
 
     List<TransactionWebModel> findTransactionsByPaymentMethod(long paymentMethod,
                                                               LocalDateTime startDate,

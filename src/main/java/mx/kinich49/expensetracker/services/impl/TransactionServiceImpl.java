@@ -5,6 +5,7 @@ import mx.kinich49.expensetracker.models.database.Category;
 import mx.kinich49.expensetracker.models.database.PaymentMethod;
 import mx.kinich49.expensetracker.models.database.CommercialEstablishment;
 import mx.kinich49.expensetracker.models.database.Transaction;
+import mx.kinich49.expensetracker.models.web.ExpensesWebModel;
 import mx.kinich49.expensetracker.models.web.TransactionWebModel;
 import mx.kinich49.expensetracker.models.web.requests.CategoryRequest;
 import mx.kinich49.expensetracker.models.web.requests.PaymentMethodRequest;
@@ -75,6 +76,12 @@ public class TransactionServiceImpl implements TransactionService {
         return Optional.ofNullable(transactionRepository.findByTransactionDateBetween(startDate, endDate))
                 .map(TransactionWebModel::from)
                 .orElse(Collections.emptyList());
+    }
+
+    @Override
+    public List<ExpensesWebModel> findExpenses(LocalDateTime startDate,
+                                               LocalDateTime endDate) {
+        return null;
     }
 
     @Override

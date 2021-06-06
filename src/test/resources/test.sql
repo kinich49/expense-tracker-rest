@@ -18,3 +18,25 @@ INSERT INTO Monthly_Budget_Categories(monthly_limit, category_id, monthly_budget
 INSERT INTO Monthly_Budget_Categories(monthly_limit, category_id, monthly_budget_id) VALUES(200000, 2, 1)
 INSERT INTO Monthly_Budget_Categories(monthly_limit, category_id, monthly_budget_id) VALUES(200000, 3, 1)
 INSERT INTO Monthly_Budget_Categories(monthly_limit, category_id, monthly_budget_id) VALUES(100000, 4, 2)
+
+INSERT INTO Payment_Methods(name) values('Credit Card RegularBank')
+INSERT INTO Payment_Methods(name) values('Cash')
+
+INSERT INTO Commercial_Establishments(name) values ('HEB')
+INSERT INTO Commercial_Establishments(name) values ('Walmart')
+INSERT INTO Commercial_Establishments(name) values ('Street Store')
+INSERT INTO Commercial_Establishments(name) values ('Exxon Mobil')
+INSERT INTO Commercial_Establishments(name) values ('Shin Long')
+INSERT INTO Commercial_Establishments(name) values ('Carls Jr')
+
+INSERT INTO Transactions(title, amount, transaction_date, category_id, payment_method_id, commercial_establishment_id) values ('Grocery Shopping', 150000, '2021-06-01T03:00:00', 3, 1, 1)
+
+INSERT INTO Transactions(title, amount, transaction_date, category_id, payment_method_id, commercial_establishment_id) values ('Grocery Shopping', 150000, '2021-05-03T03:00:00', 3, 1, 1)
+INSERT INTO Transactions(title, amount, transaction_date, category_id, payment_method_id, commercial_establishment_id) values ('Grocery Shopping', 90000, '2021-05-17T03:00:00', 3, 1, 1)
+
+INSERT INTO Transactions(title, amount, transaction_date, category_id, payment_method_id, commercial_establishment_id) values ('Chinese Food', 20000, '2021-04-01T03:00:00', 1, 2, 5)
+INSERT INTO Transactions(title, amount, transaction_date, category_id, payment_method_id, commercial_establishment_id) values ('Hamburgers with family', 30000, '2021-04-010T03:00:00', 1, 1, 6)
+INSERT INTO Transactions(title, amount, transaction_date, category_id, payment_method_id, commercial_establishment_id) values ('Regular Gas', 75000, '2021-04-015T03:00:00', 2, 1, 4)
+INSERT INTO Transactions(title, amount, transaction_date, category_id, payment_method_id, commercial_establishment_id) values ('Grocery Shopping', 90000, '2021-04-05T03:00:00', 3, 1, 2)
+INSERT INTO Transactions(title, amount, transaction_date, category_id, payment_method_id, commercial_establishment_id) values ('Grocery Shopping', 210000, '2021-04-12T03:00:00', 3, 1, 2)
+INSERT INTO Transactions(title, amount, transaction_date, category_id, payment_method_id, commercial_establishment_id) values ('Grocery Shopping', 150000, '2021-04-19T03:00:00', 3, 1, 2)

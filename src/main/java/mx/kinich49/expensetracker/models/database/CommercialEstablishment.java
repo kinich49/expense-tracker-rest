@@ -28,4 +28,15 @@ public class CommercialEstablishment {
         commercialEstablishment.setName(request.getName());
         return commercialEstablishment;
     }
+
+    public static CommercialEstablishment copy(CommercialEstablishment commercialEstablishment) {
+        if (commercialEstablishment == null)
+            return null;
+
+        CommercialEstablishment copy = new CommercialEstablishment();
+        copy.id = commercialEstablishment.id;
+        copy.name = commercialEstablishment.name;
+
+        return copy;
+    }
 }

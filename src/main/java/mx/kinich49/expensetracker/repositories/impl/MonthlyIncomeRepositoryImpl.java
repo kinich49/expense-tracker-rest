@@ -18,7 +18,6 @@ public class MonthlyIncomeRepositoryImpl implements MonthlyIncomeRepositoryCusto
 
     @Override
     public Optional<MonthlyIncome> findCurrentIncome() {
-
         List<MonthlyIncome> results = entityManager
                 .createQuery("SELECT mi FROM Monthly_Incomes mi " +
                                 "WHERE mi.endDate IS NULL ORDER BY mi.beginDate DESC",
@@ -34,6 +33,7 @@ public class MonthlyIncomeRepositoryImpl implements MonthlyIncomeRepositoryCusto
     @Override
     public Optional<MonthlyIncome> collides(YearMonth beginDate, YearMonth endDate) {
         TypedQuery<MonthlyIncome> query;
+
         try {
             if (endDate == null) {
                 query = entityManager.createQuery(
