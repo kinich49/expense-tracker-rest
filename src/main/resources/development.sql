@@ -13,3 +13,11 @@ INSERT INTO Monthly_Budgets(begin_date, title, base_limit) VALUES ('2020-12-01',
 INSERT INTO Monthly_Budgets(begin_date, title, base_limit) VALUES ('2020-12-01', 'Fixed Expenses', 0)
 
 INSERT INTO Monthly_Budget_Categories(monthly_limit, category_id, monthly_budget_id) VALUES(100000, 4, 2)
+
+INSERT INTO Payment_Methods(name) values('Credit Card RegularBank')
+INSERT INTO Payment_Methods(name) values('Cash')
+
+INSERT INTO Commercial_Establishments(name) values ('HEB')
+INSERT INTO Commercial_Establishments(name) values ('Walmart')
+INSERT INTO Commercial_Establishments(name) values ('Street Store')
+
