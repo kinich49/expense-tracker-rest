@@ -5,6 +5,7 @@ import mx.kinich49.expensetracker.models.rest.ApiResponse;
 import mx.kinich49.expensetracker.models.web.TransactionWebModel;
 import mx.kinich49.expensetracker.models.web.requests.TransactionRequest;
 import mx.kinich49.expensetracker.repositories.TransactionRepository;
+import mx.kinich49.expensetracker.services.ExpenseService;
 import mx.kinich49.expensetracker.services.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -22,12 +23,15 @@ public class TransactionController {
 
     private final TransactionRepository repository;
     private final TransactionService service;
+    private final ExpenseService expenseService;
 
     @Autowired
     public TransactionController(TransactionRepository repository,
-                                 TransactionService service) {
+                                 TransactionService service,
+                                 ExpenseService expenseService) {
         this.repository = repository;
         this.service = service;
+        this.expenseService = expenseService;
     }
 
     @GetMapping(params = {"categoryId", "startDate", "endDate"})
@@ -47,7 +51,6 @@ public class TransactionController {
         } catch (BusinessException e) {
             return new ResponseEntity<>(new ApiResponse<>(e.getMessage()), HttpStatus.BAD_REQUEST);
         }
-
     }
 
     @GetMapping(params = {"startDate", "endDate"})
@@ -57,7 +60,7 @@ public class TransactionController {
                                                  @RequestParam
                                                  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
                                                          LocalDateTime endDate) {
-        return Optional.ofNullable(service.findTransactions(startDate, endDate))
+        return Optional.ofNullable(expenseService.findExpensesBetween(startDate, endDate))
                 .map(ApiResponse::new)
                 .map(response -> new ResponseEntity<>(response, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));

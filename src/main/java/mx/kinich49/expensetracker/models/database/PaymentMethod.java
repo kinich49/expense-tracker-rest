@@ -24,4 +24,15 @@ public class PaymentMethod {
         paymentMethod.setName(request.getName());
         return paymentMethod;
     }
+
+    public static PaymentMethod copy(PaymentMethod paymentMethod) {
+        if (paymentMethod == null)
+            return null;
+
+        PaymentMethod copy = new PaymentMethod();
+        copy.id = paymentMethod.id;
+        copy.name = paymentMethod.name;
+
+        return copy;
+    }
 }

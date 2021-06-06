@@ -39,4 +39,21 @@ public class Transaction {
     @NotNull
     private LocalDateTime transactionDate;
 
+    public static Transaction copy(Transaction transaction) {
+        if (transaction == null)
+            return null;
+
+        Transaction copy = new Transaction();
+        copy.amount = transaction.amount;
+        copy.id = transaction.id;
+        copy.transactionDate = transaction.transactionDate;
+        copy.memo = transaction.memo;
+        copy.title = transaction.title;
+
+        copy.category = Category.copy(transaction.category);
+        copy.commercialEstablishment = CommercialEstablishment.copy(transaction.commercialEstablishment);
+        copy.paymentMethod = PaymentMethod.copy(transaction.paymentMethod);
+
+        return copy;
+    }
 }

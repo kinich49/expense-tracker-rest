@@ -3,7 +3,9 @@ package mx.kinich49.expensetracker.models.database;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import mx.kinich49.expensetracker.models.web.requests.CategoryRequest;
+import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -51,5 +53,17 @@ public class Category {
         category.setColor(request.getColor());
 
         return category;
+    }
+
+    public static Category copy(Category category) {
+        if (category == null)
+            return null;
+
+        Category copy = new Category();
+        copy.color = category.color;
+        copy.name = category.name;
+        copy.id = category.id;
+
+        return copy;
     }
 }
