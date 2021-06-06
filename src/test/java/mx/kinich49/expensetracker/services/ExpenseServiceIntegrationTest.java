@@ -4,7 +4,6 @@ import lombok.Data;
 import mx.kinich49.expensetracker.Constants;
 import mx.kinich49.expensetracker.models.web.CategoryTransactionWebModel;
 import mx.kinich49.expensetracker.models.web.ExpensesWebModel;
-import org.aspectj.apache.bcel.classfile.Utility;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

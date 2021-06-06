@@ -4,7 +4,10 @@ import lombok.Data;
 import mx.kinich49.expensetracker.models.web.requests.PaymentMethodRequest;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Data
 @Entity(name = "Payment_Methods")
