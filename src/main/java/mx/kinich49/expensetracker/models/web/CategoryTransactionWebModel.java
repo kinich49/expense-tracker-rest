@@ -10,11 +10,10 @@ import java.util.stream.Collectors;
 @Data
 public class CategoryTransactionWebModel {
 
-    private final List<TransactionWebModel> transactions;
     private final CategoryWebModel category;
     private final int transactionCount;
     private final int expense;
-
+    private final List<TransactionWebModel> transactions;
 
     public static CategoryTransactionWebModel from(Category category) {
         if (category == null)
@@ -23,7 +22,7 @@ public class CategoryTransactionWebModel {
         CategoryWebModel categoryWebModel = CategoryWebModel.from(category);
 
         if (category.getTransactions() == null || category.getTransactions().isEmpty())
-            return new CategoryTransactionWebModel(null, categoryWebModel, 0, 0);
+            return new CategoryTransactionWebModel(categoryWebModel, 0, 0, null);
         else {
             List<TransactionWebModel> webModels = category.getTransactions()
                     .stream().map(TransactionWebModel::from)
@@ -35,7 +34,7 @@ public class CategoryTransactionWebModel {
                     .stream().mapToInt(Transaction::getAmount)
                     .reduce(0, Integer::sum);
 
-            return new CategoryTransactionWebModel(webModels, categoryWebModel, transactionCount, expense);
+            return new CategoryTransactionWebModel(categoryWebModel, transactionCount, expense, webModels);
         }
     }
 }

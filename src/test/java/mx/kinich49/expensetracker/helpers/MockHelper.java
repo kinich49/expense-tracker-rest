@@ -112,7 +112,10 @@ public class MockHelper {
         private Long paymentMethodId;
         private String paymentMethodName;
 
-        public Mock withValidTransaction(LocalDateTime transactionDate) {
+        //TODO these validations should not be here
+        //  calling withValidTransaction first will throw exception
+        //  the builder methods should not matter
+        public Mock withValidTransaction(LocalDateTime transactionDate, int transactionAmount) {
             if (!allowNullCategory)
                 MockPreconditions.validateCategory(this);
             if (!allowNullPaymentMethod)
@@ -120,16 +123,10 @@ public class MockHelper {
             if (!allowNullStore)
                 MockPreconditions.validateStore(this);
 
-            transactionAmount = 10000;
+            this.transactionAmount = transactionAmount;
             transactionTitle = "Test Transaction";
             transactionMemo = "Transaction memo";
             transactionId = 999L;
-
-            if (transactionDate == null) {
-                this.transactionDate = LocalDateTime.now();
-            } else {
-                this.transactionDate = transactionDate;
-            }
 
             transactionRequest = new TransactionRequest(transactionTitle, transactionMemo,
                     transactionAmount, paymentMethodRequest, this.transactionDate, storeRequest, categoryRequest);
@@ -162,7 +159,15 @@ public class MockHelper {
         }
 
         public Mock withValidTransaction() {
-            return withValidTransaction(null);
+            return withValidTransaction(LocalDateTime.now(), 1000);
+        }
+
+        public Mock withValidTransaction(LocalDateTime transactionDate) {
+            return withValidTransaction(transactionDate, 1000);
+        }
+
+        public Mock withValidTransaction(int transactionAmount) {
+            return withValidTransaction(LocalDateTime.now(), transactionAmount);
         }
 
         public Mock withEmptyTransaction() {
