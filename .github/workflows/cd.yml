@@ -28,4 +28,4 @@ jobs:
           "curl -X POST -u \"${{ secrets.CD_USERNAME}}:${{secrets.CD_PAT}}\"
           -H \"Accept: application/vnd.github.everest-preview+json\"
           -H \"Content-Type: application/json\" https://api.github.com/repos/kinich49/expense-tracker-cd/actions/workflows/cd.yml/dispatches
-          --data '{\"ref\": \"main\"}'"
+          --data '{\"ref\": \"master\"}'"
