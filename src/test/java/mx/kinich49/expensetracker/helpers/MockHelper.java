@@ -113,8 +113,9 @@ public class MockHelper {
         private String paymentMethodName;
 
         //TODO these validations should not be here
-        //  calling withValidTransaction first will throw exception
-        //  the builder methods should not matter
+        //  Clients calling this method before setting
+        //  everything else will throw exception.
+        //  The builder methods order should not matter
         public Mock withValidTransaction(LocalDateTime transactionDate, int transactionAmount) {
             if (!allowNullCategory)
                 MockPreconditions.validateCategory(this);
@@ -124,6 +125,7 @@ public class MockHelper {
                 MockPreconditions.validateStore(this);
 
             this.transactionAmount = transactionAmount;
+            this.transactionDate = transactionDate;
             transactionTitle = "Test Transaction";
             transactionMemo = "Transaction memo";
             transactionId = 999L;
