@@ -33,7 +33,7 @@ public class CommercialEstablishmentRequestValidatorImpl implements
 
         notNullCondition.assertCondition(conditionParameter)
                 .ifPresent(accumulator::append);
-        notNullCondition.assertCondition(conditionParameter)
+        nameCondition.assertCondition(conditionParameter)
                 .ifPresent(accumulator::append);
 
         String error = accumulator.toString().trim();
