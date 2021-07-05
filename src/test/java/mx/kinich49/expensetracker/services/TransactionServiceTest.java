@@ -7,8 +7,8 @@ import mx.kinich49.expensetracker.models.database.PaymentMethod;
 import mx.kinich49.expensetracker.models.database.Transaction;
 import mx.kinich49.expensetracker.models.web.TransactionWebModel;
 import mx.kinich49.expensetracker.repositories.CategoryRepository;
+import mx.kinich49.expensetracker.repositories.CommercialEstablishmentRepository;
 import mx.kinich49.expensetracker.repositories.PaymentMethodRepository;
-import mx.kinich49.expensetracker.repositories.StoreRepository;
 import mx.kinich49.expensetracker.repositories.TransactionRepository;
 import mx.kinich49.expensetracker.services.impl.TransactionServiceImpl;
 import mx.kinich49.expensetracker.validations.validators.transactionservice.TransactionServiceValidatorImpl;
@@ -39,7 +39,7 @@ public class TransactionServiceTest {
     @Mock
     CategoryRepository categoryRepository;
     @Mock
-    StoreRepository storeRepository;
+    CommercialEstablishmentRepository storeRepository;
     @Mock
     TransactionServiceValidatorImpl transactionServiceValidator;
 
