@@ -43,7 +43,7 @@ public class CommercialEstablishmentRequestNameConditionImpl
                 .or(() -> validateUniqueName(request));
     }
 
-    public Optional<String> validateNotNullNotEmptyName(CommercialEstablishmentRequest request) {
+    private Optional<String> validateNotNullNotEmptyName(CommercialEstablishmentRequest request) {
         String name = request.getName();
 
         if (StringUtils.isNullOrEmptyOrBlank(name))
