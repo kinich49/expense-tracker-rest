@@ -39,7 +39,7 @@ public class CommercialEstablishmentRequestNameConditionTest {
     @MethodSource("nullBlankOrEmptyName")
     void shouldReturnError_whenRequestNameIsNotValid(CommercialEstablishmentRequest request) {
         //given
-        ConditionParameterImpl parameter = new ConditionParameterImpl(request);
+        Parameter parameter = new Parameter(request);
 
         //when
         Optional<String> result = subject.assertCondition(parameter);
@@ -55,7 +55,7 @@ public class CommercialEstablishmentRequestNameConditionTest {
     void shouldReturnError_whenNameIsNotUnique(String name) {
         //given
         CommercialEstablishmentRequest request = new CommercialEstablishmentRequest(1L, name);
-        ConditionParameterImpl conditionParameter = new ConditionParameterImpl(request);
+        Parameter conditionParameter = new Parameter(request);
 
         when(repository.exists(any()))
                 .thenReturn(true);
@@ -75,7 +75,7 @@ public class CommercialEstablishmentRequestNameConditionTest {
     void shouldReturnEmpty_whenNameIsValid() {
         //given
         CommercialEstablishmentRequest request = new CommercialEstablishmentRequest(1L, "Unique Name");
-        ConditionParameterImpl conditionParameter = new ConditionParameterImpl(request);
+        Parameter conditionParameter = new Parameter(request);
 
         when(repository.exists(any()))
                 .thenReturn(false);

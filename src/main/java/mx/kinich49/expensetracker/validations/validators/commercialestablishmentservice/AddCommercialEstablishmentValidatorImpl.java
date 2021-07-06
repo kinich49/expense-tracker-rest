@@ -4,14 +4,14 @@ import mx.kinich49.expensetracker.exceptions.BusinessException;
 import mx.kinich49.expensetracker.utils.StringUtils;
 import mx.kinich49.expensetracker.validations.Validator;
 import mx.kinich49.expensetracker.validations.conditions.commercialestablishmentservice.CommercialEstablishmentRequestNameConditionImpl;
-import mx.kinich49.expensetracker.validations.conditions.commercialestablishmentservice.ConditionParameterImpl;
+import mx.kinich49.expensetracker.validations.conditions.commercialestablishmentservice.Parameter;
 import mx.kinich49.expensetracker.validations.conditions.commercialestablishmentservice.NotNullCommercialEstablishmentRequestConditionImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class AddCommercialEstablishmentValidatorImpl implements
-        Validator<Parameter> {
+        Validator<mx.kinich49.expensetracker.validations.validators.commercialestablishmentservice.Parameter> {
 
     private final NotNullCommercialEstablishmentRequestConditionImpl notNullCondition;
     private final CommercialEstablishmentRequestNameConditionImpl nameCondition;
@@ -24,8 +24,8 @@ public class AddCommercialEstablishmentValidatorImpl implements
     }
 
     @Override
-    public void validate(Parameter param) throws BusinessException {
-        var conditionParameter = new ConditionParameterImpl(param.getRequest());
+    public void validate(mx.kinich49.expensetracker.validations.validators.commercialestablishmentservice.Parameter param) throws BusinessException {
+        var conditionParameter = new Parameter(param.getRequest());
         StringBuilder accumulator = new StringBuilder();
 
         notNullCondition.assertCondition(conditionParameter)

@@ -28,7 +28,7 @@ public class NotNullCommercialEstablishmentRequestConditionTest {
     @DisplayName("Should throw exception when request is null")
     void shouldThrowException_whenRequestIsNull() {
         //given
-        ConditionParameterImpl parameter = new ConditionParameterImpl(null);
+        Parameter parameter = new Parameter(null);
 
         //when
         Exception exception = assertThrows(ValidationFlowException.class, () ->
@@ -42,7 +42,7 @@ public class NotNullCommercialEstablishmentRequestConditionTest {
     @DisplayName("Should return empty when request is not null")
     void shouldReturnEmpty_whenRequestIsNotNull() {
         //given
-        var parameter = new ConditionParameterImpl(new CommercialEstablishmentRequest(1L, "Test"));
+        var parameter = new Parameter(new CommercialEstablishmentRequest(1L, "Test"));
 
         //when
         Optional<String> result = assertDoesNotThrow(() -> subject.assertCondition(parameter));

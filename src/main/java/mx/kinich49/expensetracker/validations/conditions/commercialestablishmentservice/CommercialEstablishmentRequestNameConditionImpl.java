@@ -16,7 +16,7 @@ import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatc
 
 @Component
 public class CommercialEstablishmentRequestNameConditionImpl
-        implements Condition<ConditionParameterImpl> {
+        implements Condition<Parameter> {
 
     private final CommercialEstablishmentRepository repository;
     private final ExampleMatcher modelMatcher = ExampleMatcher.matching()
@@ -37,7 +37,7 @@ public class CommercialEstablishmentRequestNameConditionImpl
      * Empty Otherwise
      */
     @Override
-    public Optional<String> assertCondition(ConditionParameterImpl param) {
+    public Optional<String> assertCondition(Parameter param) {
         var request = param.getRequest();
         return validateNotNullNotEmptyName(request)
                 .or(() -> validateUniqueName(request));

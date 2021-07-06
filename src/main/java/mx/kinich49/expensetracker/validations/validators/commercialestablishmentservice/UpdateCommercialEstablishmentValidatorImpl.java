@@ -3,14 +3,14 @@ package mx.kinich49.expensetracker.validations.validators.commercialestablishmen
 import mx.kinich49.expensetracker.exceptions.BusinessException;
 import mx.kinich49.expensetracker.utils.StringUtils;
 import mx.kinich49.expensetracker.validations.Validator;
-import mx.kinich49.expensetracker.validations.conditions.commercialestablishmentservice.ConditionParameterImpl;
+import mx.kinich49.expensetracker.validations.conditions.commercialestablishmentservice.Parameter;
 import mx.kinich49.expensetracker.validations.conditions.commercialestablishmentservice.NotNullCommercialEstablishmentRequestConditionImpl;
 import mx.kinich49.expensetracker.validations.conditions.commercialestablishmentservice.UpdateCommercialEstablishmentConditionImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UpdateCommercialEstablishmentValidatorImpl implements Validator<Parameter> {
+public class UpdateCommercialEstablishmentValidatorImpl implements Validator<mx.kinich49.expensetracker.validations.validators.commercialestablishmentservice.Parameter> {
 
     private final NotNullCommercialEstablishmentRequestConditionImpl notNullCondition;
     private final UpdateCommercialEstablishmentConditionImpl updateCondition;
@@ -23,8 +23,8 @@ public class UpdateCommercialEstablishmentValidatorImpl implements Validator<Par
     }
 
     @Override
-    public void validate(Parameter param) throws BusinessException {
-        ConditionParameterImpl conditionParameter = new ConditionParameterImpl(param.getRequest());
+    public void validate(mx.kinich49.expensetracker.validations.validators.commercialestablishmentservice.Parameter param) throws BusinessException {
+        Parameter conditionParameter = new Parameter(param.getRequest());
         StringBuilder accumulator = new StringBuilder();
 
         notNullCondition.assertCondition(conditionParameter)

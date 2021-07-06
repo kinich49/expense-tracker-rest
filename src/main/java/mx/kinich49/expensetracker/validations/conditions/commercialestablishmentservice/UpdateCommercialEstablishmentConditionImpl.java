@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
-public class UpdateCommercialEstablishmentConditionImpl implements Condition<ConditionParameterImpl> {
+public class UpdateCommercialEstablishmentConditionImpl implements Condition<Parameter> {
 
     private final CommercialEstablishmentRepository repository;
 
@@ -19,7 +19,7 @@ public class UpdateCommercialEstablishmentConditionImpl implements Condition<Con
     }
 
     @Override
-    public Optional<String> assertCondition(ConditionParameterImpl param) throws ValidationFlowException {
+    public Optional<String> assertCondition(Parameter param) throws ValidationFlowException {
         var request = param.getRequest();
         if (request.getId() == null || request.getId() <= 0) {
             return Optional.of("Invalid Id. ");
