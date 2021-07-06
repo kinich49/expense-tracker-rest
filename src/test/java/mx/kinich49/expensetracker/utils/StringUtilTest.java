@@ -59,7 +59,7 @@ public class StringUtilTest {
 
     public static Stream<Arguments> formattedAmountArguments() {
         return Stream.of(
-                Arguments.of("1", "MXN", "$0.01 MXN"),
+                Arguments.of(1, "MXN", "$0.01 MXN"),
                 Arguments.of(50, "MXN", "$0.50 MXN"),
                 Arguments.of(100, "MXN", "$1.00 MXN"),
                 Arguments.of(100000, "MXN", "$1,000.00 MXN"),
