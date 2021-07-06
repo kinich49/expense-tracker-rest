@@ -6,5 +6,6 @@ import mx.kinich49.expensetracker.validations.ConditionParameter;
 
 @Data
 public class ConditionParameterImpl implements ConditionParameter {
+
     private final CommercialEstablishmentRequest request;
 }
