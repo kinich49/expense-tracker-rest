@@ -12,6 +12,6 @@ public class TransactionRequest {
     private final int amount;
     private final PaymentMethodRequest paymentMethod;
     private final LocalDateTime dateCreated;
-    private final StoreRequest store;
+    private final CommercialEstablishmentRequest store;
     private final CategoryRequest category;
 }

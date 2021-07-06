@@ -1,7 +1,7 @@
 package mx.kinich49.expensetracker.validations.conditions.transactionservice;
 
 import lombok.Data;
-import mx.kinich49.expensetracker.models.web.requests.StoreRequest;
+import mx.kinich49.expensetracker.models.web.requests.CommercialEstablishmentRequest;
 import mx.kinich49.expensetracker.utils.StringUtils;
 import mx.kinich49.expensetracker.validations.Condition;
 import mx.kinich49.expensetracker.validations.ConditionParameter;
@@ -14,7 +14,7 @@ public class StoreRequestCondition implements Condition<StoreRequestCondition.Pa
 
     @Override
     public Optional<String> assertCondition(StoreRequestCondition.Parameter param) {
-        StoreRequest request = param.request;
+        CommercialEstablishmentRequest request = param.request;
 
         //Store is not required
         if (request == null)
@@ -29,6 +29,6 @@ public class StoreRequestCondition implements Condition<StoreRequestCondition.Pa
 
     @Data
     public static class Parameter implements ConditionParameter {
-        private final StoreRequest request;
+        private final CommercialEstablishmentRequest request;
     }
 }

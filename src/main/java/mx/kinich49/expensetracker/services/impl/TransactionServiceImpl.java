@@ -8,12 +8,12 @@ import mx.kinich49.expensetracker.models.database.Transaction;
 import mx.kinich49.expensetracker.models.web.ExpensesWebModel;
 import mx.kinich49.expensetracker.models.web.TransactionWebModel;
 import mx.kinich49.expensetracker.models.web.requests.CategoryRequest;
+import mx.kinich49.expensetracker.models.web.requests.CommercialEstablishmentRequest;
 import mx.kinich49.expensetracker.models.web.requests.PaymentMethodRequest;
-import mx.kinich49.expensetracker.models.web.requests.StoreRequest;
 import mx.kinich49.expensetracker.models.web.requests.TransactionRequest;
 import mx.kinich49.expensetracker.repositories.CategoryRepository;
+import mx.kinich49.expensetracker.repositories.CommercialEstablishmentRepository;
 import mx.kinich49.expensetracker.repositories.PaymentMethodRepository;
-import mx.kinich49.expensetracker.repositories.StoreRepository;
 import mx.kinich49.expensetracker.repositories.TransactionRepository;
 import mx.kinich49.expensetracker.services.TransactionService;
 import mx.kinich49.expensetracker.validations.validators.transactionservice.TransactionServiceValidatorImpl;
@@ -32,14 +32,14 @@ public class TransactionServiceImpl implements TransactionService {
     private final TransactionRepository transactionRepository;
     private final CategoryRepository categoryRepository;
     private final PaymentMethodRepository paymentMethodRepository;
-    private final StoreRepository storeRepository;
+    private final CommercialEstablishmentRepository storeRepository;
     private final TransactionServiceValidatorImpl transactionValidator;
 
     @Autowired
     public TransactionServiceImpl(TransactionRepository transactionRepository,
                                   CategoryRepository categoryRepository,
                                   PaymentMethodRepository paymentMethodRepository,
-                                  StoreRepository storeRepository,
+                                  CommercialEstablishmentRepository storeRepository,
                                   TransactionServiceValidatorImpl transactionValidator) {
         this.transactionRepository = transactionRepository;
         this.categoryRepository = categoryRepository;
@@ -118,7 +118,7 @@ public class TransactionServiceImpl implements TransactionService {
                 .orElseGet(() -> paymentMethodRepository.save(PaymentMethod.from(request)));
     }
 
-    private CommercialEstablishment fetchOrCreate(StoreRequest request) {
+    private CommercialEstablishment fetchOrCreate(CommercialEstablishmentRequest request) {
         return Optional.ofNullable(request.getId())
                 .flatMap(storeRepository::findById)
                 .orElseGet(() -> storeRepository.save(CommercialEstablishment.from(request)));

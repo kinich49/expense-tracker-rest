@@ -1,7 +1,7 @@
 package mx.kinich49.expensetracker.models.database;
 
 import lombok.Data;
-import mx.kinich49.expensetracker.models.web.requests.StoreRequest;
+import mx.kinich49.expensetracker.models.web.requests.CommercialEstablishmentRequest;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Entity;
@@ -22,7 +22,7 @@ public class CommercialEstablishment {
 
     private String name;
 
-    public static CommercialEstablishment from(StoreRequest request) {
+    public static CommercialEstablishment from(CommercialEstablishmentRequest request) {
         CommercialEstablishment commercialEstablishment = new CommercialEstablishment();
         commercialEstablishment.setId(request.getId());
         commercialEstablishment.setName(request.getName());

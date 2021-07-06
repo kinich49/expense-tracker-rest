@@ -8,12 +8,12 @@ import mx.kinich49.expensetracker.models.database.CommercialEstablishment;
 import mx.kinich49.expensetracker.models.database.PaymentMethod;
 import mx.kinich49.expensetracker.models.database.Transaction;
 import mx.kinich49.expensetracker.models.web.CategoryWebModel;
+import mx.kinich49.expensetracker.models.web.CommercialEstablishmentWebModel;
 import mx.kinich49.expensetracker.models.web.PaymentMethodWebModel;
-import mx.kinich49.expensetracker.models.web.StoreWebModel;
 import mx.kinich49.expensetracker.models.web.TransactionWebModel;
 import mx.kinich49.expensetracker.models.web.requests.CategoryRequest;
+import mx.kinich49.expensetracker.models.web.requests.CommercialEstablishmentRequest;
 import mx.kinich49.expensetracker.models.web.requests.PaymentMethodRequest;
-import mx.kinich49.expensetracker.models.web.requests.StoreRequest;
 import mx.kinich49.expensetracker.models.web.requests.TransactionRequest;
 import mx.kinich49.expensetracker.utils.StringUtils;
 
@@ -97,10 +97,10 @@ public class MockHelper {
         private String categoryColor;
 
         private boolean allowNullStore;
-        private StoreRequest storeRequest;
+        private CommercialEstablishmentRequest storeRequest;
         private CommercialEstablishment postPersistCommercialEstablishment;
         private CommercialEstablishment prePersistCommercialEstablishment;
-        private StoreWebModel storeWebModel;
+        private CommercialEstablishmentWebModel storeWebModel;
         private Long storeId;
         private String storeName;
 
@@ -245,7 +245,7 @@ public class MockHelper {
             storeName = "New Test Store";
             storeId = 799L;
 
-            storeRequest = new StoreRequest(null, storeName);
+            storeRequest = new CommercialEstablishmentRequest(null, storeName);
 
             prePersistCommercialEstablishment = new CommercialEstablishment();
             prePersistCommercialEstablishment.setName(storeName);
@@ -254,13 +254,13 @@ public class MockHelper {
             postPersistCommercialEstablishment.setId(storeId);
             postPersistCommercialEstablishment.setName(storeName);
 
-            storeWebModel = new StoreWebModel(storeId, storeName);
+            storeWebModel = new CommercialEstablishmentWebModel(storeId, storeName);
 
             return this;
         }
 
         public Mock withEmptyStore() {
-            storeRequest = new StoreRequest(null, null);
+            storeRequest = new CommercialEstablishmentRequest(null, null);
             return this;
         }
 
@@ -278,7 +278,7 @@ public class MockHelper {
             storeName = "Persisted Test Store";
             storeId = 700L;
 
-            storeRequest = new StoreRequest(storeId, storeName);
+            storeRequest = new CommercialEstablishmentRequest(storeId, storeName);
 
             prePersistCommercialEstablishment = new CommercialEstablishment();
             prePersistCommercialEstablishment.setId(storeId);
@@ -288,7 +288,7 @@ public class MockHelper {
             postPersistCommercialEstablishment.setId(storeId);
             postPersistCommercialEstablishment.setName(storeName);
 
-            storeWebModel = new StoreWebModel(storeId, storeName);
+            storeWebModel = new CommercialEstablishmentWebModel(storeId, storeName);
 
             return this;
         }

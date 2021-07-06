@@ -19,7 +19,7 @@ public class TransactionWebModel {
     private final LocalDateTime transactionDate;
     private final PaymentMethodWebModel paymentMethod;
     private final CategoryWebModel category;
-    private final StoreWebModel store;
+    private final CommercialEstablishmentWebModel store;
 
     public static TransactionWebModel from(Transaction transaction) {
         if (transaction == null)
@@ -27,7 +27,8 @@ public class TransactionWebModel {
 
         CategoryWebModel category = CategoryWebModel.from(transaction.getCategory());
         PaymentMethodWebModel paymentMethod = PaymentMethodWebModel.from(transaction.getPaymentMethod());
-        StoreWebModel store = StoreWebModel.from(transaction.getCommercialEstablishment());
+        CommercialEstablishmentWebModel store = CommercialEstablishmentWebModel
+                .from(transaction.getCommercialEstablishment());
         String formattedAmount = StringUtils.formatCurrencyNumber(transaction.getAmount(), "MXN");
 
         return new TransactionWebModel(
