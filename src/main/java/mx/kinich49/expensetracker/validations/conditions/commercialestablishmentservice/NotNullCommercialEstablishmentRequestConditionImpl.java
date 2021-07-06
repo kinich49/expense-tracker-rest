@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
-public class NotNullCommercialEstablishmentRequestConditionImpl implements Condition<Parameter> {
+public class NotNullCommercialEstablishmentRequestConditionImpl implements Condition<ConditionParameterImpl> {
 
     private final CommercialEstablishmentRepository repository;
 
@@ -27,7 +27,7 @@ public class NotNullCommercialEstablishmentRequestConditionImpl implements Condi
      * @throws ValidationFlowException if the request is null
      */
     @Override
-    public Optional<String> assertCondition(Parameter param) throws ValidationFlowException {
+    public Optional<String> assertCondition(ConditionParameterImpl param) throws ValidationFlowException {
         var request = param.getRequest();
 
         if (request == null) {

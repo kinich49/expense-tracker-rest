@@ -8,8 +8,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -28,11 +26,11 @@ public class NotNullCommercialEstablishmentRequestConditionTest {
     @DisplayName("Should throw exception when request is null")
     void shouldThrowException_whenRequestIsNull() {
         //given
-        Parameter parameter = new Parameter(null);
+        var conditionParameter = new ConditionParameterImpl(null);
 
         //when
-        Exception exception = assertThrows(ValidationFlowException.class, () ->
-                subject.assertCondition(parameter));
+        var exception = assertThrows(ValidationFlowException.class, () ->
+                subject.assertCondition(conditionParameter));
 
         //then
         assertNotNull(exception);
@@ -42,10 +40,10 @@ public class NotNullCommercialEstablishmentRequestConditionTest {
     @DisplayName("Should return empty when request is not null")
     void shouldReturnEmpty_whenRequestIsNotNull() {
         //given
-        var parameter = new Parameter(new CommercialEstablishmentRequest(1L, "Test"));
+        var parameter = new ConditionParameterImpl(new CommercialEstablishmentRequest(1L, "Test"));
 
         //when
-        Optional<String> result = assertDoesNotThrow(() -> subject.assertCondition(parameter));
+        var result = assertDoesNotThrow(() -> subject.assertCondition(parameter));
 
         //then
         assertFalse(result.isPresent());

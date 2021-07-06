@@ -5,7 +5,7 @@ import mx.kinich49.expensetracker.models.web.requests.CommercialEstablishmentReq
 import mx.kinich49.expensetracker.validations.ConditionParameter;
 
 @Data
-public class Parameter implements ConditionParameter {
+public class ConditionParameterImpl implements mx.kinich49.expensetracker.validations.ConditionParameter {
 
     private final CommercialEstablishmentRequest request;
 }

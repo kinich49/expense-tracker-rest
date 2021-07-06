@@ -38,7 +38,7 @@ public class UpdateCommercialEstablishmentConditionTest {
     void shouldReturnEmpty_whenRequestIsValid() {
         //given
         var request = new CommercialEstablishmentRequest(1L, "Test request");
-        var parameter = new Parameter(request);
+        var parameter = new ConditionParameterImpl(request);
 
         when(repository.existsById(eq(1L)))
                 .thenReturn(true);
@@ -55,7 +55,7 @@ public class UpdateCommercialEstablishmentConditionTest {
     void shouldReturnError_whenIdIsNotValid(Long id) {
         //given
         var request = new CommercialEstablishmentRequest(id, "Test request");
-        var parameter = new Parameter(request);
+        var parameter = new ConditionParameterImpl(request);
         verify(repository, times(0)).existsById(eq(id));
 
         //when
@@ -73,7 +73,7 @@ public class UpdateCommercialEstablishmentConditionTest {
     void shouldReturnError_whenIdIsNotExistent(Long id) {
         //given
         var request = new CommercialEstablishmentRequest(id, "Test request");
-        var parameter = new Parameter(request);
+        var parameter = new ConditionParameterImpl(request);
 
         when(repository.existsById(eq(id)))
                 .thenReturn(false);
