@@ -19,6 +19,15 @@ import java.util.Optional;
  * <p>
  * That's one business rule, encapsulated in its own
  * Condition implementation
+ * <p>
+ * It might occur a condition is considered a "gatekeeper", as in,
+ * if that condition is not met, then all other consecutive
+ * conditions should not even be executed.
+ * <p>
+ * For example, a Request to add a CommercialEstablishment has
+ * a condition the request must not be null. If this condition
+ * is not satisfied, then other conditions should not be tested
+ * as they might cause errors, or duplicated error messages.
  */
 public interface Condition<T extends ConditionParameter> {
 
@@ -26,6 +35,8 @@ public interface Condition<T extends ConditionParameter> {
      * @param param the instance to assert it meets all conditions
      * @return an Optional containing an error message, if any condition is not met.
      * An empty Optional otherwise.
+     * @throws ValidationFlowException when a "gatekeeper" condition is not met, as in,
+     *                                 consecutive conditions should not be tested.
      */
     Optional<String> assertCondition(T param) throws ValidationFlowException;
 }
