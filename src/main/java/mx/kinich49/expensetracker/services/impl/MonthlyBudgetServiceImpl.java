@@ -23,6 +23,8 @@ import org.springframework.stereotype.Service;
 import java.time.YearMonth;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Stream;
 
 @Service
 @SuppressWarnings("unused")
@@ -79,7 +81,7 @@ public class MonthlyBudgetServiceImpl implements MonthlyBudgetService {
             throws BusinessException {
         Optional<MonthlyBudget> optMonthlyBudget = monthlyBudgetRepository.findById(request.getBudgetId());
 
-        if (!optMonthlyBudget.isPresent()) {
+        if (optMonthlyBudget.isEmpty()) {
             String error = String.format("Monthly Budget with id %1$d not found", request.getBudgetId());
             throw new BusinessException(error);
         }
@@ -90,7 +92,7 @@ public class MonthlyBudgetServiceImpl implements MonthlyBudgetService {
 
         Optional<Category> optCategory = categoryRepository.findById(request.getCategoryId());
 
-        if (!optCategory.isPresent()) {
+        if (optCategory.isEmpty()) {
             String error = String.format("Category with id %1$d not found", request.getCategoryId());
             throw new BusinessException(error);
         }
@@ -104,8 +106,15 @@ public class MonthlyBudgetServiceImpl implements MonthlyBudgetService {
             throw new BusinessException(error);
         }
 
+        int currentLimit = monthlyBudgets.stream()
+                .flatMap((Function<MonthlyBudget, Stream<MonthlyBudgetCategory>>) mb ->
+                        mb.getMonthlyBudgetCategories().stream())
+                .filter(monthlyBudgetCategory -> !monthlyBudgetCategory.getCategory().getId().equals(category.getId()))
+                .mapToInt(MonthlyBudgetCategory::getMonthlyLimit)
+                .reduce(0, Integer::sum);
+
         MonthlyCategoryBudgetValidatorImpl.Parameter validatorParameter =
-                new MonthlyCategoryBudgetValidatorImpl.Parameter(request, monthlyIncome, monthlyBudgets);
+                new MonthlyCategoryBudgetValidatorImpl.Parameter(request, monthlyIncome, monthlyBudgets, currentLimit);
 
         monthlyCategoryBudgetValidator.validate(validatorParameter);
 
@@ -129,11 +138,11 @@ public class MonthlyBudgetServiceImpl implements MonthlyBudgetService {
         Optional<MonthlyBudgetCategory> optionalMonthlyBudgetCategory = monthlyBudgetCategoryRepository
                 .findByCategoryIdAndMonthlyBudgetId(categoryId, budgetId);
 
-        if (!optionalMonthlyBudgetCategory.isPresent())
+        if (optionalMonthlyBudgetCategory.isEmpty())
             return;
 
         Optional<MonthlyBudget> optionalMonthlyBudget = monthlyBudgetRepository.findById(budgetId);
-        if (!optionalMonthlyBudget.isPresent())
+        if (optionalMonthlyBudget.isEmpty())
             return;
 
         MonthlyBudgetCategory monthlyBudgetCategory = optionalMonthlyBudgetCategory.get();

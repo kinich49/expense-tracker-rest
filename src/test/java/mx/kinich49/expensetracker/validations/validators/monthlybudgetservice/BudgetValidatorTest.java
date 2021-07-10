@@ -24,7 +24,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class BudgetValidatorTest {
-    
+
     BudgetValidatorImpl subject;
     @Mock
     BudgetRequestCondition budgetRequestCondition;

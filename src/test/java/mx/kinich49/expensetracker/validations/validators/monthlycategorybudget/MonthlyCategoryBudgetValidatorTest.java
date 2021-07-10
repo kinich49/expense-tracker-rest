@@ -7,11 +7,12 @@ import mx.kinich49.expensetracker.models.web.requests.MonthlyBudgetCategoryReque
 import mx.kinich49.expensetracker.validations.conditions.monthlycategorybudget.BudgetsConditionImpl;
 import mx.kinich49.expensetracker.validations.conditions.monthlycategorybudget.LimitConditionImpl;
 import mx.kinich49.expensetracker.validations.conditions.monthlycategorybudget.RequestConditionImpl;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
@@ -26,15 +27,24 @@ import static org.mockito.Mockito.when;
 @ExtendWith({MockitoExtension.class})
 public class MonthlyCategoryBudgetValidatorTest {
 
-    @InjectMocks
-    MonthlyCategoryBudgetValidatorImpl subject;
 
+    MonthlyCategoryBudgetValidatorImpl subject;
     @Mock
     RequestConditionImpl monthlyBudgeCategoryRequestCondition;
     @Mock
     LimitConditionImpl monthlyCategoryLimitCondition;
     @Mock
     BudgetsConditionImpl monthlyCategoryBudgetBudgetsCondition;
+    MonthlyCategoryBudgetConditionProviderImpl conditionProvider;
+
+    @BeforeEach
+    void setUp() {
+        conditionProvider = Mockito
+                .spy(new MonthlyCategoryBudgetConditionProviderImpl(monthlyBudgeCategoryRequestCondition,
+                        monthlyCategoryLimitCondition, monthlyCategoryBudgetBudgetsCondition));
+
+        subject = new MonthlyCategoryBudgetValidatorImpl(conditionProvider);
+    }
 
     @Test
     @DisplayName("Sanity Test")
@@ -52,7 +62,7 @@ public class MonthlyCategoryBudgetValidatorTest {
         List<MonthlyBudget> monthlyBudgets = new ArrayList<>();
 
         MonthlyCategoryBudgetValidatorImpl.Parameter parameter =
-                new MonthlyCategoryBudgetValidatorImpl.Parameter(request, monthlyIncome, monthlyBudgets);
+                new MonthlyCategoryBudgetValidatorImpl.Parameter(request, monthlyIncome, monthlyBudgets, 1000);
 
         when(monthlyBudgeCategoryRequestCondition
                 .assertCondition(any(RequestConditionImpl.Parameter.class)))
@@ -79,7 +89,7 @@ public class MonthlyCategoryBudgetValidatorTest {
         List<MonthlyBudget> monthlyBudgets = new ArrayList<>();
 
         MonthlyCategoryBudgetValidatorImpl.Parameter parameter =
-                new MonthlyCategoryBudgetValidatorImpl.Parameter(request, monthlyIncome, monthlyBudgets);
+                new MonthlyCategoryBudgetValidatorImpl.Parameter(request, monthlyIncome, monthlyBudgets, 1000);
 
         String errorMessage = "Something went wrong";
 
@@ -108,7 +118,7 @@ public class MonthlyCategoryBudgetValidatorTest {
         List<MonthlyBudget> monthlyBudgets = new ArrayList<>();
 
         MonthlyCategoryBudgetValidatorImpl.Parameter parameter =
-                new MonthlyCategoryBudgetValidatorImpl.Parameter(request, monthlyIncome, monthlyBudgets);
+                new MonthlyCategoryBudgetValidatorImpl.Parameter(request, monthlyIncome, monthlyBudgets, 1000);
 
         String errorMessage = "Something went wrong";
 
@@ -141,7 +151,7 @@ public class MonthlyCategoryBudgetValidatorTest {
         List<MonthlyBudget> monthlyBudgets = new ArrayList<>();
 
         MonthlyCategoryBudgetValidatorImpl.Parameter parameter =
-                new MonthlyCategoryBudgetValidatorImpl.Parameter(request, monthlyIncome, monthlyBudgets);
+                new MonthlyCategoryBudgetValidatorImpl.Parameter(request, monthlyIncome, monthlyBudgets, 1000);
 
         String errorMessage = "Something went wrong";
 
