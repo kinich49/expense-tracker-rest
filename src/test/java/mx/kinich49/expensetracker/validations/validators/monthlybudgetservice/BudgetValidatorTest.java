@@ -5,6 +5,7 @@ import mx.kinich49.expensetracker.exceptions.ValidationFlowException;
 import mx.kinich49.expensetracker.models.web.requests.MonthlyBudgetRequest;
 import mx.kinich49.expensetracker.validations.conditions.monthlybudgetservice.BudgetLimitCondition;
 import mx.kinich49.expensetracker.validations.conditions.monthlybudgetservice.BudgetRequestCondition;
+import mx.kinich49.expensetracker.validations.conditions.monthlybudgetservice.BudgetRequestConditionParameterImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,20 +26,20 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class BudgetValidatorTest {
 
-    BudgetValidatorImpl subject;
+    AddBudgetValidatorImpl subject;
     @Mock
     BudgetRequestCondition budgetRequestCondition;
     @Mock
     BudgetLimitCondition budgetLimitCondition;
 
-    BudgetValidatorConditionProviderImpl conditionProvider;
+    AddBudgetValidatorConditionProviderImpl conditionProvider;
 
     @BeforeEach
     void setUp() {
         conditionProvider = Mockito
-                .spy(new BudgetValidatorConditionProviderImpl(budgetLimitCondition, budgetRequestCondition));
+                .spy(new AddBudgetValidatorConditionProviderImpl(budgetLimitCondition, budgetRequestCondition));
 
-        subject = new BudgetValidatorImpl(conditionProvider);
+        subject = new AddBudgetValidatorImpl(conditionProvider);
     }
 
     @Test
@@ -51,46 +52,42 @@ public class BudgetValidatorTest {
     @DisplayName("Should complete when request is valid")
     public void shouldComplete_whenRequestIsValid() throws ValidationFlowException {
         //given
-        MonthlyBudgetRequest request = new MonthlyBudgetRequest();
-        request.setTitle("Test title");
-        request.setBaseLimit(100000);
-        request.setBeginDate(YearMonth.of(2021, Month.JANUARY));
-        request.setEndDate(YearMonth.of(2021, Month.DECEMBER));
+        MonthlyBudgetRequest request = new MonthlyBudgetRequest(null,
+                YearMonth.of(2021, Month.JANUARY), YearMonth.of(2021, Month.DECEMBER),
+                "Test title", 100000 );
 
         when(budgetRequestCondition.assertCondition(
-                eq(new BudgetRequestCondition.Parameter(request))))
+                eq(new BudgetRequestConditionParameterImpl(request))))
                 .thenReturn(Optional.empty());
         when(budgetLimitCondition.assertCondition(
-                eq(new BudgetLimitCondition.Parameter(request))))
+                eq(new BudgetRequestConditionParameterImpl(request))))
                 .thenReturn(Optional.empty());
 
         //when
         assertDoesNotThrow(() ->
-                subject.validate(new BudgetValidatorImpl.Parameter(request)));
+                subject.validate(new BudgetValidatorParameterImpl(request)));
     }
 
     @Test
     @DisplayName("Should throw exception when request fails RequestCondition")
     public void shouldThrowException_whenRequestFailsRequestCondition() throws ValidationFlowException {
         //given
-        MonthlyBudgetRequest request = new MonthlyBudgetRequest();
-        request.setTitle("Test title");
-        request.setBaseLimit(100000);
-        request.setBeginDate(YearMonth.of(2021, Month.JANUARY));
-        request.setEndDate(YearMonth.of(2021, Month.DECEMBER));
+        MonthlyBudgetRequest request = new MonthlyBudgetRequest(null,
+                YearMonth.of(2021, Month.JANUARY), YearMonth.of(2021, Month.DECEMBER),
+                "Test title", 100000 );
 
         String errorMessage = "Request Condition failed.";
         when(budgetRequestCondition.assertCondition(
-                eq(new BudgetRequestCondition.Parameter(request))))
+                eq(new BudgetRequestConditionParameterImpl(request))))
                 .thenThrow(new ValidationFlowException(errorMessage));
 
         lenient().when(budgetLimitCondition.assertCondition(
-                eq(new BudgetLimitCondition.Parameter(request))))
+                eq(new BudgetRequestConditionParameterImpl(request))))
                 .thenReturn(Optional.empty());
 
         //when
         BusinessException exception = assertThrows(BusinessException.class, () ->
-                subject.validate(new BudgetValidatorImpl.Parameter(request)));
+                subject.validate(new BudgetValidatorParameterImpl(request)));
 
         //then
         assertNotNull(exception);
@@ -101,24 +98,22 @@ public class BudgetValidatorTest {
     @DisplayName("Should throw exception when request fails BudgetLimitCondition")
     public void shouldThrowException_whenRequestFailsBudgetLimitCondition() throws ValidationFlowException {
         //given
-        MonthlyBudgetRequest request = new MonthlyBudgetRequest();
-        request.setTitle("Test title");
-        request.setBaseLimit(100000);
-        request.setBeginDate(YearMonth.of(2021, Month.JANUARY));
-        request.setEndDate(YearMonth.of(2021, Month.DECEMBER));
+        MonthlyBudgetRequest request = new MonthlyBudgetRequest(null,
+                YearMonth.of(2021, Month.JANUARY), YearMonth.of(2021, Month.DECEMBER),
+                "Test title", 100000 );
 
         String errorMessage = "Budget Condition failed.";
         lenient().when(budgetRequestCondition.assertCondition(
-                eq(new BudgetRequestCondition.Parameter(request))))
+                eq(new BudgetRequestConditionParameterImpl(request))))
                 .thenReturn(Optional.empty());
 
         lenient().when(budgetLimitCondition.assertCondition(
-                eq(new BudgetLimitCondition.Parameter(request))))
+                eq(new BudgetRequestConditionParameterImpl(request))))
                 .thenThrow(new ValidationFlowException(errorMessage));
 
         //when
         BusinessException exception = assertThrows(BusinessException.class, () ->
-                subject.validate(new BudgetValidatorImpl.Parameter(request)));
+                subject.validate(new BudgetValidatorParameterImpl(request)));
 
         //then
         assertNotNull(exception);

@@ -1,6 +1,5 @@
 package mx.kinich49.expensetracker.validations.conditions.monthlybudgetservice;
 
-import lombok.Data;
 import mx.kinich49.expensetracker.exceptions.ValidationFlowException;
 import mx.kinich49.expensetracker.models.database.MonthlyBudget;
 import mx.kinich49.expensetracker.models.database.MonthlyIncome;
@@ -8,7 +7,6 @@ import mx.kinich49.expensetracker.models.web.requests.MonthlyBudgetRequest;
 import mx.kinich49.expensetracker.repositories.MonthlyBudgetRepository;
 import mx.kinich49.expensetracker.repositories.MonthlyIncomeRepository;
 import mx.kinich49.expensetracker.validations.Condition;
-import mx.kinich49.expensetracker.validations.ConditionParameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-public class BudgetLimitCondition implements Condition<BudgetLimitCondition.Parameter> {
+public class BudgetLimitCondition implements Condition<BudgetRequestConditionParameterImpl> {
 
     private final MonthlyBudgetRepository monthlyBudgetRepository;
     private final MonthlyIncomeRepository monthlyIncomeRepository;
@@ -30,8 +28,8 @@ public class BudgetLimitCondition implements Condition<BudgetLimitCondition.Para
     }
 
     @Override
-    public Optional<String> assertCondition(Parameter param) throws ValidationFlowException {
-        MonthlyBudgetRequest request = param.request;
+    public Optional<String> assertCondition(BudgetRequestConditionParameterImpl param) throws ValidationFlowException {
+        MonthlyBudgetRequest request = param.getRequest();
 
         //In this test, base limit less than zero is valid
         //because it's being validated as part of the request conditions
@@ -94,8 +92,4 @@ public class BudgetLimitCondition implements Condition<BudgetLimitCondition.Para
         return (currentLimit + requestBaseLimit) > monthlyIncome.getUpperIncomeLimit();
     }
 
-    @Data
-    public static class Parameter implements ConditionParameter {
-        private final MonthlyBudgetRequest request;
-    }
 }

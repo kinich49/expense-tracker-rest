@@ -19,6 +19,8 @@ public interface MonthlyBudgetService {
     MonthlyBudgetCategoryWebModel addMonthlyBudgetCategory(MonthlyBudgetCategoryRequest request)
             throws BusinessException;
 
+    SimpleMonthlyBudgetWebModel update(MonthlyBudgetRequest request) throws BusinessException;
+
     void removeMonthlyBudgetCategory(long budgetId, long categoryId);
 
     void removeMonthlyBudget(long budgetId);

@@ -29,15 +29,13 @@ public class BudgetRequestTest {
     @DisplayName("Should return empty when request is valid")
     public void shouldReturnEmpty_whenRequestIsValid() {
         //given
-        MonthlyBudgetRequest request = new MonthlyBudgetRequest();
-        request.setTitle("Test title");
-        request.setBaseLimit(100000);
-        request.setBeginDate(YearMonth.of(2021, Month.JANUARY));
-        request.setEndDate(YearMonth.of(2021, Month.DECEMBER));
+        MonthlyBudgetRequest request = new MonthlyBudgetRequest(null,
+                YearMonth.of(2021, Month.JANUARY), YearMonth.of(2021, Month.DECEMBER),
+                "Test title", 100000 );
 
         //when
         Optional<String> result = assertDoesNotThrow(() ->
-                subject.assertCondition(new BudgetRequestCondition.Parameter(request)));
+                subject.assertCondition(new BudgetRequestConditionParameterImpl(request)));
 
         //then
         assertFalse(result.isPresent());
@@ -48,7 +46,7 @@ public class BudgetRequestTest {
     public void shouldThrowException_whenRequestIsNull() {
         //when
         ValidationFlowException exception = assertThrows(ValidationFlowException.class, () -> {
-            subject.assertCondition(new BudgetRequestCondition.Parameter(null));
+            subject.assertCondition(new BudgetRequestConditionParameterImpl(null));
         });
 
         assertNotNull(exception);
@@ -59,14 +57,13 @@ public class BudgetRequestTest {
     @DisplayName("Should return error when begin date is not set")
     public void shouldReturnError_whenBeginDateIsNotSet() {
         //given
-        MonthlyBudgetRequest request = new MonthlyBudgetRequest();
-        request.setTitle("Test title");
-        request.setBaseLimit(100000);
-        request.setEndDate(YearMonth.of(2021, Month.DECEMBER));
+        MonthlyBudgetRequest request = new MonthlyBudgetRequest(null,
+                null, YearMonth.of(2021, Month.DECEMBER),
+                "Test title", 100000 );
 
         //when
         Optional<String> result = assertDoesNotThrow(() ->
-                subject.assertCondition(new BudgetRequestCondition.Parameter(request)));
+                subject.assertCondition(new BudgetRequestConditionParameterImpl(request)));
 
         //then
         assertTrue(result.isPresent());
@@ -76,15 +73,13 @@ public class BudgetRequestTest {
     @DisplayName("Should return error when baseLimit is less than zero")
     public void shouldReturnError_whenBaseLimitIsLessThanZero() {
         //given
-        MonthlyBudgetRequest request = new MonthlyBudgetRequest();
-        request.setTitle("Test title");
-        request.setBaseLimit(-1);
-        request.setBeginDate(YearMonth.of(2021, Month.JANUARY));
-        request.setEndDate(YearMonth.of(2021, Month.DECEMBER));
+        MonthlyBudgetRequest request = new MonthlyBudgetRequest(null,
+                YearMonth.of(2021, Month.JANUARY), YearMonth.of(2021, Month.DECEMBER),
+                "Test title", -1 );
 
         //when
         Optional<String> result = assertDoesNotThrow(() ->
-                subject.assertCondition(new BudgetRequestCondition.Parameter(request)));
+                subject.assertCondition(new BudgetRequestConditionParameterImpl(request)));
 
         //then
         assertTrue(result.isPresent());
