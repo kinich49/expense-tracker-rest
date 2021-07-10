@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 public class TransactionServiceValidatorImpl extends AbstractValidator<TransactionServiceValidatorImpl.Parameter> {
 
     @Autowired
-    public TransactionServiceValidatorImpl(ConditionProviderImpl conditionProvider) {
+    public TransactionServiceValidatorImpl(TransactionServiceConditionProviderImpl conditionProvider) {
        super(conditionProvider);
     }
 

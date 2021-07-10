@@ -16,7 +16,8 @@ import java.util.ArrayDeque;
 import java.util.Optional;
 
 @Component
-public class ConditionProviderImpl extends AbstractConditionProvider<TransactionServiceValidatorImpl.Parameter> {
+public class TransactionServiceConditionProviderImpl extends
+        AbstractConditionProvider<TransactionServiceValidatorImpl.Parameter> {
 
     private final CategoryRequestCondition categoryCondition;
     private final PaymentMethodRequestCondition paymentMethodCondition;
@@ -24,10 +25,10 @@ public class ConditionProviderImpl extends AbstractConditionProvider<Transaction
     private final TransactionRequestCondition transactionCondition;
 
     @Autowired
-    public ConditionProviderImpl(CategoryRequestCondition categoryCondition,
-                                 PaymentMethodRequestCondition paymentMethodCondition,
-                                 StoreRequestCondition storeCondition,
-                                 TransactionRequestCondition transactionCondition) {
+    public TransactionServiceConditionProviderImpl(CategoryRequestCondition categoryCondition,
+                                                   PaymentMethodRequestCondition paymentMethodCondition,
+                                                   StoreRequestCondition storeCondition,
+                                                   TransactionRequestCondition transactionCondition) {
         this.categoryCondition = categoryCondition;
         this.paymentMethodCondition = paymentMethodCondition;
         this.storeCondition = storeCondition;

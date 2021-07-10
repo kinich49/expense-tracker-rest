@@ -4,11 +4,12 @@ import mx.kinich49.expensetracker.exceptions.BusinessException;
 import mx.kinich49.expensetracker.models.web.requests.MonthlyIncomeRequest;
 import mx.kinich49.expensetracker.validations.conditions.monthlyincome.CollisionConditionImpl;
 import mx.kinich49.expensetracker.validations.conditions.monthlyincome.RequestConditionImpl;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.YearMonth;
@@ -22,13 +23,19 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class MonthlyIncomeValidatorTest {
 
-    @InjectMocks
     MonthlyIncomeValidatorImpl subject;
-
     @Mock
     RequestConditionImpl requestCondition;
     @Mock
     CollisionConditionImpl collisionCondition;
+
+    MonthlyIncomeConditionProviderImpl conditionProvider;
+
+    @BeforeEach
+    void setup() {
+        conditionProvider = Mockito.spy(new MonthlyIncomeConditionProviderImpl(requestCondition, collisionCondition));
+        subject = new MonthlyIncomeValidatorImpl(conditionProvider);
+    }
 
     @Test
     @DisplayName("Sanity test")

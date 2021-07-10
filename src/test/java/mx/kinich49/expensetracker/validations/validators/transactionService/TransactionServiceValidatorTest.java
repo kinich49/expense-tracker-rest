@@ -8,7 +8,7 @@ import mx.kinich49.expensetracker.validations.conditions.transactionservice.Cate
 import mx.kinich49.expensetracker.validations.conditions.transactionservice.PaymentMethodRequestCondition;
 import mx.kinich49.expensetracker.validations.conditions.transactionservice.StoreRequestCondition;
 import mx.kinich49.expensetracker.validations.conditions.transactionservice.TransactionRequestCondition;
-import mx.kinich49.expensetracker.validations.validators.transactionservice.ConditionProviderImpl;
+import mx.kinich49.expensetracker.validations.validators.transactionservice.TransactionServiceConditionProviderImpl;
 import mx.kinich49.expensetracker.validations.validators.transactionservice.TransactionServiceValidatorImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -38,7 +38,7 @@ public class TransactionServiceValidatorTest {
     @Mock
     TransactionRequestCondition transactionRequestCondition;
 
-    ConditionProviderImpl conditionProvider;
+    TransactionServiceConditionProviderImpl conditionProvider;
     @Test
     public void sanityTest() {
         assertNotNull(subject);
@@ -46,7 +46,7 @@ public class TransactionServiceValidatorTest {
 
     @BeforeEach
     void setup(){
-        conditionProvider = Mockito.spy(new ConditionProviderImpl(categoryRequestCondition,
+        conditionProvider = Mockito.spy(new TransactionServiceConditionProviderImpl(categoryRequestCondition,
                 paymentMethodRequestCondition, storeRequestCondition, transactionRequestCondition));
         subject = new TransactionServiceValidatorImpl(conditionProvider);
     }
