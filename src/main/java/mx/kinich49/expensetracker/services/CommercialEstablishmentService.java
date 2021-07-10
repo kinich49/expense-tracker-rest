@@ -20,6 +20,5 @@ public interface CommercialEstablishmentService {
 
     CommercialEstablishmentWebModel add(CommercialEstablishmentRequest request)
             throws BusinessException;
-
-    ;
+    
 }
