@@ -5,11 +5,12 @@ import mx.kinich49.expensetracker.exceptions.ValidationFlowException;
 import mx.kinich49.expensetracker.models.web.requests.MonthlyBudgetRequest;
 import mx.kinich49.expensetracker.validations.conditions.monthlybudgetservice.BudgetLimitCondition;
 import mx.kinich49.expensetracker.validations.conditions.monthlybudgetservice.BudgetRequestCondition;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.Month;
@@ -24,14 +25,21 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class BudgetValidatorTest {
 
-    @InjectMocks
     BudgetValidatorImpl subject;
-
     @Mock
     BudgetRequestCondition budgetRequestCondition;
-
     @Mock
     BudgetLimitCondition budgetLimitCondition;
+
+    BudgetValidatorConditionProviderImpl conditionProvider;
+
+    @BeforeEach
+    void setUp() {
+        conditionProvider = Mockito
+                .spy(new BudgetValidatorConditionProviderImpl(budgetLimitCondition, budgetRequestCondition));
+
+        subject = new BudgetValidatorImpl(conditionProvider);
+    }
 
     @Test
     @DisplayName("Sanity test")

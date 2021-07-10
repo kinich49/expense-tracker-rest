@@ -12,7 +12,7 @@ public interface CategoryService {
     /**
      * @param request the new category
      * @return and instance of CategoryWebModel if the request is valid
-     * @throws InvalidNewCategoryException if the category cannot be created
+     * @throws BusinessException if the category cannot be created
      */
     CategoryWebModel insertCategory(CategoryRequest request) throws BusinessException;
 

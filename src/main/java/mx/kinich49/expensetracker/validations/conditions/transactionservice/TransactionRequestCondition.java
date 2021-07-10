@@ -32,6 +32,7 @@ public class TransactionRequestCondition implements Condition<TransactionRequest
         if (request.getAmount() <= 0) {
             stringBuilder.append("Transaction must have an amount. ");
         }
+
         if (stringBuilder.length() == 0) {
             return Optional.empty();
         }

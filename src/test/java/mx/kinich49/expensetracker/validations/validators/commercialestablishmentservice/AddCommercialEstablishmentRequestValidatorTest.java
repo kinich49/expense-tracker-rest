@@ -6,6 +6,7 @@ import mx.kinich49.expensetracker.models.web.requests.CommercialEstablishmentReq
 import mx.kinich49.expensetracker.validations.conditions.commercialestablishmentservice.CommercialEstablishmentRequestNameConditionImpl;
 import mx.kinich49.expensetracker.validations.conditions.commercialestablishmentservice.ConditionParameterImpl;
 import mx.kinich49.expensetracker.validations.conditions.commercialestablishmentservice.NotNullCommercialEstablishmentRequestConditionImpl;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,6 +14,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
@@ -26,12 +29,21 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 public class AddCommercialEstablishmentRequestValidatorTest {
 
-    @InjectMocks
     AddCommercialEstablishmentValidatorImpl subject;
     @Mock
     NotNullCommercialEstablishmentRequestConditionImpl notNullCondition;
     @Mock
     CommercialEstablishmentRequestNameConditionImpl nameCondition;
+
+    AddCommercialEstablishmentConditionProviderImpl conditionProvider;
+
+    @BeforeEach
+    void setup() {
+        conditionProvider = Mockito
+                .spy(new AddCommercialEstablishmentConditionProviderImpl(notNullCondition, nameCondition));
+
+        subject = new AddCommercialEstablishmentValidatorImpl(conditionProvider);
+    }
 
     @Test
     void sanityTest() {
@@ -42,7 +54,7 @@ public class AddCommercialEstablishmentRequestValidatorTest {
     @DisplayName("Should throw exception when request is null")
     void shouldThrowException_whenRequestIsNull() throws ValidationFlowException {
         //given
-        var parameter = new ValidatorParameterImpl(null);
+        var parameter = new CommercialEstablishmentValidatorParameterImpl(null);
         var conditionParameter = new ConditionParameterImpl(null);
 
         when(notNullCondition.assertCondition(eq(conditionParameter)))
@@ -62,7 +74,7 @@ public class AddCommercialEstablishmentRequestValidatorTest {
     void shouldThrowException_whenNameIsNotValid(String name) {
         //given
         var request = new CommercialEstablishmentRequest(1L, name);
-        var parameter = new ValidatorParameterImpl(request);
+        var parameter = new CommercialEstablishmentValidatorParameterImpl(request);
         var conditionParameter = new ConditionParameterImpl(request);
 
         String expectedMessage = "Name is null or empty";
@@ -81,7 +93,7 @@ public class AddCommercialEstablishmentRequestValidatorTest {
     void shouldComplete_whenConditionsAreMet() throws ValidationFlowException {
         //given
         var request = new CommercialEstablishmentRequest(1L, "Test name");
-        var parameter = new ValidatorParameterImpl(request);
+        var parameter = new CommercialEstablishmentValidatorParameterImpl(request);
         var conditionParameter = new ConditionParameterImpl(request);
 
         when(notNullCondition.assertCondition(eq(conditionParameter)))

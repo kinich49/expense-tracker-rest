@@ -8,12 +8,14 @@ import mx.kinich49.expensetracker.validations.conditions.transactionservice.Cate
 import mx.kinich49.expensetracker.validations.conditions.transactionservice.PaymentMethodRequestCondition;
 import mx.kinich49.expensetracker.validations.conditions.transactionservice.StoreRequestCondition;
 import mx.kinich49.expensetracker.validations.conditions.transactionservice.TransactionRequestCondition;
+import mx.kinich49.expensetracker.validations.validators.transactionservice.TransactionServiceConditionProviderImpl;
 import mx.kinich49.expensetracker.validations.validators.transactionservice.TransactionServiceValidatorImpl;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
@@ -26,39 +28,43 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 public class TransactionServiceValidatorTest {
 
-    @InjectMocks
     TransactionServiceValidatorImpl subject;
-
     @Mock
     CategoryRequestCondition categoryRequestCondition;
-
     @Mock
     PaymentMethodRequestCondition paymentMethodRequestCondition;
-
     @Mock
     StoreRequestCondition storeRequestCondition;
-
     @Mock
     TransactionRequestCondition transactionRequestCondition;
 
+    TransactionServiceConditionProviderImpl conditionProvider;
     @Test
     public void sanityTest() {
         assertNotNull(subject);
     }
 
+    @BeforeEach
+    void setup(){
+        conditionProvider = Mockito.spy(new TransactionServiceConditionProviderImpl(categoryRequestCondition,
+                paymentMethodRequestCondition, storeRequestCondition, transactionRequestCondition));
+        subject = new TransactionServiceValidatorImpl(conditionProvider);
+    }
+
     @Test
     @DisplayName("Should complete with success")
     public void shouldComplete_withSuccess() throws ValidationFlowException {
-        when(categoryRequestCondition.assertCondition(any(CategoryRequestCondition.Parameter.class)))
+        //given
+        when(categoryRequestCondition.assertCondition(any()))
                 .thenReturn(Optional.empty());
 
-        when(paymentMethodRequestCondition.assertCondition(any(PaymentMethodRequestCondition.Parameter.class)))
+        when(paymentMethodRequestCondition.assertCondition(any()))
                 .thenReturn(Optional.empty());
 
-        when(storeRequestCondition.assertCondition(any(StoreRequestCondition.Parameter.class)))
+        when(storeRequestCondition.assertCondition(any()))
                 .thenReturn(Optional.empty());
 
-        when(transactionRequestCondition.assertCondition(any(TransactionRequestCondition.Parameter.class)))
+        when(transactionRequestCondition.assertCondition(any()))
                 .thenReturn(Optional.empty());
 
         //when
@@ -69,8 +75,10 @@ public class TransactionServiceValidatorTest {
                         .withPersistedCategory()
                         .withValidTransaction())
                 .get().getTransactionRequest();
+
         TransactionServiceValidatorImpl.Parameter parameter = new TransactionServiceValidatorImpl
                 .Parameter(request);
+
         //then
         assertDoesNotThrow(() -> subject.validate(parameter));
     }

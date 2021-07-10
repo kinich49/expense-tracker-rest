@@ -55,4 +55,45 @@ public class CollectionUtilTest {
         //then
         assertTrue(result);
     }
+
+    @Test
+    @DisplayName("Should return false when collection is null")
+    public void shouldReturnTrue_whenCollectionIsNull(){
+        //given
+        List<Object> list = null;
+
+        //when
+        boolean result = CollectionUtils.isNullOrEmpty(list);
+
+        //then
+        assertTrue(result);
+    }
+
+    @Test
+    @DisplayName("Should return false when collection is empty")
+    public void shouldReturnTrue_whenCollectionIsEmpty() {
+        //given
+        List<Object> list = new ArrayList<>();
+
+        //when
+        boolean result = CollectionUtils.isNullOrEmpty(list);
+
+        //then
+        assertTrue(result);
+    }
+
+    @Test
+    @DisplayName("Should return true when collection is not empty")
+    public void shouldReturnFalse_whenCollectionIsNotEmpty() {
+        //given
+        List<Object> list = new ArrayList<>(1);
+        Object object = new Object();
+        list.add(object);
+
+        //when
+        boolean result = CollectionUtils.isNullOrEmpty(list);
+
+        //then
+        assertFalse(result);
+    }
 }
