@@ -7,6 +7,7 @@ import mx.kinich49.expensetracker.validations.conditions.commercialestablishment
 import mx.kinich49.expensetracker.validations.conditions.commercialestablishmentservice.ConditionParameterImpl;
 import mx.kinich49.expensetracker.validations.conditions.commercialestablishmentservice.NotNullCommercialEstablishmentRequestConditionImpl;
 import mx.kinich49.expensetracker.validations.conditions.commercialestablishmentservice.UpdateCommercialEstablishmentConditionImpl;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,6 +15,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
@@ -27,15 +29,24 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 public class UpdateCommercialEstablishmentRequestValidatorTest {
 
-    @InjectMocks
     UpdateCommercialEstablishmentValidatorImpl subject;
-
     @Mock
     NotNullCommercialEstablishmentRequestConditionImpl notNullCondition;
     @Mock
     CommercialEstablishmentRequestNameConditionImpl nameCondition;
     @Mock
     UpdateCommercialEstablishmentConditionImpl updateCondition;
+
+    UpdateCommercialEstablishmentConditionProviderImpl conditionProvider;
+
+    @BeforeEach
+    void setUp() {
+        conditionProvider = Mockito
+                .spy(new UpdateCommercialEstablishmentConditionProviderImpl(notNullCondition,
+                        updateCondition, nameCondition));
+
+        subject = new UpdateCommercialEstablishmentValidatorImpl(conditionProvider);
+    }
 
     @Test
     void sanityTest() {
@@ -46,7 +57,7 @@ public class UpdateCommercialEstablishmentRequestValidatorTest {
     @DisplayName("Should throw exception when request is null")
     void shouldThrowException_whenRequestIsNull() throws ValidationFlowException {
         //given
-        var parameter = new ValidatorParameterImpl(null);
+        var parameter = new CommercialEstablishmentValidatorParameterImpl(null);
         var conditionParameter = new ConditionParameterImpl(null);
 
         when(notNullCondition.assertCondition(eq(conditionParameter)))
@@ -68,7 +79,7 @@ public class UpdateCommercialEstablishmentRequestValidatorTest {
     void shouldThrowException_whenNameIsNotValid(String name) throws ValidationFlowException {
         //given
         var request = new CommercialEstablishmentRequest(1L, name);
-        var parameter = new ValidatorParameterImpl(request);
+        var parameter = new CommercialEstablishmentValidatorParameterImpl(request);
         var conditionParameter = new ConditionParameterImpl(request);
 
         when(notNullCondition.assertCondition(eq(conditionParameter)))
@@ -94,7 +105,7 @@ public class UpdateCommercialEstablishmentRequestValidatorTest {
     void shouldThrowException_whenIdIsNotValid() throws Exception{
         //given
         var request = new CommercialEstablishmentRequest(null, "Test name");
-        var parameter = new ValidatorParameterImpl(request);
+        var parameter = new CommercialEstablishmentValidatorParameterImpl(request);
         var conditionParameter = new ConditionParameterImpl(request);
 
         when(notNullCondition.assertCondition(eq(conditionParameter)))
@@ -116,7 +127,7 @@ public class UpdateCommercialEstablishmentRequestValidatorTest {
     void shouldComplete_whenConditionsAreMet() throws ValidationFlowException {
         //given
         var request = new CommercialEstablishmentRequest(1L, "Test name");
-        var parameter = new ValidatorParameterImpl(request);
+        var parameter = new CommercialEstablishmentValidatorParameterImpl(request);
         var conditionParameter = new ConditionParameterImpl(request);
 
         when(updateCondition.assertCondition(eq(conditionParameter)))

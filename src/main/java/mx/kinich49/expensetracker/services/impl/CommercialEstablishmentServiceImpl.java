@@ -7,7 +7,7 @@ import mx.kinich49.expensetracker.models.web.requests.CommercialEstablishmentReq
 import mx.kinich49.expensetracker.repositories.CommercialEstablishmentRepository;
 import mx.kinich49.expensetracker.services.CommercialEstablishmentService;
 import mx.kinich49.expensetracker.validations.validators.commercialestablishmentservice.AddCommercialEstablishmentValidatorImpl;
-import mx.kinich49.expensetracker.validations.validators.commercialestablishmentservice.ValidatorParameterImpl;
+import mx.kinich49.expensetracker.validations.validators.commercialestablishmentservice.CommercialEstablishmentValidatorParameterImpl;
 import mx.kinich49.expensetracker.validations.validators.commercialestablishmentservice.UpdateCommercialEstablishmentValidatorImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,7 +52,7 @@ public class CommercialEstablishmentServiceImpl implements CommercialEstablishme
 
     @Override
     public CommercialEstablishmentWebModel update(CommercialEstablishmentRequest request) throws BusinessException {
-        var parameter = new ValidatorParameterImpl(request);
+        var parameter = new CommercialEstablishmentValidatorParameterImpl(request);
         updateValidator.validate(parameter);
 
         var commercialEstablishment = repository.findById(request.getId())
@@ -68,7 +68,7 @@ public class CommercialEstablishmentServiceImpl implements CommercialEstablishme
 
     @Override
     public CommercialEstablishmentWebModel add(CommercialEstablishmentRequest request) throws BusinessException {
-        var parameter = new ValidatorParameterImpl(request);
+        var parameter = new CommercialEstablishmentValidatorParameterImpl(request);
         addValidator.validate(parameter);
 
         var commercialEstablishment = repository.save(CommercialEstablishment.from(request));

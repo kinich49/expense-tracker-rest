@@ -4,7 +4,7 @@ import mx.kinich49.expensetracker.exceptions.BusinessException;
 import mx.kinich49.expensetracker.exceptions.ValidationFlowException;
 import mx.kinich49.expensetracker.models.web.requests.CommercialEstablishmentRequest;
 import mx.kinich49.expensetracker.validations.validators.commercialestablishmentservice.AddCommercialEstablishmentValidatorImpl;
-import mx.kinich49.expensetracker.validations.validators.commercialestablishmentservice.ValidatorParameterImpl;
+import mx.kinich49.expensetracker.validations.validators.commercialestablishmentservice.CommercialEstablishmentValidatorParameterImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -44,7 +44,7 @@ public class CommercialEstablishmentRequestValidatorTest {
     void shouldNotThrowException_whenRequestIsValid() throws ValidationFlowException {
         //given
         var request = new CommercialEstablishmentRequest(1L, "Test name");
-        var parameter = new ValidatorParameterImpl(request);
+        var parameter = new CommercialEstablishmentValidatorParameterImpl(request);
         var conditionParameter = new ConditionParameterImpl(request);
 
         when(notNullCondition.assertCondition(eq(conditionParameter)))
@@ -61,7 +61,7 @@ public class CommercialEstablishmentRequestValidatorTest {
     @DisplayName("Should throw exception when request is null")
     void shouldThrowException_whenRequestIsNull() throws ValidationFlowException {
         //given
-        var parameter = new ValidatorParameterImpl(null);
+        var parameter = new CommercialEstablishmentValidatorParameterImpl(null);
         var conditionParameter = new ConditionParameterImpl(null);
         ValidationFlowException exception = new ValidationFlowException("Request was null");
 
@@ -81,7 +81,7 @@ public class CommercialEstablishmentRequestValidatorTest {
     void shouldThrowException_whenRequestNameIsNotValid(String commercialEstablishmentName) throws BusinessException {
         //given
         var request = new CommercialEstablishmentRequest(1L, "Test name");
-        var parameter = new ValidatorParameterImpl(request);
+        var parameter = new CommercialEstablishmentValidatorParameterImpl(request);
         var conditionParameter = new ConditionParameterImpl(request);
 
         when(notNullCondition.assertCondition(eq(conditionParameter)))

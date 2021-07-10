@@ -5,7 +5,7 @@ import mx.kinich49.expensetracker.models.web.requests.CommercialEstablishmentReq
 import mx.kinich49.expensetracker.validations.ValidatorParameter;
 
 @Data
-public class ValidatorParameterImpl implements mx.kinich49.expensetracker.validations.ValidatorParameter {
+public class CommercialEstablishmentValidatorParameterImpl implements mx.kinich49.expensetracker.validations.ValidatorParameter {
 
     private final CommercialEstablishmentRequest request;
 }
