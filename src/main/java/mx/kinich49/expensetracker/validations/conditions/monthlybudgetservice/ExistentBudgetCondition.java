@@ -29,7 +29,7 @@ public class ExistentBudgetCondition implements Condition<BudgetRequestCondition
         boolean exists = repository.existsById(request.getId());
 
         if (!exists) {
-            String errorMessage = String.format("MonthlyBudget with id %1$d does not exist", request.getId());
+            String errorMessage = String.format("Monthly Budget with id %1$d does not exist", request.getId());
             return Optional.of(errorMessage);
         }
 
