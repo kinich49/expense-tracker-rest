@@ -1,22 +1,20 @@
 package mx.kinich49.expensetracker.validations.conditions.monthlybudgetservice;
 
-import lombok.Data;
 import mx.kinich49.expensetracker.exceptions.ValidationFlowException;
 import mx.kinich49.expensetracker.models.web.requests.MonthlyBudgetRequest;
 import mx.kinich49.expensetracker.utils.StringUtils;
 import mx.kinich49.expensetracker.validations.Condition;
-import mx.kinich49.expensetracker.validations.ConditionParameter;
 import org.springframework.stereotype.Component;
 
 import java.time.YearMonth;
 import java.util.Optional;
 
 @Component
-public class BudgetRequestCondition implements Condition<BudgetRequestCondition.Parameter> {
+public class BudgetRequestCondition implements Condition<BudgetRequestConditionParameterImpl> {
 
     @Override
-    public Optional<String> assertCondition(Parameter param) throws ValidationFlowException {
-        MonthlyBudgetRequest request = param.request;
+    public Optional<String> assertCondition(BudgetRequestConditionParameterImpl param) throws ValidationFlowException {
+        MonthlyBudgetRequest request = param.getRequest();
 
         if (request == null)
             throw new ValidationFlowException("Request can't be null");
@@ -66,8 +64,5 @@ public class BudgetRequestCondition implements Condition<BudgetRequestCondition.
         }
     }
 
-    @Data
-    public static class Parameter implements ConditionParameter {
-        private final MonthlyBudgetRequest request;
-    }
+
 }

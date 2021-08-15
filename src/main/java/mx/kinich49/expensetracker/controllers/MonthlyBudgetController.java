@@ -45,7 +45,7 @@ public class MonthlyBudgetController {
     @PostMapping
     public ResponseEntity<ApiResponse<SimpleMonthlyBudgetWebModel>> addMonthlyBudget(
             @RequestBody MonthlyBudgetRequest request) {
-        try{
+        try {
             return Optional.of(service.insertMonthlyBudget(request))
                     .map(ApiResponse::new)
                     .map(response -> new ResponseEntity<>(response, HttpStatus.OK))
@@ -63,13 +63,26 @@ public class MonthlyBudgetController {
     @PostMapping("/category")
     public ResponseEntity<?> addMonthlyBudgetCategory(@RequestBody MonthlyBudgetCategoryRequest request) {
         try {
-            MonthlyBudgetCategoryWebModel webModel = service.addMonthlyBudgetCategory(request);
+            var webModel = service.addMonthlyBudgetCategory(request);
             ApiResponse<MonthlyBudgetCategoryWebModel> response = new ApiResponse<>(webModel);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (BusinessException e) {
             return new ResponseEntity<>(new ApiResponse<>(e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
+
+    @PutMapping
+    @ResponseStatus
+    public ResponseEntity<ApiResponse<SimpleMonthlyBudgetWebModel>> updateMonthlyBudget(@RequestBody MonthlyBudgetRequest request) {
+        try {
+            var webModel = service.update(request);
+            var apiResponse = new ApiResponse<>(webModel);
+            return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+        } catch (BusinessException e) {
+            return new ResponseEntity<>(new ApiResponse<>(e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+    }
+
 
     @DeleteMapping(
             path = "/{budgetId}",

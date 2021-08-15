@@ -7,8 +7,9 @@ import java.time.YearMonth;
 @Data
 public class MonthlyBudgetRequest {
 
-    private YearMonth beginDate;
-    private YearMonth endDate;
-    private String title;
-    private int baseLimit;
+    private final Long id;
+    private final YearMonth beginDate;
+    private final YearMonth endDate;
+    private final String title;
+    private final int baseLimit;
 }
