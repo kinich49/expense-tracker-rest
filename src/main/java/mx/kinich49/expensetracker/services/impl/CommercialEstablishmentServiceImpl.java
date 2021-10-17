@@ -6,9 +6,9 @@ import mx.kinich49.expensetracker.models.web.CommercialEstablishmentWebModel;
 import mx.kinich49.expensetracker.models.web.requests.CommercialEstablishmentRequest;
 import mx.kinich49.expensetracker.repositories.CommercialEstablishmentRepository;
 import mx.kinich49.expensetracker.services.CommercialEstablishmentService;
-import mx.kinich49.expensetracker.validations.validators.commercialestablishmentservice.AddCommercialEstablishmentValidatorImpl;
-import mx.kinich49.expensetracker.validations.validators.commercialestablishmentservice.CommercialEstablishmentValidatorParameterImpl;
-import mx.kinich49.expensetracker.validations.validators.commercialestablishmentservice.UpdateCommercialEstablishmentValidatorImpl;
+import mx.kinich49.expensetracker.validations.commercialestablishmentservice.validators.AddCommercialEstablishmentValidator;
+import mx.kinich49.expensetracker.validations.commercialestablishmentservice.validators.CommercialEstablishmentValidatorParameter;
+import mx.kinich49.expensetracker.validations.commercialestablishmentservice.validators.UpdateCommercialEstablishmentValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,13 +20,13 @@ import java.util.Optional;
 public class CommercialEstablishmentServiceImpl implements CommercialEstablishmentService {
 
     private final CommercialEstablishmentRepository repository;
-    private final AddCommercialEstablishmentValidatorImpl addValidator;
-    private final UpdateCommercialEstablishmentValidatorImpl updateValidator;
+    private final AddCommercialEstablishmentValidator addValidator;
+    private final UpdateCommercialEstablishmentValidator updateValidator;
 
     @Autowired
     public CommercialEstablishmentServiceImpl(CommercialEstablishmentRepository repository,
-                                              AddCommercialEstablishmentValidatorImpl addValidator,
-                                              UpdateCommercialEstablishmentValidatorImpl updateValidator) {
+                                              AddCommercialEstablishmentValidator addValidator,
+                                              UpdateCommercialEstablishmentValidator updateValidator) {
         this.repository = repository;
         this.addValidator = addValidator;
         this.updateValidator = updateValidator;
@@ -52,7 +52,7 @@ public class CommercialEstablishmentServiceImpl implements CommercialEstablishme
 
     @Override
     public CommercialEstablishmentWebModel update(CommercialEstablishmentRequest request) throws BusinessException {
-        var parameter = new CommercialEstablishmentValidatorParameterImpl(request);
+        var parameter = new CommercialEstablishmentValidatorParameter(request);
         updateValidator.validate(parameter);
 
         var commercialEstablishment = repository.findById(request.getId())
@@ -68,7 +68,7 @@ public class CommercialEstablishmentServiceImpl implements CommercialEstablishme
 
     @Override
     public CommercialEstablishmentWebModel add(CommercialEstablishmentRequest request) throws BusinessException {
-        var parameter = new CommercialEstablishmentValidatorParameterImpl(request);
+        var parameter = new CommercialEstablishmentValidatorParameter(request);
         addValidator.validate(parameter);
 
         var commercialEstablishment = repository.save(CommercialEstablishment.from(request));
