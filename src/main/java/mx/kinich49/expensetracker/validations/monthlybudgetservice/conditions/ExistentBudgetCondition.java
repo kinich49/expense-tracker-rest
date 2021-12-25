@@ -25,7 +25,7 @@ public class ExistentBudgetCondition implements Condition<BudgetRequestCondition
         var request = param.getRequest();
 
         if (request.getId() == null || request.getId() <= 0) {
-            return Optional.of(new ErrorWrapper(MonthlyBudgetServiceErrorCodes.INVALID_ID, "Invalid id"));
+            return Optional.of(new ErrorWrapper(MonthlyBudgetServiceErrorCodes.INVALID_ID, "Invalid id."));
         }
 
         boolean exists = repository.existsById(request.getId());

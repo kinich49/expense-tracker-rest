@@ -53,7 +53,7 @@ public class BudgetsConditionTest {
         //then
         assertTrue(optResult.isPresent());
         var result = optResult.get();
-        assertEquals(MonthlyCategoryBudgetErrorCodes.REQUEST_NULL_OR_EMPTY, result.getErrorCode());
+        assertEquals(MonthlyCategoryBudgetErrorCodes.BUDGET_NOT_FOUND, result.getErrorCode());
     }
 
     @Test
@@ -68,6 +68,6 @@ public class BudgetsConditionTest {
         //then
         assertTrue(optResult.isPresent());
         var result = optResult.get();
-        assertEquals(MonthlyCategoryBudgetErrorCodes.REQUEST_NULL_OR_EMPTY, result.getErrorCode());
+        assertEquals(MonthlyCategoryBudgetErrorCodes.BUDGET_NOT_FOUND, result.getErrorCode());
     }
 }

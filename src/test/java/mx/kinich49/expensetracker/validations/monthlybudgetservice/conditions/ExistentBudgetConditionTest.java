@@ -57,7 +57,6 @@ public class ExistentBudgetConditionTest {
     @DisplayName("Should return error when id is not valid")
     void shouldReturnError_whenIdIsNotValid(Long id) {
         //given
-        //given
         var request = new MonthlyBudgetRequest(id, YearMonth.of(2021, Month.JANUARY),
                 YearMonth.of(2021, Month.DECEMBER), "Test Title", 100000);
         var parameter = new BudgetRequestConditionParameter(request);
@@ -91,7 +90,7 @@ public class ExistentBudgetConditionTest {
         assertTrue(optResult.isPresent());
         var result = optResult.get();
         var expectedMessage = String.format("Monthly Budget with id %1$d does not exist", id);
-        assertEquals(MonthlyBudgetServiceErrorCodes.INVALID_ID, result.getErrorCode());
+        assertEquals(MonthlyBudgetServiceErrorCodes.NO_BUDGET_FOUND, result.getErrorCode());
     }
 
     static Stream<Arguments> notValidId() {

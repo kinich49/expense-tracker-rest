@@ -12,4 +12,5 @@ public class MonthlyCategoryBudgetErrorCodes {
     public static final int BUDGET_NOT_FOUND = 4;
     public static final int CATEGORY_NOT_FOUND = 5;
     public static final int MONTHLY_LIMIT_NOT_SET = 6;
+
 }

@@ -2,6 +2,7 @@ package mx.kinich49.expensetracker.validations.transactionservice.conditions;
 
 import mx.kinich49.expensetracker.exceptions.ValidationFlowException;
 import mx.kinich49.expensetracker.helpers.MockHelper;
+import mx.kinich49.expensetracker.models.web.requests.TransactionRequest;
 import mx.kinich49.expensetracker.validations.transactionservice.conditions.CategoryRequestCondition;
 import mx.kinich49.expensetracker.validations.transactionservice.conditions.TransactionRequestParameter;
 import org.junit.jupiter.api.DisplayName;
@@ -30,8 +31,11 @@ public class CategoryRequestConditionTest {
         //given
         MockHelper mockHelper = MockHelper.init()
                 .with(MockHelper.addMock()
-                        .withNewCategory());
-
+                        .withNewCategory()
+                        .withPersistedCategory()
+                        .withPersistedPaymentMethod()
+                        .withPersistedStore()
+                        .withValidTransaction());
         var parameter = new TransactionRequestParameter(mockHelper.get().getTransactionRequest());
 
         //when
@@ -47,7 +51,10 @@ public class CategoryRequestConditionTest {
         //given
         MockHelper mockHelper = MockHelper.init()
                 .with(MockHelper.addMock()
-                        .withPersistedCategory());
+                        .withPersistedCategory()
+                        .withPersistedStore()
+                        .withPersistedPaymentMethod()
+                        .withValidTransaction());
 
         var parameter = new TransactionRequestParameter(mockHelper.get().getTransactionRequest());
 

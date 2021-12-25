@@ -18,7 +18,7 @@ public class MonthlyBudgetCondition implements Condition<MonthlyBudgetCondition.
     public Optional<ErrorWrapper> assertCondition(Parameter param) {
         List<MonthlyBudget> monthlyBudgets = param.monthlyBudgets;
 
-        if (monthlyBudgets == null || monthlyBudgets.isEmpty()){
+        if (monthlyBudgets == null || monthlyBudgets.isEmpty()) {
             var errorMessage = "No monthly budgets. ";
             return Optional.of(new ErrorWrapper(MonthlyCategoryBudgetErrorCodes.BUDGET_NOT_FOUND, errorMessage));
         }

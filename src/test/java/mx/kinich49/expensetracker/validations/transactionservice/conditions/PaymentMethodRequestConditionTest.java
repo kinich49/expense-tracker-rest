@@ -28,7 +28,10 @@ public class PaymentMethodRequestConditionTest {
         //given
         MockHelper mockHelper = MockHelper.init()
                 .with(MockHelper.addMock()
-                        .withNewPaymentMethod());
+                        .withNewPaymentMethod()
+                        .withPersistedStore()
+                        .withPersistedCategory()
+                        .withValidTransaction());
 
         var parameter = new TransactionRequestParameter(mockHelper.get().getTransactionRequest());
 
@@ -45,7 +48,10 @@ public class PaymentMethodRequestConditionTest {
         //given
         MockHelper mockHelper = MockHelper.init()
                 .with(MockHelper.addMock()
-                        .withPersistedPaymentMethod());
+                        .withPersistedPaymentMethod()
+                        .withPersistedStore()
+                        .withPersistedCategory()
+                        .withValidTransaction());
 
         var parameter = new TransactionRequestParameter(mockHelper.get().getTransactionRequest());
 
@@ -57,7 +63,7 @@ public class PaymentMethodRequestConditionTest {
     }
 
     @Test
-    @DisplayName("Should return empty when request is null")
+    @DisplayName("Should return error when request is null")
     public void shouldReturn_error_whenRequestIsNull() {
         var parameter = new TransactionRequestParameter(null);
         //when

@@ -30,7 +30,10 @@ public class CommercialEstablishmentRequestConditionTest {
         //given
         MockHelper mockHelper = MockHelper.init()
                 .with(MockHelper.addMock()
-                        .withNewStore());
+                        .withNewStore()
+                        .withPersistedPaymentMethod()
+                        .withPersistedCategory()
+                        .withValidTransaction());
 
         var parameter = new TransactionRequestParameter(mockHelper.get().getTransactionRequest());
 
@@ -47,7 +50,10 @@ public class CommercialEstablishmentRequestConditionTest {
         //given
         MockHelper mockHelper = MockHelper.init()
                 .with(MockHelper.addMock()
-                        .withPersistedStore());
+                        .withPersistedStore()
+                        .withPersistedCategory()
+                        .withPersistedPaymentMethod()
+                        .withValidTransaction());
 
         var parameter = new TransactionRequestParameter(mockHelper.get().getTransactionRequest());
 
@@ -59,9 +65,18 @@ public class CommercialEstablishmentRequestConditionTest {
     }
 
     @Test
-    @DisplayName("Should return empty when request is null")
-    public void shouldReturn_empty_whenRequestIsNull() {
-        var parameter = new TransactionRequestParameter(null);
+    @DisplayName("Should return empty when store request is null")
+    public void shouldReturn_error_whenStoreRequestIsNull() {
+        //given
+        MockHelper mockHelper = MockHelper.init()
+                .with(MockHelper.addMock()
+                        .withNullStore()
+                        .withPersistedCategory()
+                        .withPersistedPaymentMethod()
+                        .withValidTransaction());
+
+        var parameter = new TransactionRequestParameter(mockHelper.get().getTransactionRequest());
+
         //when
         var optResult = subject.assertCondition(parameter);
 

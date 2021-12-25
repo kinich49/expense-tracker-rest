@@ -90,7 +90,7 @@ public class UpdateCommercialEstablishmentRequestValidatorTest {
         when(updateCondition.assertCondition(eq(conditionParameter)))
                 .thenReturn(Optional.empty());
 
-        var expectedMessage = "Name is null or empty. ";
+        var expectedMessage = "Name is null or empty.";
         var errorWrapper = new ErrorWrapper(CommercialEstablishmentServiceErrorCodes.REQUEST_NAME_IS_NULL_OR_EMPTY,
                 expectedMessage);
         when(nameCondition.assertCondition(eq(conditionParameter)))
@@ -101,7 +101,7 @@ public class UpdateCommercialEstablishmentRequestValidatorTest {
 
         //then
         assertNotNull(result);
-        assertEquals(expectedMessage, result.getMessage().trim());
+        assertEquals(expectedMessage, result.getMessage());
     }
 
     @Test
