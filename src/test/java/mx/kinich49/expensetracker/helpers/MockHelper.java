@@ -226,6 +226,28 @@ public class MockHelper {
             return this;
         }
 
+        public Mock withCategory(String categoryName, Long categoryId) {
+            this.categoryId = categoryId;
+            this.categoryName = categoryName;
+            categoryColor = "#202020";
+
+            categoryRequest = new CategoryRequest(this.categoryId, this.categoryName, categoryColor);
+
+            prePersistCategory = new Category();
+            prePersistCategory.setId(this.categoryId);
+            prePersistCategory.setName(this.categoryName);
+            prePersistCategory.setColor(categoryColor);
+
+            postPersistCategory = new Category();
+            postPersistCategory.setId(this.categoryId);
+            postPersistCategory.setName(this.categoryName);
+            postPersistCategory.setColor(categoryColor);
+
+            categoryWebModel = new CategoryWebModel(this.categoryId, this.categoryName, categoryColor);
+
+            return this;
+        }
+
         public Mock withNullCategory() {
             allowNullCategory = true;
             return this;
@@ -293,6 +315,25 @@ public class MockHelper {
             return this;
         }
 
+        public Mock withStore(String storeName, long storeId) {
+            this.storeName = storeName;
+            this.storeId = storeId;
+
+            storeRequest = new CommercialEstablishmentRequest(this.storeId, this.storeName);
+
+            prePersistCommercialEstablishment = new CommercialEstablishment();
+            prePersistCommercialEstablishment.setId(this.storeId);
+            prePersistCommercialEstablishment.setName(this.storeName);
+
+            postPersistCommercialEstablishment = new CommercialEstablishment();
+            postPersistCommercialEstablishment.setId(this.storeId);
+            postPersistCommercialEstablishment.setName(this.storeName);
+
+            storeWebModel = new CommercialEstablishmentWebModel(this.storeId, this.storeName);
+
+            return this;
+        }
+
         public Mock withNewPaymentMethod() {
             paymentMethodId = 699L;
             paymentMethodName = "New Test Payment Method";
@@ -325,6 +366,24 @@ public class MockHelper {
             postPersistPaymentMethod.setName(paymentMethodName);
 
             paymentMethodWebModel = new PaymentMethodWebModel(paymentMethodId, paymentMethodName);
+            return this;
+        }
+
+        public Mock withPaymentMethod(String paymentMethodName, Long paymentMethodId) {
+            this.paymentMethodId = paymentMethodId;
+            this.paymentMethodName = paymentMethodName;
+
+            paymentMethodRequest = new PaymentMethodRequest(this.paymentMethodId, this.paymentMethodName);
+
+            prePersistPaymentMethod = new PaymentMethod();
+            prePersistPaymentMethod.setId(this.paymentMethodId);
+            prePersistPaymentMethod.setName(paymentMethodName);
+
+            postPersistPaymentMethod = new PaymentMethod();
+            postPersistPaymentMethod.setId(this.paymentMethodId);
+            postPersistPaymentMethod.setName(this.paymentMethodName);
+
+            paymentMethodWebModel = new PaymentMethodWebModel(this.paymentMethodId, this.paymentMethodName);
             return this;
         }
     }

@@ -2,8 +2,6 @@ package mx.kinich49.expensetracker.validations.transactionservice.conditions;
 
 import mx.kinich49.expensetracker.exceptions.ValidationFlowException;
 import mx.kinich49.expensetracker.helpers.MockHelper;
-import mx.kinich49.expensetracker.validations.transactionservice.conditions.StoreRequestCondition;
-import mx.kinich49.expensetracker.validations.transactionservice.conditions.TransactionRequestParameter;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -62,6 +60,26 @@ public class CommercialEstablishmentRequestConditionTest {
 
         //then
         assertFalse(optResult.isPresent());
+    }
+
+    @Test
+    @DisplayName("Should return error when request has negative ID")
+    public void shouldReturnError_whenRequestHasNegativeID() {
+        //given
+        var mockHelper = MockHelper.init()
+                .with(MockHelper.addMock()
+                        .withStore(null, -1L)
+                        .withPersistedPaymentMethod()
+                        .withPersistedCategory()
+                        .withValidTransaction());
+
+        var parameter = new TransactionRequestParameter(mockHelper.get().getTransactionRequest());
+
+        //when
+        var optResult = subject.assertCondition(parameter);
+
+        //then
+        assertTrue(optResult.isPresent());
     }
 
     @Test

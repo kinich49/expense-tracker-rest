@@ -74,6 +74,26 @@ public class PaymentMethodRequestConditionTest {
     }
 
     @Test
+    @DisplayName("Should return error when request has negative ID")
+    public void shouldReturnError_whenRequestHasNegativeID() {
+        //given
+        var mockHelper = MockHelper.init()
+                .with(MockHelper.addMock()
+                        .withPaymentMethod(null, -1L)
+                        .withPersistedStore()
+                        .withPersistedCategory()
+                        .withValidTransaction());
+
+        var parameter = new TransactionRequestParameter(mockHelper.get().getTransactionRequest());
+
+        //when
+        var optResult = subject.assertCondition(parameter);
+
+        //then
+        assertTrue(optResult.isPresent());
+    }
+
+    @Test
     @DisplayName("Should return error when request is empty")
     public void shouldReturn_error_whenRequestIsEmpty() {
         //given

@@ -4,6 +4,7 @@ import mx.kinich49.expensetracker.models.internal.ErrorWrapper;
 import mx.kinich49.expensetracker.models.web.requests.CommercialEstablishmentRequest;
 import mx.kinich49.expensetracker.models.web.requests.PaymentMethodRequest;
 import mx.kinich49.expensetracker.models.web.requests.TransactionRequest;
+import mx.kinich49.expensetracker.utils.NumberUtils;
 import mx.kinich49.expensetracker.utils.StringUtils;
 import mx.kinich49.expensetracker.validations.Condition;
 import mx.kinich49.expensetracker.validations.transactionservice.TransactionServiceErrorCodes;
@@ -38,7 +39,8 @@ public class StoreRequestCondition implements Condition<TransactionRequestParame
         if (storeRequest == null)
             return Optional.empty();
 
-        if (storeRequest.getId() == null && StringUtils.isNullOrEmptyOrBlank(storeRequest.getName())) {
+        if ( NumberUtils.isEitherNullZeroOrNegative(storeRequest.getId())  &&
+                StringUtils.isNullOrEmptyOrBlank(storeRequest.getName())) {
             var errorMessage = "Store must have an id and/or name. ";
             return Optional.of(new ErrorWrapper(TransactionServiceErrorCodes.STORE_REQUEST_HAS_NO_NAME_OR_ID, errorMessage));
         }

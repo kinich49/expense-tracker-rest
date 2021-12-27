@@ -92,5 +92,25 @@ public class CategoryRequestConditionTest {
         //then
         assertTrue(optResult.isPresent());
     }
+
+    @Test
+    @DisplayName("Should return error when request has negative ID")
+    public void shouldReturnError_whenRequestHasNegativeID() throws ValidationFlowException {
+        //given
+        var mockHelper = MockHelper.init()
+                .with(MockHelper.addMock()
+                        .withCategory(null, -1L)
+                        .withPersistedStore()
+                        .withPersistedPaymentMethod()
+                        .withValidTransaction());
+
+        var parameter = new TransactionRequestParameter(mockHelper.get().getTransactionRequest());
+
+        //when
+        var optResult = subject.assertCondition(parameter);
+
+        //then
+        assertTrue(optResult.isPresent());
+    }
 }
 
