@@ -13,6 +13,15 @@ import java.util.Optional;
 @Component
 public class MonthlyLimitCondition implements Condition<RequestParameter> {
 
+    /**
+     * This condition validates the {@link MonthlyBudgetCategoryRequest#getMonthlyLimit()}
+     * is non-zero
+     *
+     * @param param the instance to assert it meets all conditions
+     * @return An optional containing an error message if the condition is not met.
+     * Empty Otherwise
+     * @throws ValidationFlowException if a 'gatekeeper validation' is not met.
+     */
     @Override
     public Optional<ErrorWrapper> assertCondition(RequestParameter param) throws ValidationFlowException {
         MonthlyBudgetCategoryRequest request = param.getRequest();

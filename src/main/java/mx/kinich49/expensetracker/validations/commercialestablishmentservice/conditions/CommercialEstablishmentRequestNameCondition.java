@@ -33,7 +33,7 @@ public class CommercialEstablishmentRequestNameCondition
 
     /**
      * This condition first validates the request has a non-null, non-empty, non-blank name.
-     * If this is met, then it validates the name is unique (case insensitive)
+     * If this is met, then it validates the name is unique (case-insensitive)
      *
      * @param param the instance to assert it meets all conditions
      * @return An optional containing an error message if the condition is not met.
@@ -47,7 +47,7 @@ public class CommercialEstablishmentRequestNameCondition
     }
 
     private Optional<ErrorWrapper> validateNotNullNotEmptyName(CommercialEstablishmentRequest request) {
-        String name = request.getName();
+        var name = request.getName();
 
         if (StringUtils.isNullOrEmptyOrBlank(name)) {
             var errorMessage = "Request name is null or empty. ";

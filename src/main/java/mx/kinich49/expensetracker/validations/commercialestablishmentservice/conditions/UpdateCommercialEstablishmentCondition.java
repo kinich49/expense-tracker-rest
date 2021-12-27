@@ -2,6 +2,7 @@ package mx.kinich49.expensetracker.validations.commercialestablishmentservice.co
 
 import mx.kinich49.expensetracker.exceptions.ValidationFlowException;
 import mx.kinich49.expensetracker.models.internal.ErrorWrapper;
+import mx.kinich49.expensetracker.models.web.requests.CommercialEstablishmentRequest;
 import mx.kinich49.expensetracker.repositories.CommercialEstablishmentRepository;
 import mx.kinich49.expensetracker.validations.Condition;
 import mx.kinich49.expensetracker.validations.commercialestablishmentservice.CommercialEstablishmentServiceErrorCodes;
@@ -21,6 +22,14 @@ public class UpdateCommercialEstablishmentCondition implements Condition<Conditi
         this.repository = repository;
     }
 
+    /**
+     * This conditions verifies the {@link CommercialEstablishmentRequest}
+     * has a valid id, and the id is persisted.
+     * @param param the instance to assert it meets all conditions
+     * @return An optional containing an error message if the condition is not met.
+     * Empty Otherwise
+     * @throws ValidationFlowException if a 'gatekeeper validation' is not met.
+     */
     @Override
     public Optional<ErrorWrapper> assertCondition(ConditionParameterImpl param) throws ValidationFlowException {
         var request = param.getRequest();

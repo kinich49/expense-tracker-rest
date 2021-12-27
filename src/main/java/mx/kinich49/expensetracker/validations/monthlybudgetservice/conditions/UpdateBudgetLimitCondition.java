@@ -29,9 +29,17 @@ public class UpdateBudgetLimitCondition implements Condition<BudgetRequestCondit
         this.monthlyIncomeRepository = monthlyIncomeRepository;
     }
 
+    /**
+     * This condition validates
+     *
+     * @param param the instance to assert it meets all conditions
+     * @return An optional containing an error message if the condition is not met.
+     * Empty Otherwise
+     * @throws ValidationFlowException if a 'gatekeeper validation' is not met.
+     */
     @Override
     public Optional<ErrorWrapper> assertCondition(BudgetRequestConditionParameter param) throws ValidationFlowException {
-        MonthlyBudgetRequest request = param.getRequest();
+        var request = param.getRequest();
 
         int upperIncomeLimit = monthlyIncomeRepository.findByBeginDate(param.getRequest().getBeginDate())
                 .map(MonthlyIncome::getUpperIncomeLimit)

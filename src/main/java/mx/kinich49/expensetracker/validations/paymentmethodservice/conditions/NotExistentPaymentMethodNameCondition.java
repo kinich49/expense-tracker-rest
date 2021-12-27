@@ -2,6 +2,7 @@ package mx.kinich49.expensetracker.validations.paymentmethodservice.conditions;
 
 import mx.kinich49.expensetracker.exceptions.ValidationFlowException;
 import mx.kinich49.expensetracker.models.internal.ErrorWrapper;
+import mx.kinich49.expensetracker.models.web.requests.PaymentMethodRequest;
 import mx.kinich49.expensetracker.repositories.PaymentMethodRepository;
 import mx.kinich49.expensetracker.validations.Condition;
 import mx.kinich49.expensetracker.validations.paymentmethodservice.PaymentMethodServiceErrorCodes;
@@ -15,11 +16,20 @@ public class NotExistentPaymentMethodNameCondition implements Condition<PaymentM
 
     private final PaymentMethodRepository repository;
 
+
     @Autowired
     public NotExistentPaymentMethodNameCondition(PaymentMethodRepository repository) {
         this.repository = repository;
     }
 
+    /**
+     * This condition validates {@link PaymentMethodRequest}
+     *
+     * @param param the instance to assert it meets all conditions
+     * @return An optional containing an error message if the condition is not met.
+     * Empty Otherwise
+     * @throws ValidationFlowException if a 'gatekeeper validation' is not met.
+     */
     @Override
     public Optional<ErrorWrapper> assertCondition(PaymentMethodConditionParameter param) throws ValidationFlowException {
         var request = param.getRequest();

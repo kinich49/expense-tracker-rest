@@ -2,6 +2,7 @@ package mx.kinich49.expensetracker.validations.monthlybudgetservice.conditions;
 
 import mx.kinich49.expensetracker.exceptions.ValidationFlowException;
 import mx.kinich49.expensetracker.models.internal.ErrorWrapper;
+import mx.kinich49.expensetracker.models.web.requests.MonthlyBudgetRequest;
 import mx.kinich49.expensetracker.repositories.MonthlyBudgetRepository;
 import mx.kinich49.expensetracker.validations.Condition;
 import mx.kinich49.expensetracker.validations.monthlybudgetservice.MonthlyBudgetServiceErrorCodes;
@@ -20,6 +21,15 @@ public class ExistentBudgetCondition implements Condition<BudgetRequestCondition
         this.repository = repository;
     }
 
+    /**
+     * This condition validates the {@link MonthlyBudgetRequest}
+     * has a valid persisted ID
+     *
+     * @param param the instance to assert it meets all conditions
+     * @return An optional containing an error message if the condition is not met.
+     * Empty Otherwise
+     * @throws ValidationFlowException if a 'gatekeeper validation' is not met.
+     */
     @Override
     public Optional<ErrorWrapper> assertCondition(BudgetRequestConditionParameter param) throws ValidationFlowException {
         var request = param.getRequest();

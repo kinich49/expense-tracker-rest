@@ -22,6 +22,15 @@ public class CategoryCondition implements Condition<RequestParameter> {
         this.categoryRepository = categoryRepository;
     }
 
+    /**
+     * This condition validates the {@link MonthlyBudgetCategoryRequest#getCategoryId()} is
+     * valid and persisted.
+     *
+     * @param param the instance to assert it meets all conditions
+     * @return An optional containing an error message if the condition is not met.
+     * Empty Otherwise
+     * @throws ValidationFlowException if a 'gatekeeper validation' is not met.
+     */
     @Override
     public Optional<ErrorWrapper> assertCondition(RequestParameter param) throws ValidationFlowException {
         MonthlyBudgetCategoryRequest request = param.getRequest();

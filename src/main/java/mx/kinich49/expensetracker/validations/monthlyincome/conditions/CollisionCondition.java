@@ -1,8 +1,10 @@
 package mx.kinich49.expensetracker.validations.monthlyincome.conditions;
 
 import lombok.RequiredArgsConstructor;
+import mx.kinich49.expensetracker.exceptions.ValidationFlowException;
 import mx.kinich49.expensetracker.models.database.MonthlyIncome;
 import mx.kinich49.expensetracker.models.internal.ErrorWrapper;
+import mx.kinich49.expensetracker.models.web.requests.MonthlyBudgetCategoryRequest;
 import mx.kinich49.expensetracker.models.web.requests.MonthlyIncomeRequest;
 import mx.kinich49.expensetracker.repositories.MonthlyIncomeRepository;
 import mx.kinich49.expensetracker.validations.Condition;
@@ -22,10 +24,17 @@ public class CollisionCondition implements Condition<CollisionCondition.Paramete
     public CollisionCondition(MonthlyIncomeRepository repository) {
         this.repository = repository;
     }
-
+    /**
+     * This condition validates {@link MonthlyIncomeRequest} dates do not overlap with other
+     * Monthly Income's dates.
+     *
+     * @param param the instance to assert it meets all conditions
+     * @return An optional containing an error message if the condition is not met.
+     * Empty Otherwise
+     */
     @Override
     public Optional<ErrorWrapper> assertCondition(Parameter param) {
-        MonthlyIncomeRequest request = param.request;
+        var request = param.request;
         Optional<MonthlyIncome> collusion = repository.collides(request.getBeginDate(), request.getEndDate());
 
         if (collusion.isPresent()) {

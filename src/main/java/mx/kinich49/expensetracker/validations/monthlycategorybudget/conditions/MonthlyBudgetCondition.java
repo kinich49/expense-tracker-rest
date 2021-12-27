@@ -1,8 +1,10 @@
 package mx.kinich49.expensetracker.validations.monthlycategorybudget.conditions;
 
 import lombok.Data;
+import mx.kinich49.expensetracker.exceptions.ValidationFlowException;
 import mx.kinich49.expensetracker.models.database.MonthlyBudget;
 import mx.kinich49.expensetracker.models.internal.ErrorWrapper;
+import mx.kinich49.expensetracker.models.web.requests.MonthlyBudgetCategoryRequest;
 import mx.kinich49.expensetracker.validations.Condition;
 import mx.kinich49.expensetracker.validations.ConditionParameter;
 import mx.kinich49.expensetracker.validations.monthlycategorybudget.MonthlyCategoryBudgetErrorCodes;
@@ -14,6 +16,12 @@ import java.util.Optional;
 @Component
 public class MonthlyBudgetCondition implements Condition<MonthlyBudgetCondition.Parameter> {
 
+    /**
+     * This condition validates the parameter has at least one {@link MonthlyBudget}
+     * @param param the instance to assert it meets all conditions
+     * @return An optional containing an error message if the condition is not met.
+     * Empty Otherwise
+     */
     @Override
     public Optional<ErrorWrapper> assertCondition(Parameter param) {
         List<MonthlyBudget> monthlyBudgets = param.monthlyBudgets;

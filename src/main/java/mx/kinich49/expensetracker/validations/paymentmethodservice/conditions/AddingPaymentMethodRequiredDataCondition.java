@@ -2,6 +2,8 @@ package mx.kinich49.expensetracker.validations.paymentmethodservice.conditions;
 
 import mx.kinich49.expensetracker.exceptions.ValidationFlowException;
 import mx.kinich49.expensetracker.models.internal.ErrorWrapper;
+import mx.kinich49.expensetracker.models.web.requests.MonthlyBudgetCategoryRequest;
+import mx.kinich49.expensetracker.models.web.requests.PaymentMethodRequest;
 import mx.kinich49.expensetracker.utils.StringUtils;
 import mx.kinich49.expensetracker.validations.Condition;
 import mx.kinich49.expensetracker.validations.paymentmethodservice.PaymentMethodServiceErrorCodes;
@@ -12,6 +14,15 @@ import java.util.Optional;
 @Component
 public class AddingPaymentMethodRequiredDataCondition implements Condition<PaymentMethodConditionParameter> {
 
+    /**
+     * This condition validates {@link PaymentMethodRequest}
+     * is not null and has a non-null non-blank name
+     *
+     * @param param the instance to assert it meets all conditions
+     * @return An optional containing an error message if the condition is not met.
+     * Empty Otherwise
+     * @throws ValidationFlowException if a 'gatekeeper validation' is not met.
+     */
     @Override
     public Optional<ErrorWrapper> assertCondition(PaymentMethodConditionParameter param) throws ValidationFlowException {
         var request = param.getRequest();
