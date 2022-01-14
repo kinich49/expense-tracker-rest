@@ -6,7 +6,7 @@ import mx.kinich49.expensetracker.models.web.MonthlyIncomeWebModel;
 import mx.kinich49.expensetracker.models.web.requests.MonthlyIncomeRequest;
 import mx.kinich49.expensetracker.repositories.MonthlyIncomeRepository;
 import mx.kinich49.expensetracker.services.MonthlyIncomeService;
-import mx.kinich49.expensetracker.validations.validators.monthlyincome.MonthlyIncomeValidatorImpl;
+import mx.kinich49.expensetracker.validations.monthlyincome.validators.MonthlyIncomeValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,18 +16,18 @@ import java.util.Optional;
 public class MonthlyIncomeServiceImpl implements MonthlyIncomeService {
 
     private final MonthlyIncomeRepository monthlyIncomeRepository;
-    private final MonthlyIncomeValidatorImpl monthlyIncomeValidator;
+    private final MonthlyIncomeValidator monthlyIncomeValidator;
 
     @Autowired
     public MonthlyIncomeServiceImpl(MonthlyIncomeRepository monthlyIncomeRepository,
-                                    MonthlyIncomeValidatorImpl monthlyIncomeValidator) {
+                                    MonthlyIncomeValidator monthlyIncomeValidator) {
         this.monthlyIncomeRepository = monthlyIncomeRepository;
         this.monthlyIncomeValidator = monthlyIncomeValidator;
     }
 
     @Override
     public MonthlyIncomeWebModel addMonthlyIncome(MonthlyIncomeRequest request) throws BusinessException {
-        MonthlyIncomeValidatorImpl.Parameter parameter = new MonthlyIncomeValidatorImpl.Parameter(request);
+        MonthlyIncomeValidator.Parameter parameter = new MonthlyIncomeValidator.Parameter(request);
         monthlyIncomeValidator.validate(parameter);
 
         MonthlyIncome monthlyIncome = monthlyIncomeRepository.save(MonthlyIncome.from(request));

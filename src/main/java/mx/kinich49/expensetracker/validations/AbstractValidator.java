@@ -1,7 +1,10 @@
 package mx.kinich49.expensetracker.validations;
 
 import mx.kinich49.expensetracker.exceptions.BusinessException;
-import mx.kinich49.expensetracker.utils.StringUtils;
+import mx.kinich49.expensetracker.models.internal.ErrorBuilder;
+import mx.kinich49.expensetracker.models.internal.ErrorWrapper;
+
+import java.util.function.Consumer;
 
 public abstract class AbstractValidator<T extends ValidatorParameter> implements Validator<T> {
 
@@ -11,26 +14,33 @@ public abstract class AbstractValidator<T extends ValidatorParameter> implements
         this.conditionProvider = conditionProvider;
     }
 
-    @SuppressWarnings("all")
-    @Override
     /**
      * This method executes the validator conditions as provided by
      * its {@link AbstractConditionProvider} implementation.
      */
+    @SuppressWarnings("all")
+    @Override
     public void validate(T param) throws BusinessException {
         conditionProvider.buildConditions(param);
-
-        StringBuilder accumulator = new StringBuilder();
+        var errorBuilder = new ErrorBuilder();
 
         while (conditionProvider.hasNextCondition()) {
             var pair = conditionProvider.getNextCondition();
+
             Condition condition = pair.getLeft();
             condition.assertCondition(pair.getRight())
-                    .ifPresent(accumulator::append);
+                    .ifPresent(new Consumer<ErrorWrapper>() {
+                        @Override
+                        public void accept(ErrorWrapper errorWrapper) {
+                            errorBuilder.acceptIfAbsent(errorWrapper);
+                        }
+                    });
         }
 
-        if (StringUtils.isNeitherNullNorEmptyNorBlank(accumulator.toString())) {
-            throw new BusinessException(accumulator.toString().trim());
+        var optionalError = errorBuilder.buildErrorMessage();
+
+        if (optionalError.isPresent()) {
+            throw new BusinessException(optionalError.get());
         }
     }
 

@@ -6,9 +6,9 @@ import mx.kinich49.expensetracker.models.web.PaymentMethodWebModel;
 import mx.kinich49.expensetracker.models.web.requests.PaymentMethodRequest;
 import mx.kinich49.expensetracker.repositories.PaymentMethodRepository;
 import mx.kinich49.expensetracker.services.PaymentMethodService;
-import mx.kinich49.expensetracker.validations.validators.paymentmethodservice.AddPaymentMethodValidatorImpl;
-import mx.kinich49.expensetracker.validations.validators.paymentmethodservice.PaymentMethodValidatorParameter;
-import mx.kinich49.expensetracker.validations.validators.paymentmethodservice.UpdatePaymentMethodValidatorImpl;
+import mx.kinich49.expensetracker.validations.paymentmethodservice.validators.AddPaymentMethodValidator;
+import mx.kinich49.expensetracker.validations.paymentmethodservice.validators.PaymentMethodValidatorParameter;
+import mx.kinich49.expensetracker.validations.paymentmethodservice.validators.UpdatePaymentMethodValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,13 +20,13 @@ import java.util.Optional;
 public class PaymentMethodServiceImpl implements PaymentMethodService {
 
     private final PaymentMethodRepository repository;
-    private final AddPaymentMethodValidatorImpl addPaymentMethodValidator;
-    private final UpdatePaymentMethodValidatorImpl updatePaymentMethodValidator;
+    private final AddPaymentMethodValidator addPaymentMethodValidator;
+    private final UpdatePaymentMethodValidator updatePaymentMethodValidator;
 
     @Autowired
     public PaymentMethodServiceImpl(PaymentMethodRepository repository,
-                                    AddPaymentMethodValidatorImpl addPaymentMethodValidator,
-                                    UpdatePaymentMethodValidatorImpl updatePaymentMethodValidator) {
+                                    AddPaymentMethodValidator addPaymentMethodValidator,
+                                    UpdatePaymentMethodValidator updatePaymentMethodValidator) {
         this.repository = repository;
         this.addPaymentMethodValidator = addPaymentMethodValidator;
         this.updatePaymentMethodValidator = updatePaymentMethodValidator;

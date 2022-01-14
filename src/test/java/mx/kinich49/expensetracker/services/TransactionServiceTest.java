@@ -11,7 +11,7 @@ import mx.kinich49.expensetracker.repositories.CommercialEstablishmentRepository
 import mx.kinich49.expensetracker.repositories.PaymentMethodRepository;
 import mx.kinich49.expensetracker.repositories.TransactionRepository;
 import mx.kinich49.expensetracker.services.impl.TransactionServiceImpl;
-import mx.kinich49.expensetracker.validations.validators.transactionservice.TransactionServiceValidatorImpl;
+import mx.kinich49.expensetracker.validations.transactionservice.validators.TransactionServiceValidator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -41,7 +41,7 @@ public class TransactionServiceTest {
     @Mock
     CommercialEstablishmentRepository storeRepository;
     @Mock
-    TransactionServiceValidatorImpl transactionServiceValidator;
+    TransactionServiceValidator transactionServiceValidator;
 
     @Test
     public void sanityTest() {

@@ -16,7 +16,7 @@ import mx.kinich49.expensetracker.repositories.CommercialEstablishmentRepository
 import mx.kinich49.expensetracker.repositories.PaymentMethodRepository;
 import mx.kinich49.expensetracker.repositories.TransactionRepository;
 import mx.kinich49.expensetracker.services.TransactionService;
-import mx.kinich49.expensetracker.validations.validators.transactionservice.TransactionServiceValidatorImpl;
+import mx.kinich49.expensetracker.validations.transactionservice.validators.TransactionServiceValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,14 +33,14 @@ public class TransactionServiceImpl implements TransactionService {
     private final CategoryRepository categoryRepository;
     private final PaymentMethodRepository paymentMethodRepository;
     private final CommercialEstablishmentRepository storeRepository;
-    private final TransactionServiceValidatorImpl transactionValidator;
+    private final TransactionServiceValidator transactionValidator;
 
     @Autowired
     public TransactionServiceImpl(TransactionRepository transactionRepository,
                                   CategoryRepository categoryRepository,
                                   PaymentMethodRepository paymentMethodRepository,
                                   CommercialEstablishmentRepository storeRepository,
-                                  TransactionServiceValidatorImpl transactionValidator) {
+                                  TransactionServiceValidator transactionValidator) {
         this.transactionRepository = transactionRepository;
         this.categoryRepository = categoryRepository;
         this.paymentMethodRepository = paymentMethodRepository;
@@ -50,7 +50,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public TransactionWebModel addTransaction(TransactionRequest request) throws BusinessException {
-        TransactionServiceValidatorImpl.Parameter param = new TransactionServiceValidatorImpl
+        TransactionServiceValidator.Parameter param = new TransactionServiceValidator
                 .Parameter(request);
         transactionValidator.validate(param);
 

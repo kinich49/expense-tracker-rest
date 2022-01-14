@@ -1,21 +1,22 @@
 package mx.kinich49.expensetracker.validations;
 
 import mx.kinich49.expensetracker.exceptions.ValidationFlowException;
+import mx.kinich49.expensetracker.models.internal.ErrorWrapper;
+import mx.kinich49.expensetracker.utils.Pair;
 
 import java.util.Optional;
 
 /**
- * A condition is any business rule, requirement or demand
- * an instance must met to be declared "valid". If the parameter is valid,
+ * A condition is any business rule, requirement, or demand
+ * an instance must meet to be declared "valid". If the parameter is valid,
  * then implementations of this interface must return an <b>Empty</b> Optional.
  * <p>
  * If the parameter is not valid (as it didn't satisfy the business rule),
- * then the Optional must return a message fully describing
- * the reason the instance is not valid.
+ * then the Optional must return an appropriate error code and error message
  * <p>
  * As an example, when adding a new CommercialEstablishment,
  * the new instance is "valid" if its name is unique in
- * the database (case insensitive)
+ * the database (case-insensitive)
  * <p>
  * That's one business rule, encapsulated in its own
  * Condition implementation
@@ -27,7 +28,7 @@ import java.util.Optional;
  * For example, a Request to add a CommercialEstablishment has
  * a condition the request must not be null. If this condition
  * is not satisfied, then other conditions should not be tested
- * as they might cause errors, or duplicated error messages.
+ * as they might cause errors.
  */
 public interface Condition<T extends ConditionParameter> {
 
@@ -38,5 +39,5 @@ public interface Condition<T extends ConditionParameter> {
      * @throws ValidationFlowException when a "gatekeeper" condition is not met, as in,
      *                                 consecutive conditions should not be tested.
      */
-    Optional<String> assertCondition(T param) throws ValidationFlowException;
+    Optional<ErrorWrapper> assertCondition(T param) throws ValidationFlowException;
 }
