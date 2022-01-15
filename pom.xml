@@ -90,6 +90,12 @@
                 <activeProperty>local</activeProperty>
             </properties>
         </profile>
+        <profile>
+            <id>azure</id>
+            <properties>
+                <activeProperty>azure</activeProperty>
+            </properties>
+        </profile>
     </profiles>
     <build>
         <plugins>
