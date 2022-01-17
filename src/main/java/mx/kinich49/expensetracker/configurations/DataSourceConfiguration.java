@@ -1,6 +1,7 @@
 package mx.kinich49.expensetracker.configurations;
 
 import org.mariadb.jdbc.MariaDbDataSource;
+import org.postgresql.ds.PGSimpleDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -12,7 +13,6 @@ import javax.sql.DataSource;
 import java.sql.SQLException;
 
 @Configuration()
-@Profile(value = {"production"})
 public class DataSourceConfiguration {
 
     Environment environment;
@@ -24,7 +24,15 @@ public class DataSourceConfiguration {
 
     @Bean
     @ConfigurationProperties(prefix = "app.datasource")
-    public DataSource dataSource() throws SQLException {
+    @Profile("production")
+    public DataSource mariaDbDataSource() throws SQLException {
         return new MariaDbDataSource();
+    }
+
+    @Bean
+    @ConfigurationProperties(prefix = "azure.datasource")
+    @Profile("azure")
+    public DataSource postgresDataSource() throws SQLException {
+        return new PGSimpleDataSource();
     }
 }

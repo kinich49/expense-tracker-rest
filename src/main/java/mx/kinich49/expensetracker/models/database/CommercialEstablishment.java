@@ -14,10 +14,7 @@ import javax.persistence.Id;
 public class CommercialEstablishment {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO,
-            generator = "native")
-    @GenericGenerator(name = "native",
-            strategy = "native")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
