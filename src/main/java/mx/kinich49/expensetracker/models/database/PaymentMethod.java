@@ -1,6 +1,8 @@
 package mx.kinich49.expensetracker.models.database;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import mx.kinich49.expensetracker.models.web.requests.PaymentMethodRequest;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -10,10 +12,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
-@Data
 @Entity(name = "Payment_Methods")
+@Getter
+@Setter
 public class PaymentMethod {
 
     @Id
@@ -42,5 +46,27 @@ public class PaymentMethod {
         copy.name = paymentMethod.name;
 
         return copy;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PaymentMethod that = (PaymentMethod) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(name, that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
+    }
+
+    @Override
+    public String toString() {
+        return "PaymentMethod{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

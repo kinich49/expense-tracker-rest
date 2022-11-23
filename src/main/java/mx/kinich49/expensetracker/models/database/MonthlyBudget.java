@@ -1,9 +1,6 @@
 package mx.kinich49.expensetracker.models.database;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import mx.kinich49.expensetracker.models.database.converters.YearMonthDateAttributeConverter;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -12,12 +9,13 @@ import javax.validation.constraints.NotNull;
 import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-@Data
+
 @NoArgsConstructor
 @Entity(name = "Monthly_Budgets")
-@EqualsAndHashCode(of = {"id", "beginDate", "endDate"})
-@ToString(exclude = {"monthlyBudgetCategories"})
+@Getter
+@Setter
 /*
   The monthly limit is a dynamic value, calculated
   by the sum of all the budget's category limit plus
@@ -72,5 +70,33 @@ public class MonthlyBudget {
         return monthlyBudgetCategories.stream()
                 .mapToInt(MonthlyBudgetCategory::getMonthlyLimit)
                 .reduce(0, Integer::sum) + baseLimit;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MonthlyBudget that = (MonthlyBudget) o;
+        return baseLimit == that.baseLimit &&
+                Objects.equals(id, that.id) &&
+                Objects.equals(beginDate, that.beginDate) &&
+                Objects.equals(endDate, that.endDate) &&
+                Objects.equals(title, that.title);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, beginDate, endDate, title, baseLimit);
+    }
+
+    @Override
+    public String toString() {
+        return "MonthlyBudget{" +
+                "id=" + id +
+                ", beginDate=" + beginDate +
+                ", endDate=" + endDate +
+                ", title='" + title + '\'' +
+                ", baseLimit=" + baseLimit +
+                '}';
     }
 }

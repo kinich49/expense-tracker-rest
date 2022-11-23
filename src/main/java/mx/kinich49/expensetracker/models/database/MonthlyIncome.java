@@ -1,7 +1,9 @@
 package mx.kinich49.expensetracker.models.database;
 
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import mx.kinich49.expensetracker.models.database.converters.YearMonthDateAttributeConverter;
 import mx.kinich49.expensetracker.models.web.requests.MonthlyIncomeRequest;
 import org.hibernate.annotations.GenericGenerator;
@@ -9,10 +11,12 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.YearMonth;
+import java.util.Objects;
 
-@Data
 @NoArgsConstructor
 @Entity(name = "Monthly_Incomes")
+@Getter
+@Setter
 public class MonthlyIncome {
 
     @Id
@@ -44,5 +48,31 @@ public class MonthlyIncome {
         monthlyIncome.setUpperIncomeLimit(request.getUpperIncomeLimit());
 
         return monthlyIncome;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MonthlyIncome that = (MonthlyIncome) o;
+        return upperIncomeLimit == that.upperIncomeLimit &&
+                Objects.equals(id, that.id) &&
+                Objects.equals(beginDate, that.beginDate) &&
+                Objects.equals(endDate, that.endDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, upperIncomeLimit, beginDate, endDate);
+    }
+
+    @Override
+    public String toString() {
+        return "MonthlyIncome{" +
+                "id=" + id +
+                ", upperIncomeLimit=" + upperIncomeLimit +
+                ", beginDate=" + beginDate +
+                ", endDate=" + endDate +
+                '}';
     }
 }

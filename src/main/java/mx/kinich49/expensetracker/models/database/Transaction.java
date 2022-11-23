@@ -1,14 +1,18 @@
 package mx.kinich49.expensetracker.models.database;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
-@Data
 @Entity(name = "Transactions")
+@Getter
+@Setter
 public class Transaction {
 
     @Id
@@ -54,5 +58,39 @@ public class Transaction {
         copy.paymentMethod = PaymentMethod.copy(transaction.paymentMethod);
 
         return copy;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Transaction that = (Transaction) o;
+        return amount == that.amount &&
+                Objects.equals(id, that.id) &&
+                Objects.equals(category, that.category) &&
+                Objects.equals(paymentMethod, that.paymentMethod) &&
+                Objects.equals(commercialEstablishment, that.commercialEstablishment) &&
+                Objects.equals(title, that.title) &&
+                Objects.equals(memo, that.memo) &&
+                Objects.equals(transactionDate, that.transactionDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, category, paymentMethod, commercialEstablishment, title, memo, amount, transactionDate);
+    }
+
+    @Override
+    public String toString() {
+        return "Transaction{" +
+                "id=" + id +
+                ", category=" + category +
+                ", paymentMethod=" + paymentMethod +
+                ", commercialEstablishment=" + commercialEstablishment +
+                ", title='" + title + '\'' +
+                ", memo='" + memo + '\'' +
+                ", amount=" + amount +
+                ", transactionDate=" + transactionDate +
+                '}';
     }
 }
