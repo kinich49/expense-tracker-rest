@@ -4,7 +4,7 @@ RUN mvn dependency:go-offline -B
 COPY src src
 RUN  mvn verify -Ptest
 
-FROM adoptopenjdk/openjdk11:jdk-11.0.10_9-alpine-slim AS run-stage
+FROM amazoncorretto:11.0.21-alpine AS run-stage
 RUN addgroup -S item-tracker && adduser -S admin -G item-tracker 
 USER admin:item-tracker
 WORKDIR home/admin

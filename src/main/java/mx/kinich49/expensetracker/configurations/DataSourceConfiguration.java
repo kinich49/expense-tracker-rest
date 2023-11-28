@@ -23,15 +23,8 @@ public class DataSourceConfiguration {
     }
 
     @Bean
-    @ConfigurationProperties(prefix = "app.datasource")
-    @Profile("production")
-    public DataSource mariaDbDataSource() throws SQLException {
-        return new MariaDbDataSource();
-    }
-
-    @Bean
-    @ConfigurationProperties(prefix = "azure.datasource")
-    @Profile("azure")
+    @ConfigurationProperties(prefix = "aws.datasource")
+    @Profile("aws")
     public DataSource postgresDataSource() throws SQLException {
         return new PGSimpleDataSource();
     }

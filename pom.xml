@@ -67,6 +67,17 @@
             <version>42.3.1</version>
         </dependency>
     </dependencies>
+<!--    <dependencyManagement>-->
+<!--        <dependencies>-->
+<!--            <dependency>-->
+<!--                <groupId>io.awspring.cloud</groupId>-->
+<!--                <artifactId>spring-cloud-aws-dependencies</artifactId>-->
+<!--                <version>{project-version}</version>-->
+<!--                <type>pom</type>-->
+<!--                <scope>import</scope>-->
+<!--            </dependency>-->
+<!--        </dependencies>-->
+<!--    </dependencyManagement>-->
     <profiles>
         <profile>
             <id>development</id>
