@@ -1,7 +1,7 @@
 package mx.kinich49.expensetracker.validations.monthlycategorybudget.conditions;
 
 import lombok.Data;
-import mx.kinich49.expensetracker.models.internal.ErrorWrapper;
+import mx.kinich49.expensetracker.models.web.ErrorWrapper;
 import mx.kinich49.expensetracker.validations.Condition;
 import mx.kinich49.expensetracker.validations.ConditionParameter;
 import mx.kinich49.expensetracker.validations.monthlycategorybudget.MonthlyCategoryBudgetErrorCodes;

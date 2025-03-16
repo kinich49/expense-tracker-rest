@@ -1,7 +1,7 @@
 package mx.kinich49.expensetracker.validations.monthlybudgetservice.conditions;
 
 import mx.kinich49.expensetracker.exceptions.ValidationFlowException;
-import mx.kinich49.expensetracker.models.internal.ErrorWrapper;
+import mx.kinich49.expensetracker.models.web.ErrorWrapper;
 import mx.kinich49.expensetracker.models.web.requests.MonthlyBudgetRequest;
 import mx.kinich49.expensetracker.repositories.MonthlyBudgetRepository;
 import mx.kinich49.expensetracker.validations.Condition;

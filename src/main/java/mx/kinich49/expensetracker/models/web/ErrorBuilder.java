@@ -1,4 +1,4 @@
-package mx.kinich49.expensetracker.models.internal;
+package mx.kinich49.expensetracker.models.web;
 
 import lombok.Data;
 import mx.kinich49.expensetracker.utils.StringUtils;

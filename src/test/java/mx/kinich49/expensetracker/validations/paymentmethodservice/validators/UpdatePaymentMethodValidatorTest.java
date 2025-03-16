@@ -1,7 +1,7 @@
 package mx.kinich49.expensetracker.validations.paymentmethodservice.validators;
 
 import mx.kinich49.expensetracker.exceptions.BusinessException;
-import mx.kinich49.expensetracker.models.internal.ErrorWrapper;
+import mx.kinich49.expensetracker.models.web.ErrorWrapper;
 import mx.kinich49.expensetracker.models.web.requests.PaymentMethodRequest;
 import mx.kinich49.expensetracker.validations.paymentmethodservice.PaymentMethodServiceErrorCodes;
 import mx.kinich49.expensetracker.validations.paymentmethodservice.conditions.ExistentPaymentMethodCondition;

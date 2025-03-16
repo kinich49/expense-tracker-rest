@@ -2,7 +2,7 @@ package mx.kinich49.expensetracker.validations.monthlybudgetservice.validators;
 
 import mx.kinich49.expensetracker.exceptions.BusinessException;
 import mx.kinich49.expensetracker.exceptions.ValidationFlowException;
-import mx.kinich49.expensetracker.models.internal.ErrorWrapper;
+import mx.kinich49.expensetracker.models.web.ErrorWrapper;
 import mx.kinich49.expensetracker.models.web.requests.MonthlyBudgetRequest;
 import mx.kinich49.expensetracker.validations.monthlybudgetservice.BudgetValidatorParameter;
 import mx.kinich49.expensetracker.validations.monthlybudgetservice.MonthlyBudgetServiceErrorCodes;
@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.Month;

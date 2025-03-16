@@ -1,7 +1,7 @@
 package mx.kinich49.expensetracker.controllers;
 
 import mx.kinich49.expensetracker.exceptions.BusinessException;
-import mx.kinich49.expensetracker.models.rest.ApiResponse;
+import mx.kinich49.expensetracker.models.web.ApiResponse;
 import mx.kinich49.expensetracker.models.web.ExpensesWebModel;
 import mx.kinich49.expensetracker.models.web.TransactionWebModel;
 import mx.kinich49.expensetracker.models.web.requests.TransactionRequest;

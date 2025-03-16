@@ -1,8 +1,7 @@
 package mx.kinich49.expensetracker.validations.transactionservice.conditions;
 
 import mx.kinich49.expensetracker.exceptions.ValidationFlowException;
-import mx.kinich49.expensetracker.models.internal.ErrorWrapper;
-import mx.kinich49.expensetracker.models.web.requests.PaymentMethodRequest;
+import mx.kinich49.expensetracker.models.web.ErrorWrapper;
 import mx.kinich49.expensetracker.models.web.requests.TransactionRequest;
 import mx.kinich49.expensetracker.utils.StringUtils;
 import mx.kinich49.expensetracker.validations.Condition;

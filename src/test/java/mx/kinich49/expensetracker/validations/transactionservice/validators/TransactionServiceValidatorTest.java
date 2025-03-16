@@ -3,7 +3,7 @@ package mx.kinich49.expensetracker.validations.transactionservice.validators;
 import mx.kinich49.expensetracker.exceptions.BusinessException;
 import mx.kinich49.expensetracker.exceptions.ValidationFlowException;
 import mx.kinich49.expensetracker.helpers.MockHelper;
-import mx.kinich49.expensetracker.models.internal.ErrorWrapper;
+import mx.kinich49.expensetracker.models.web.ErrorWrapper;
 import mx.kinich49.expensetracker.models.web.requests.TransactionRequest;
 import mx.kinich49.expensetracker.validations.transactionservice.TransactionServiceErrorCodes;
 import mx.kinich49.expensetracker.validations.transactionservice.conditions.*;

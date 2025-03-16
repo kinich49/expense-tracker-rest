@@ -1,8 +1,8 @@
 package mx.kinich49.expensetracker.validations;
 
 import mx.kinich49.expensetracker.exceptions.BusinessException;
-import mx.kinich49.expensetracker.models.internal.ErrorBuilder;
-import mx.kinich49.expensetracker.models.internal.ErrorWrapper;
+import mx.kinich49.expensetracker.models.web.ErrorBuilder;
+import mx.kinich49.expensetracker.models.web.ErrorWrapper;
 
 import java.util.function.Consumer;
 

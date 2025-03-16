@@ -2,7 +2,7 @@ FROM maven:3.6.3-openjdk-11-slim AS build-stage
 COPY pom.xml .
 RUN mvn dependency:go-offline -B
 COPY src src
-RUN  mvn verify -Ptest
+RUN mvn verify -Ptest
 
 FROM amazoncorretto:11.0.21-alpine AS run-stage
 RUN addgroup -S item-tracker && adduser -S admin -G item-tracker 

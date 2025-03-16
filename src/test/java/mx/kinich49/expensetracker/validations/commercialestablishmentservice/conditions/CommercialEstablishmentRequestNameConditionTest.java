@@ -1,6 +1,6 @@
 package mx.kinich49.expensetracker.validations.commercialestablishmentservice.conditions;
 
-import mx.kinich49.expensetracker.models.internal.ErrorWrapper;
+import mx.kinich49.expensetracker.models.web.ErrorWrapper;
 import mx.kinich49.expensetracker.models.web.requests.CommercialEstablishmentRequest;
 import mx.kinich49.expensetracker.repositories.CommercialEstablishmentRepository;
 import mx.kinich49.expensetracker.validations.commercialestablishmentservice.CommercialEstablishmentServiceErrorCodes;

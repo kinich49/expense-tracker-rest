@@ -4,7 +4,7 @@ import mx.kinich49.expensetracker.exceptions.BusinessException;
 import mx.kinich49.expensetracker.exceptions.ValidationFlowException;
 import mx.kinich49.expensetracker.models.database.MonthlyBudget;
 import mx.kinich49.expensetracker.models.database.MonthlyIncome;
-import mx.kinich49.expensetracker.models.internal.ErrorWrapper;
+import mx.kinich49.expensetracker.models.web.ErrorWrapper;
 import mx.kinich49.expensetracker.models.web.requests.MonthlyBudgetCategoryRequest;
 import mx.kinich49.expensetracker.validations.monthlycategorybudget.MonthlyCategoryBudgetErrorCodes;
 import mx.kinich49.expensetracker.validations.monthlycategorybudget.RequestParameter;

@@ -1,4 +1,4 @@
-package mx.kinich49.expensetracker.models.rest;
+package mx.kinich49.expensetracker.models.web;
 
 import lombok.Getter;
 

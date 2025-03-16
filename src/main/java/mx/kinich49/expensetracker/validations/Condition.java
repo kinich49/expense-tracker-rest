@@ -1,8 +1,7 @@
 package mx.kinich49.expensetracker.validations;
 
 import mx.kinich49.expensetracker.exceptions.ValidationFlowException;
-import mx.kinich49.expensetracker.models.internal.ErrorWrapper;
-import mx.kinich49.expensetracker.utils.Pair;
+import mx.kinich49.expensetracker.models.web.ErrorWrapper;
 
 import java.util.Optional;
 
