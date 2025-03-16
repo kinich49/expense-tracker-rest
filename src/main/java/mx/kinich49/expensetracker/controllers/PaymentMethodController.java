@@ -34,7 +34,7 @@ public class PaymentMethodController {
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<ApiResponse<PaymentMethodWebModel>> findById(@PathVariable(name = "id")
-                                                                               long paymentMethodId) {
+                                                                        long paymentMethodId) {
         return service.findById(paymentMethodId)
                 .map(ApiResponse::new)
                 .map(apiResponse -> new ResponseEntity<>(apiResponse, HttpStatus.OK))
@@ -42,7 +42,7 @@ public class PaymentMethodController {
     }
 
     @PostMapping
-    public ResponseEntity<?> postPaymentMethod(@RequestBody PaymentMethodRequest request) {
+    public ResponseEntity<ApiResponse<PaymentMethodWebModel>> postPaymentMethod(@RequestBody PaymentMethodRequest request) {
         try {
             PaymentMethodWebModel webModel = service.addPaymentMethod(request);
             ApiResponse<PaymentMethodWebModel> response = new ApiResponse<>(webModel);

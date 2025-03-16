@@ -46,7 +46,7 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<?> insertCategory(@RequestBody CategoryRequest request) {
+    public ResponseEntity<ApiResponse<CategoryWebModel>> insertCategory(@RequestBody CategoryRequest request) {
         try {
             CategoryWebModel webModel = categoryService.insertCategory(request);
             ApiResponse<CategoryWebModel> response = new ApiResponse<>(webModel);

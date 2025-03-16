@@ -2,6 +2,7 @@ package mx.kinich49.expensetracker.controllers;
 
 import mx.kinich49.expensetracker.exceptions.BusinessException;
 import mx.kinich49.expensetracker.models.rest.ApiResponse;
+import mx.kinich49.expensetracker.models.web.ExpensesWebModel;
 import mx.kinich49.expensetracker.models.web.TransactionWebModel;
 import mx.kinich49.expensetracker.models.web.requests.TransactionRequest;
 import mx.kinich49.expensetracker.repositories.TransactionRepository;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -35,14 +37,14 @@ public class TransactionController {
     }
 
     @GetMapping(params = {"categoryId", "startDate", "endDate"})
-    public ResponseEntity<?> getTransactionItems(@RequestParam
-                                                         long categoryId,
-                                                 @RequestParam
-                                                 @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-                                                         LocalDateTime startDate,
-                                                 @RequestParam
-                                                 @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-                                                         LocalDateTime endDate) {
+    public ResponseEntity<ApiResponse<List<TransactionWebModel>>> getTransactionItems(@RequestParam
+                                                                                      long categoryId,
+                                                                                      @RequestParam
+                                                                                      @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+                                                                                      LocalDateTime startDate,
+                                                                                      @RequestParam
+                                                                                      @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+                                                                                      LocalDateTime endDate) {
         try {
             return Optional.ofNullable(service.findTransactionsByCategory(categoryId, startDate, endDate))
                     .map(ApiResponse::new)
@@ -54,12 +56,12 @@ public class TransactionController {
     }
 
     @GetMapping(params = {"startDate", "endDate"})
-    public ResponseEntity<?> getTransactionItems(@RequestParam
-                                                 @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-                                                         LocalDateTime startDate,
-                                                 @RequestParam
-                                                 @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-                                                         LocalDateTime endDate) {
+    public ResponseEntity<ApiResponse<ExpensesWebModel>> getTransactionItems(@RequestParam
+                                                                             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+                                                                             LocalDateTime startDate,
+                                                                             @RequestParam
+                                                                             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+                                                                             LocalDateTime endDate) {
         return Optional.ofNullable(expenseService.findExpensesBetween(startDate, endDate))
                 .map(ApiResponse::new)
                 .map(response -> new ResponseEntity<>(response, HttpStatus.OK))
@@ -67,14 +69,14 @@ public class TransactionController {
     }
 
     @GetMapping(value = "/payment/{id}", params = {"startDate", "endDate"})
-    public ResponseEntity<?> getTransactionsByPaymentMethod(@PathVariable(name = "id")
-                                                                    long paymentMethodId,
-                                                            @RequestParam
-                                                            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-                                                                    LocalDateTime startDate,
-                                                            @RequestParam
-                                                            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-                                                                    LocalDateTime endDate) {
+    public ResponseEntity<ApiResponse<List<TransactionWebModel>>> getTransactionsByPaymentMethod(@PathVariable(name = "id")
+                                                                                                 long paymentMethodId,
+                                                                                                 @RequestParam
+                                                                                                 @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+                                                                                                 LocalDateTime startDate,
+                                                                                                 @RequestParam
+                                                                                                 @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+                                                                                                 LocalDateTime endDate) {
         try {
             return Optional.ofNullable(service.findTransactionsByPaymentMethod(paymentMethodId, startDate, endDate))
                     .map(ApiResponse::new)
@@ -86,7 +88,7 @@ public class TransactionController {
     }
 
     @PostMapping
-    public ResponseEntity<?> postTransaction(@RequestBody TransactionRequest request) {
+    public ResponseEntity<ApiResponse<TransactionWebModel>> postTransaction(@RequestBody TransactionRequest request) {
         try {
             TransactionWebModel webModel = service.addTransaction(request);
             ApiResponse<TransactionWebModel> response = new ApiResponse<>(webModel);

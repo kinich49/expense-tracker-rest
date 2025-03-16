@@ -3,6 +3,7 @@ package mx.kinich49.expensetracker.controllers;
 import mx.kinich49.expensetracker.exceptions.BusinessException;
 import mx.kinich49.expensetracker.models.rest.ApiResponse;
 import mx.kinich49.expensetracker.models.web.MonthlyBudgetCategoryWebModel;
+import mx.kinich49.expensetracker.models.web.MonthlyBudgetWebModel;
 import mx.kinich49.expensetracker.models.web.SimpleMonthlyBudgetWebModel;
 import mx.kinich49.expensetracker.models.web.requests.MonthlyBudgetCategoryRequest;
 import mx.kinich49.expensetracker.models.web.requests.MonthlyBudgetRequest;
@@ -29,7 +30,7 @@ public class MonthlyBudgetController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getMonthlyBudgets(@RequestParam
+    public ResponseEntity<ApiResponse<MonthlyBudgetWebModel>> getMonthlyBudgets(@RequestParam
                                                @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
                                                        YearMonth date) {
         try {

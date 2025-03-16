@@ -38,7 +38,7 @@ public class MonthlyIncomeController {
     }
 
     @PostMapping
-    public ResponseEntity<?> addMonthlyIncome(@RequestBody MonthlyIncomeRequest request) {
+    public ResponseEntity<ApiResponse<MonthlyIncomeWebModel>> addMonthlyIncome(@RequestBody MonthlyIncomeRequest request) {
         try {
             MonthlyIncomeWebModel webModel = monthlyIncomeService.addMonthlyIncome(request);
             return new ResponseEntity<>(new ApiResponse<>(webModel), HttpStatus.OK);
@@ -49,7 +49,7 @@ public class MonthlyIncomeController {
 
 
     @PutMapping
-    public ResponseEntity<?> updateMonthlyIncome(@RequestBody MonthlyIncomeRequest request) {
+    public ResponseEntity<ApiResponse<MonthlyIncomeWebModel>> updateMonthlyIncome(@RequestBody MonthlyIncomeRequest request) {
         try {
             MonthlyIncomeWebModel webModel = monthlyIncomeService.updateMonthlyIncome(request);
             return new ResponseEntity<>(new ApiResponse<>(webModel), HttpStatus.OK);
